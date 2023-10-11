@@ -35,6 +35,6 @@ class Territorio {
 	}
 
 	boolean ehVizinho(Territorio territorio) {
-		return vizinhos.containsValue(territorio);
+		return vizinhos.containsKey(territorio.getNome());
 	}
 }

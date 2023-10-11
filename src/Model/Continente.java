@@ -26,10 +26,14 @@ class Continente {
 	}
 	
 	 void adicionarTerritorio(Territorio territorio) {
-	        territorios.put(territorio.getNome(), territorio);
-	    }
+		 territorios.put(territorio.getNome(), territorio);
+	 }
 
 	 void removerTerritorio(Territorio territorio) {
-	        territorios.remove(territorio.getNome());
-	    }
+		 territorios.remove(territorio.getNome());
+	 }
+	 
+	 boolean pertenceTerritorio(Territorio territorio) {
+		 return territorios.containsKey(territorio.getNome());
+	 }
 }
