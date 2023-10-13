@@ -33,7 +33,7 @@ class Continente {
 		 territorios.remove(territorio.getNome());
 	 }
 	 
-	 boolean pertenceTerritorio(Territorio territorio) {
+	 boolean possuiTerritorio(Territorio territorio) {
 		 return territorios.containsKey(territorio.getNome());
 	 }
 }

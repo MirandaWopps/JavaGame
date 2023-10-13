@@ -1,19 +1,23 @@
 package Model;
 
 class Carta {
-	private String tipo;
-	private String territorio;
+    enum TipoCarta {
+        circulo,triangulo,quadrado,coringa;
+    }
 	
-	Carta(String tipo, String territorio) {
+	private TipoCarta tipo;
+	private Territorio territorio;
+	
+	Carta(TipoCarta tipo, Territorio territorio) {
 		this.tipo = tipo;
 		this.territorio = territorio;
 	}
 
-	String getTipo() {
+	TipoCarta getTipo() {
 		return tipo;
 	}
 
-	String getTerritorio() {
+	Territorio getTerritorio() {
 		return territorio;
 	}
 }

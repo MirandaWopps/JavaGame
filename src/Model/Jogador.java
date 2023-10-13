@@ -2,6 +2,7 @@ package Model;
 
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,60 +34,89 @@ class Jogador {
     String getCor() {
     	return cor;
     }
-    
+
     String getNome() {
     	return nome;
     }
     
+    boolean possuiTerritorio(Territorio territorio) {
+    	return territorios.containsKey(territorio.getNome());
+    }
+
     int exercitoPorNumeroTerritorios() {
     	return territorios.size() / 2;
     }
-    
+
     void adicionarCarta(Carta carta) {
     	cartas.add(carta);
     }
-    
+
     void removeCarta(int carta) {
     	cartas.remove(carta);
     }
     
+    boolean precisaTrocarCartas() {
+    	if (cartas.size() < 5) {
+    		return false;
+    	}
+    	return true;
+    }
+
     boolean podeTrocarCartas(int carta1, int carta2, int carta3) {
-    	// Confere se as cartas tem o mesmo tipo
-    	if (cartas.get(carta1).getTipo().equals(cartas.get(carta2).getTipo()) && cartas.get(carta1).getTipo().equals(cartas.get(carta3).getTipo())) {
+        Carta.TipoCarta tipo1 = cartas.get(carta1).getTipo();
+        Carta.TipoCarta tipo2 = cartas.get(carta2).getTipo();
+        Carta.TipoCarta tipo3 = cartas.get(carta3).getTipo();
+        
+        // Pode trocar porque pelo menos uma carta é um coringa
+        if (tipo1 == Carta.TipoCarta.coringa || tipo2 == Carta.TipoCarta.coringa || tipo3 == Carta.TipoCarta.coringa) {
+        	return true;
+        }
+        
+    	// Pode trocar porque todas as cartas têm o mesmo tipo
+    	if (tipo1 == tipo2 && tipo1 == tipo3) {
     		return true;
     	}
-    	
-    	//Confere se todas as cartas tem tipos diferentes
-    	if (!cartas.get(carta1).getTipo().equals(cartas.get(carta2).getTipo()) && !cartas.get(carta1).getTipo().equals(cartas.get(carta3).getTipo()) && !cartas.get(carta2).getTipo().equals(cartas.get(carta3).getTipo())) {
+
+    	// Pode trocar porque todas as cartas têm tipos diferentes
+    	if (tipo1 != tipo2 && tipo1 != tipo3 && tipo2 != tipo3) {
     		return true;
     	}
     	
     	return false;
     }
-    
+
     int exercitoPorCartas(int carta1, int carta2, int carta3) {
-    	// confere se possui território da carta 1
-		if (territorios.containsKey(cartas.get(carta1).getTerritorio())) {
-			// se possuir adiciona 2 exércitos nesse território
-			territorios.get(cartas.get(carta1).getTerritorio()).ganhaExerc(2);
+    	Territorio territorio1 = cartas.get(carta1).getTerritorio();
+    	Territorio territorio2 = cartas.get(carta2).getTerritorio();
+    	Territorio territorio3 = cartas.get(carta3).getTerritorio();
+    	List<Carta> cartasTrocadas = new ArrayList<>(Arrays.asList(cartas.get(carta1),cartas.get(carta2),cartas.get(carta3)));
+    	
+    	// Verifica se o jogador possui o território correspondente à carta 1
+		if (territorio1 != null && territorios.containsKey(territorio1.getNome())) {
+			// Se o jogador possuir o território correspondente à carta 1, adiciona 2 exércitos a esse território
+			territorios.get(territorio1.getNome()).ganhaExerc(2);
+		}
+
+		// Verifica se o jogador possui o território correspondente à carta 2
+		if (territorio2 != null && territorios.containsKey(territorio2.getNome())) {
+			// Se o jogador possuir o território correspondente à carta 2, adiciona 2 exércitos a esse território
+			territorios.get(territorio2.getNome()).ganhaExerc(2);
 		}
 		
-    	// confere se possui território da carta 2
-		if (territorios.containsKey(cartas.get(carta2).getTerritorio())) {
-			// se possuir adiciona 2 exércitos nesse território
-			territorios.get(cartas.get(carta2).getTerritorio()).ganhaExerc(2);
+		// Verifica se o jogador possui o território correspondente à carta 3
+		if (territorio3 != null && territorios.containsKey(territorio3.getNome())) {
+			// Se o jogador possuir o território correspondente à carta 3, adiciona 2 exércitos a esse território
+			territorios.get(territorio3.getNome()).ganhaExerc(2);
 		}
 		
-    	// confere se possui território da carta 3
-		if (territorios.containsKey(cartas.get(carta3).getTerritorio())) {
-			// se possuir adiciona 2 exércitos nesse território
-			territorios.get(cartas.get(carta3).getTerritorio()).ganhaExerc(2);
-		}
-		
-		return 4 + 2*trocasCarta;
+		// Remove as cartas usadas na troca
+		cartas.removeAll(cartasTrocadas);
+
+		return 4 + 2*trocasCarta++;
     }
-    
+
     boolean possuiContinente(Continente continente) {
+    	// Itera sobre os territórios do continente, conferindo se o jogador possui eles
     	for (String territorio : continente.getTerritorios().keySet()) {
     		if (!territorios.containsKey(territorio)) {
     			return false;
