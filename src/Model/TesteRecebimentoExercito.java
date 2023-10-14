@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class TestRecebimentoExercito {
+public class TesteRecebimentoExercito {
 	private Jogador jogador;
 	private static Territorio territorio1;
 	private static Territorio territorio2;
@@ -121,9 +121,60 @@ public class TestRecebimentoExercito {
 		jogador.adicionarCarta(carta3);
 		jogador.adicionarCarta(carta4);
 
-		jogador2.exercitoPorCartas(0, 1, 2);
+		int trocaAnterior = jogador2.exercitoPorCartas(0, 1, 2);
 		
+		assertEquals(trocaAnterior+2, jogador.exercitoPorCartas(0, 1, 2));
+	}
+
+	@Test
+	public void testePossuiTerritorioDaCarta() {
+		jogador.adicionarTerritorio(territorio1);
+		jogador.adicionarCarta(carta1);
+		jogador.adicionarCarta(carta2);
+		jogador.adicionarCarta(carta3);
 		
-		assertEquals(6, jogador.exercitoPorCartas(0, 1, 2));
+		int exercitoInicial = territorio1.getQtdExerc();
+		jogador.exercitoPorCartas(0, 1, 2);
+		
+		assertEquals(2+exercitoInicial, territorio1.getQtdExerc());
+	}
+	
+	@Test
+	public void testePossuiContinenteTrue() {
+		Continente continente = new Continente("América do Sul",2);
+		continente.adicionarTerritorio(territorio1);
+		continente.adicionarTerritorio(territorio2);
+		continente.adicionarTerritorio(territorio3);
+		continente.adicionarTerritorio(territorio4);
+		
+		jogador.adicionarTerritorio(territorio1);
+		jogador.adicionarTerritorio(territorio2);
+		jogador.adicionarTerritorio(territorio3);
+		jogador.adicionarTerritorio(territorio4);
+		
+		assertTrue(jogador.possuiContinente(continente));
+	}
+	
+	@Test
+	public void testePossuiContinenteFalse() {
+		Continente continente = new Continente("América do Sul",2);
+		continente.adicionarTerritorio(territorio1);
+		continente.adicionarTerritorio(territorio2);
+		continente.adicionarTerritorio(territorio3);
+		continente.adicionarTerritorio(territorio4);
+		
+		jogador.adicionarTerritorio(territorio1);
+		jogador.adicionarTerritorio(territorio2);
+		jogador.adicionarTerritorio(territorio5);
+		jogador.adicionarTerritorio(territorio6);
+		
+		assertFalse(jogador.possuiContinente(continente));
+	}
+	
+	@Test
+	public void testeExercBonusContinente() {
+		Continente continente = new Continente("América do Sul",2);
+		
+		assertEquals(2, continente.getExercBonus());
 	}
 }

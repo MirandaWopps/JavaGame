@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 
 class Jogador {
+	private static int qtdeJogadores = 0;
+    private static final int limiteJogadores = 6; 
+	
 	private String cor;
 	private String nome;
 	private Map<String, Territorio> territorios = new HashMap<String, Territorio>();
@@ -18,6 +21,20 @@ class Jogador {
         this.cor = cor;
         this.nome = nome;
     }
+
+	static Jogador CriaJogs(String cor, String nome) {
+		if (qtdeJogadores >= limiteJogadores) {
+			System.out.println("Quantidade máxima de jogadores atingida: " + limiteJogadores);	
+        }
+		qtdeJogadores++;
+        Jogador jog = new Jogador(cor, nome);
+        //System.out.println("Nome: " + nome + "  Cor: " + cor + "  Qtde Jogadores: "+ qtdeJogadores);
+        return jog;
+	}
+
+	 int qtdeJogs() {
+	    	return qtdeJogadores;
+	 }
 
     void adicionarTerritorio(Territorio territorio) {
         territorios.put(territorio.getNome(), territorio);

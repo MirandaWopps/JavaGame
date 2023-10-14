@@ -5,12 +5,12 @@ import java.util.Map;
 
 class Continente {
 	private String nome;
-	private Map<String, Territorio> territorios;
+	private Map<String, Territorio> territorios = new HashMap<>();
 	private int exercBonus;
 	
-	Continente(String nome) {
+	Continente(String nome, int exercBonus) {
 		this.nome = nome;
-		territorios = new HashMap<>();
+		this.exercBonus = exercBonus;
 	}
 
 	String getNome() {

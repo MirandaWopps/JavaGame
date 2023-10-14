@@ -1,10 +1,7 @@
 package Model;
 
-public class Objetivo {
-
-	
-	public enum ListaObjetivos {
-		
+class Objetivo {
+	enum ListaObjetivos {
 	    Objetivo1("Conquistar na totalidade a EUROPA, a OCEANIA e mais um terceiro."),
 	    Objetivo2("Conquistar na totalidade a ÁSIA e a AMÉRICA DO SUL."),
 	    Objetivo3("Conquistar na totalidade a EUROPA, a AMÉRICA DO SUL e mais um terceiro."),
@@ -20,22 +17,20 @@ public class Objetivo {
 	    Objetivo13("Destruir totalmente OS EXÉRCITOS BRANCOS."),
 	    Objetivo14("Destruir totalmente OS EXÉRCITOS VERDES.");
 
-		
 		private String descricao;
 
 	    ListaObjetivos(String descricao) {
 	        this.descricao = descricao;
 	    }
 	    
-	    public String getDescricao() {
+	    String getDescricao() {
 	        return descricao;
-	    }
-	    
-	   
-	   
+	    }
 	}
 	
+	private ListaObjetivos objetivo;
 	
-	
-	
+	Objetivo(ListaObjetivos objetivo) {
+		this.objetivo = objetivo;
+	}
 }

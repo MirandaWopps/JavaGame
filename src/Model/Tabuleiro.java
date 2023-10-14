@@ -24,7 +24,7 @@ class Tabuleiro {
     }
 
 	// Embaralha as cartas a partir do algoritmo de Fisher-Yates
-    private static void shuffleDeck(Deque<Integer> deck) {
+    private static <T> void shuffleDeck(Deque<Integer> deck) {
         Integer[] cards = deck.toArray(new Integer[0]);
         Random random = new Random();
 
@@ -42,7 +42,12 @@ class Tabuleiro {
         }
     }
 
-    int[] sorteiaCartas() {
+    // Retira primeira carta do monte
+    private static Integer retiraSorteado(Deque<Integer> deck) {
+        return deck.pollFirst();
+    }
+
+	static int[] sorteiaCartas() {
 		Integer total = 44;
 		Integer num = 1;
 		int[] sorteados = new int[total];
@@ -68,13 +73,9 @@ class Tabuleiro {
 
 	    return sorteados;
 	}
+	
 
-    // Retira primeira carta do monte
-    private static Integer retiraSorteado(Deque<Integer> deck) {
-        return deck.pollFirst();
-    }
-
-	int[] sorteiaCores() {
+	static int[] sorteiaCores() {
 		Integer total = 6;
 		Integer num = 1;
 		int[] sorteados = new int[total];
@@ -101,7 +102,7 @@ class Tabuleiro {
 	    return sorteados;
 	}
 
-	int[] sorteiaOrdem(int QJogs) {
+	static int[] sorteiaOrdem(int QJogs) {
 		Integer total = QJogs;
 		Integer num = 1;
 		int[] sorteados = new int[total];
@@ -120,6 +121,35 @@ class Tabuleiro {
             Integer retiraSorteado = retiraSorteado(deck);
             if (retiraSorteado != null) {
                 sorteados[i-1] = retiraSorteado;
+            } else {
+                System.out.println("Fim da lista de Sorteio");
+            }
+        }
+
+	    return sorteados;
+	}
+	
+	static int[] sorteiaObjetivos(int total, int num) {
+		int[] sorteados = new int[total];
+		String[] objs = new String[total];
+
+		// Cria deque de tamanho total
+		Deque<Integer> deck = new ArrayDeque<>();
+		for (int i = 1; i <= total; i++) {
+			deck.add(i);
+    		}
+
+		// Shuffle the deck (optional)
+		shuffleDeck(deck);
+
+		// Retira Sorteado
+		for (int i = 1; i <= num; i++) {
+            Integer retiraSorteado = retiraSorteado(deck);
+            if (retiraSorteado != null) {
+                //System.out.println("Rodada: " + i);
+                //System.out.println("Sorteado : " + retiraSorteado);
+                sorteados[i-1] = retiraSorteado;
+                //objs[i-1] = ListaObjetivos[retiraSorteado];
             } else {
                 System.out.println("Fim da lista de Sorteio");
             }
