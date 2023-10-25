@@ -1,5 +1,6 @@
 package Controller;
 
+import java.awt.event.*;
 import java.io.*;
 import javax.imageio.ImageIO;
 
@@ -16,6 +17,14 @@ public class Controller {
 			System.out.println(e.getMessage());
 			System.exit(1);
 		}
+		f.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int x = e.getX();
+                int y = e.getY();
+                System.out.println("Coordenadas: (" + x + ", " + y + ")");
+            }
+        });
 		f.setVisible(true);
 
 	}
