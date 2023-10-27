@@ -2,6 +2,7 @@ package Model;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
 
 class Territorio {
 	private String nome;
@@ -32,6 +33,12 @@ class Territorio {
 
 	void adicionaVizinho(Territorio viz) {
 		vizinhos.put(viz.getNome(), viz);
+	}
+
+	void adicionaVizinhos(List<Territorio> vizinhos) {
+		for (Territorio vizinho : vizinhos) {
+			adicionaVizinho(vizinho);
+		}
 	}
 
 	boolean ehVizinho(Territorio territorio) {
