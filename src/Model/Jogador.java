@@ -12,7 +12,7 @@ class Jogador {
 	
 	private String cor;
 	private String nome;
-	private Map<String, Territorio> territorios = new HashMap<String, Territorio>();
+	private Map<String, Territorio> territorios = new HashMap<>();
 	private List<Carta> cartas = new ArrayList<>();
 
 	private static int trocasCarta = 0;
@@ -24,7 +24,8 @@ class Jogador {
 
 	static Jogador CriaJogs(String cor, String nome) {
 		if (qtdeJogadores >= limiteJogadores) {
-			System.out.println("Quantidade máxima de jogadores atingida: " + limiteJogadores);	
+			//System.out.println("Quantidade máxima de jogadores atingida: " + limiteJogadores);
+			return null;
         }
 		qtdeJogadores++;
         Jogador jog = new Jogador(cor, nome);
@@ -32,7 +33,7 @@ class Jogador {
         return jog;
 	}
 
-	 int qtdeJogs() {
+	 static int qtdeJogs() {
 	    	return qtdeJogadores;
 	 }
 
