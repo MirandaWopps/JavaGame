@@ -5,7 +5,8 @@ import java.awt.geom.*;
 
 
 public class TerritorioView {
-	private static Font fonte = new Font("SERIF", Font.BOLD, 10);
+	private static Font fonteNome = new Font("SERIF", Font.BOLD, 10);
+	private static Font fonteExerc = new Font("Arial", Font.BOLD, 12);
 	
 	private int x_exerc;
 	private int y_exerc;
@@ -27,12 +28,14 @@ public class TerritorioView {
 		g2d.setPaint(cor);
 		g2d.fill(circ);
 		g2d.draw(circ);
+
+		g2d.setFont(fonteExerc);
+		g2d.setPaint(Color.BLACK);
+		g2d.drawString(Integer.toString(qtdExerc), x_exerc-3, y_exerc+5);	
 		
-		g2d.setFont(fonte);
+		g2d.setFont(fonteNome);
 		g2d.setPaint(Color.WHITE);
 		g2d.drawString(nome, x_nome, y_nome);
-		g2d.setPaint(Color.BLACK);
-		g2d.drawString(Integer.toString(qtdExerc), x_exerc-2, y_exerc+4);	
 	}
 
 }

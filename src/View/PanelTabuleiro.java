@@ -1,6 +1,8 @@
 package View;
 
 import java.awt.*;
+import java.awt.event.*;
+
 import javax.swing.*;
 
 import Controller.Controller;
@@ -10,18 +12,33 @@ import java.util.Map;
 
 
 public class PanelTabuleiro extends JPanel {
-	Image mapa;
-	Image fundo;
-	private Map<String,TerritorioView> territorios = new HashMap<String,TerritorioView>();
+	private Image mapa;
+	private Image fundo;
+	private int fase = 1;
+	private Map<String,TerritorioView> territorios = new HashMap<>();
+	private JComboBox<String> cb1 = new JComboBox<>();
+	private JComboBox<String> cb2 = new JComboBox<>();
 	
 	public PanelTabuleiro(Image mapa, Image fundo) {
 		this.mapa = mapa;
 		this.fundo = fundo;
 		
+        add(cb1);
+        add(cb2);
+
+		cb1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cb2.removeAllItems();
+
+                String selected = (String) cb1.getSelectedItem();
+                Controller.comboBoxDefensor(cb2, selected);
+            }
+        });
+
 		instanciaTerritoriosView();
-		
 	}
-	
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d=(Graphics2D) g;
@@ -30,8 +47,20 @@ public class PanelTabuleiro extends JPanel {
         g2d.drawImage(mapa,0,-30,1000,700,null);
         
         Controller.desenhaTerritorios(territorios, g2d);
+
+		switch (fase) {
+			case 1:
+				Controller.comboBoxAtacante(cb1);
+		}
+		cb1.setLocation(1010, 30);
+		cb2.setLocation(1010, 70);
+
     }
-    
+
+	public void setFase(int fase) {
+		this.fase = fase;
+	}
+
     private void instanciaTerritoriosView() {
     	// América do Norte
     	territorios.put("ALASCA", new TerritorioView(95,104,82,90,"ALASCA"));
@@ -51,15 +80,15 @@ public class PanelTabuleiro extends JPanel {
     	territorios.put("ARGENTINA", new TerritorioView(279,495,250,472,"ARGENTINA"));
     	
     	// Oceania
-    	territorios.put("PERTH", new TerritorioView(788,528,823,480,"PERTH"));
-    	territorios.put("AUSTRALIA", new TerritorioView(844,551,868,484,"AUSTRALIA"));
-    	territorios.put("NOVA ZELÂNDIA", new TerritorioView(903,572,924,541,"NOVA ZELÂNDIA"));
-    	territorios.put("INDONÉSIA", new TerritorioView(841,422,879,413,"INDONÉSIA"));
+    	territorios.put("PERTH", new TerritorioView(788,528,770,513,"PERTH"));
+    	territorios.put("AUSTRALIA", new TerritorioView(844,551,820,535,"AUSTRALIA"));
+    	territorios.put("NOVA ZELÂNDIA", new TerritorioView(903,572,900,557,"NOVA ZELÂNDIA"));
+    	territorios.put("INDONÉSIA", new TerritorioView(841,422,860,430,"INDONÉSIA"));
     	
     	// África
     	territorios.put("ARGÉLIA", new TerritorioView(441,315,420,300,"ARGÉLIA"));
     	territorios.put("EGITO", new TerritorioView(560,325,545,308,"EGITO"));
-    	territorios.put("NIGÉRIA", new TerritorioView(500,355,435,360,"NIGÉRIA"));
+    	territorios.put("NIGÉRIA", new TerritorioView(500,357,439,360,"NIGÉRIA"));
     	territorios.put("SOMÁLIA", new TerritorioView(603,420,584,400,"SOMÁLIA"));
     	territorios.put("ANGOLA", new TerritorioView(544,443,525,425,"ANGOLA"));
     	territorios.put("ÁFRICA DO SUL", new TerritorioView(565,495,530,477,"ÁFRICA DO SUL"));
@@ -73,25 +102,27 @@ public class PanelTabuleiro extends JPanel {
     	territorios.put("ITÁLIA", new TerritorioView(520,210,508,194,"ITÁLIA"));
     	territorios.put("ROMÊNIA", new TerritorioView(573,214,555,236,"ROMÊNIA"));
     	territorios.put("UCRÂNIA", new TerritorioView(590,185,587,205,"UCRÂNIA"));
-    	territorios.put("ESTÔNIA", new TerritorioView(627,106,604,68,"ESTÔNIA"));
-    	territorios.put("LETÔNIA", new TerritorioView(622,152,664,151,"LETÔNIA"));
-    	territorios.put("TURQUIA", new TerritorioView(680,185,709,191,"TURQUIA"));
-    	territorios.put("SÍRIA", new TerritorioView(627,228,661,234,"SÍRIA"));
-    	territorios.put("JORDÂNIA", new TerritorioView(611,290,637,266,"JORDÂNIA"));
-    	territorios.put("ARÁBIA SAUDITA", new TerritorioView(647,361,646,315,"ARÁBIA SAUDITA"));
-    	territorios.put("IRAQUE", new TerritorioView(674,298,663,270,"IRAQUE"));
-    	territorios.put("IRÃ", new TerritorioView(712,291,703,271,"IRÃ"));
-    	territorios.put("PAQUISTÃO", new TerritorioView(747,284,723,242,"PAQUISTÃO"));
-    	territorios.put("RÚSSIA", new TerritorioView(718,108,774,102,"RÚSSIA"));
-    	territorios.put("SIBÉRIA", new TerritorioView(850,121,887,96,"SIBÉRIA"));
-    	territorios.put("CAZAQUISTÃO", new TerritorioView(753,158,799,172,"CAZAQUISTÃO"));
-    	territorios.put("MONGÓLIA", new TerritorioView(813,204,848,202,"MONGÓLIA"));
-    	territorios.put("CHINA", new TerritorioView(787,259,776,227,"CHINA"));
-    	territorios.put("COREIA DO NORTE", new TerritorioView(832,249,853,256,"COREIA DO NORTE"));
-    	territorios.put("COREIA DO SUL", new TerritorioView(817,270,846,273,"COREIA DO SUL"));
-    	territorios.put("ÍNDIA", new TerritorioView(783,345,781,303,"ÍNDIA"));
-    	territorios.put("BANGLADESH", new TerritorioView(836,328,841,299,"BANGLADESH"));
-    	territorios.put("TAILÂNDIA", new TerritorioView(879,349,889,309,"TAILÂNDIA"));
-    	territorios.put("JAPÃO", new TerritorioView(923,230,924,181,"JAPÃO"));
+    	
+    	// Ásia
+    	territorios.put("ESTÔNIA", new TerritorioView(670,106,650,91,"ESTÔNIA"));
+    	territorios.put("LETÔNIA", new TerritorioView(652,152,630,137,"LETÔNIA"));
+    	territorios.put("TURQUIA", new TerritorioView(710,203,686,187,"TURQUIA"));
+    	territorios.put("SÍRIA", new TerritorioView(670,234,628,238,"SÍRIA"));
+    	territorios.put("JORDÂNIA", new TerritorioView(611,290,585,275,"JORDÂNIA"));
+    	territorios.put("ARÁBIA SAUDITA", new TerritorioView(660,350,620,335,"ARÁBIA SAUDITA"));
+    	territorios.put("IRAQUE", new TerritorioView(663,282,643,266,"IRAQUE"));
+    	territorios.put("IRÃ", new TerritorioView(705,291,695,276,"IRÃ"));
+    	territorios.put("PAQUISTÃO", new TerritorioView(725,257,695,242,"PAQUISTÃO"));
+    	territorios.put("RÚSSIA", new TerritorioView(765,117,748,100,"RÚSSIA"));
+    	territorios.put("SIBÉRIA", new TerritorioView(877,107,857,92,"SIBÉRIA"));
+    	territorios.put("CAZAQUISTÃO", new TerritorioView(785,168,799,172,"CAZAQUISTÃO"));
+    	territorios.put("MONGÓLIA", new TerritorioView(810,204,824,208,"MONGÓLIA"));
+    	territorios.put("CHINA", new TerritorioView(780,245,765,230,"CHINA"));
+    	territorios.put("COREIA DO NORTE", new TerritorioView(835,252,853,257,"COREIA DO NORTE"));
+    	territorios.put("COREIA DO SUL", new TerritorioView(817,273,834,278,"COREIA DO SUL"));
+    	territorios.put("ÍNDIA", new TerritorioView(777,330,765,315,"ÍNDIA"));
+    	territorios.put("BANGLADESH", new TerritorioView(829,314,794,299,"BANGLADESH"));
+    	territorios.put("TAILÂNDIA", new TerritorioView(883,304,895,309,"TAILÂNDIA"));
+    	territorios.put("JAPÃO", new TerritorioView(923,220,924,205,"JAPÃO"));
     }
 }

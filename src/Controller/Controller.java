@@ -1,12 +1,12 @@
 package Controller;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.swing.JComboBox;
 
 import Model.Fachada;
 import View.TerritorioView;
@@ -25,14 +25,7 @@ public class Controller {
 			System.out.println(e.getMessage());
 			System.exit(1);
 		}
-		f.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int x = e.getX();
-                int y = e.getY();
-                System.out.println("Coordenadas: (" + x + "," + (y-30) + ")");
-            }
-        });
+		
 		f.setVisible(true);
 
 	}
@@ -100,6 +93,22 @@ public class Controller {
 				TerritorioView territorioView = territoriosView.get(territorio);
 				territorioView.desenha(g2d, Color.GREEN, fachada.qtdExerc(territorio));
 			}
+		}
+	}
+	
+	public static void comboBoxAtacante(JComboBox<String> cb1) {
+		Fachada fachada = Fachada.getFachada();
+		String cor = "branco";
+		for (String territorio : fachada.territoriosJogadorAtacante(cor)) {
+			cb1.addItem(territorio);
+		}
+	}
+
+	public static void comboBoxDefensor(JComboBox<String> cb2, String territorioAtacante) {
+		Fachada fachada = Fachada.getFachada();
+		String cor = "branco";
+		for (String territorio : fachada.territoriosDefensor(cor, territorioAtacante)) {
+			cb2.addItem(territorio);
 		}
 	}
 
