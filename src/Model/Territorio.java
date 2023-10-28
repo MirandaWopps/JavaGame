@@ -1,18 +1,23 @@
 package Model;
 
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 class Territorio {
 	private String nome;
 	private int qtdExerc;
-	private Map<String, Territorio> vizinhos;
+	private List<String> vizinhos = new ArrayList<>();
 
-	Territorio(String nome) {
+	Territorio(String nome, List<String> vizinhos) {
 		this.nome = nome;
-		this.qtdExerc = 0;
-		vizinhos = new HashMap<>();
+		this.vizinhos = vizinhos;
+		this.qtdExerc = 2;
+	}
+	
+	List<String> getVizinhos() {
+		return vizinhos;
 	}
 
 	Integer ganhaExerc(Integer n) {
@@ -31,17 +36,7 @@ class Territorio {
 		return qtdExerc;
 	}
 
-	void adicionaVizinho(Territorio viz) {
-		vizinhos.put(viz.getNome(), viz);
-	}
-
-	void adicionaVizinhos(List<Territorio> vizinhos) {
-		for (Territorio vizinho : vizinhos) {
-			adicionaVizinho(vizinho);
-		}
-	}
-
-	boolean ehVizinho(Territorio territorio) {
-		return vizinhos.containsKey(territorio.getNome());
+	void adicionaVizinho(String viz) {
+		vizinhos.add(viz);
 	}
 }

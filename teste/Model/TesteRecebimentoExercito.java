@@ -23,12 +23,12 @@ public class TesteRecebimentoExercito {
 
 	@BeforeClass
 	public static void setupBeforeClass() {
-		territorio1 = new Territorio("Brasil");
-		territorio2 = new Territorio("Argentina");
-		territorio3 = new Territorio("Peru");
-		territorio4 = new Territorio("Venezuela");
-		territorio5 = new Territorio("Argélia");
-		territorio6 = new Territorio("Inglaterra");
+		territorio1 = new Territorio("Brasil",null);
+		territorio2 = new Territorio("Argentina",null);
+		territorio3 = new Territorio("Peru",null);
+		territorio4 = new Territorio("Venezuela",null);
+		territorio5 = new Territorio("Argélia",null);
+		territorio6 = new Territorio("Inglaterra",null);
 		carta1 = new Carta(Carta.TipoCarta.circulo, territorio1);
 		carta2 = new Carta(Carta.TipoCarta.triangulo, territorio2);
 		carta3 = new Carta(Carta.TipoCarta.quadrado, territorio3);
