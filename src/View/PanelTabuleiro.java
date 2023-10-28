@@ -51,6 +51,7 @@ public class PanelTabuleiro extends JPanel {
 		switch (fase) {
 			case 1:
 				Controller.comboBoxAtacante(cb1);
+				fase = 0;
 		}
 		cb1.setLocation(1010, 30);
 		cb2.setLocation(1010, 70);

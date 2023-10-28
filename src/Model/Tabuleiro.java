@@ -7,14 +7,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 class Tabuleiro {
     private Map<String, Jogador> jogadores = new HashMap<>();
+    private LinkedList<Jogador> ordemJogadores = new LinkedList<>();
     private Map<String, Territorio> territorios = new HashMap<>();
     private Map<String, Continente> continentes = new HashMap<>();
 
     void adicionarJogador(Jogador jogador) {
         jogadores.put(jogador.getCor(), jogador);
+        ordemJogadores.add(jogador);
     }
 
     void adicionarTerritorio(Territorio territorio, Continente continente) {
@@ -41,6 +44,12 @@ class Tabuleiro {
 	Territorio getTerritorio(String territorio) {
 		return territorios.get(territorio);
 	}
+	
+	Jogador proximoJogador() {
+		Jogador proximo = ordemJogadores.poll();
+		ordemJogadores.add(proximo);
+		return proximo;
+	}
 
 	// Embaralha as cartas a partir do algoritmo de Fisher-Yates
     private static <T> void shuffleDeck(Deque<Integer> deck) {
@@ -66,31 +75,27 @@ class Tabuleiro {
         return deck.pollFirst();
     }
 
-	static int[] sorteiaCartas() {
-		Integer total = 44;
-		Integer num = 1;
-		int[] sorteados = new int[total];
-
+    void sorteiaTerritorios() {
+		int totalTerritorios = territorios.size();
+				
+		int[] sorteados = new int[totalTerritorios];
+		Territorio[] arrayTerritorios = territorios.values().toArray(new Territorio[0]);
+		
 		// Cria deque de tamanho total
 		Deque<Integer> deck = new ArrayDeque<>();
-		for (int i = 1; i <= total; i++) {
+		for (int i = 0; i < totalTerritorios; i++) {
 			deck.add(i);
-    		}
-
-		// Shuffle the deck (optional)
+    	}
+    
+		// Embaralha o deque
 		shuffleDeck(deck);
-
+		
 		// Retira Sorteado
-		for (int i = 1; i <= num; i++) {
+		for (int i = 0; i < totalTerritorios; i++) {
             Integer retiraSorteado = retiraSorteado(deck);
-            if (retiraSorteado != null) {
-                sorteados[i-1] = retiraSorteado;
-            } else {
-                System.out.println("Fim da lista de Sorteio");
-            }
+            sorteados[i] = retiraSorteado;
+            proximoJogador().adicionarTerritorio(arrayTerritorios[retiraSorteado]);
         }
-
-	    return sorteados;
 	}
 	
 
@@ -253,10 +258,14 @@ class Tabuleiro {
 		adicionarTerritorio(new Territorio("TAILÂNDIA", new ArrayList<>(Arrays.asList("COREIA DO SUL", "BANGLADESH"))), asia);
 		adicionarTerritorio(new Territorio("JAPÃO", new ArrayList<>(Arrays.asList("CAZAQUISTÃO", "MONGÓLIA", "COREIA DO NORTE"))), asia);
 
-		Jogador jogador = new Jogador("branco","a");
-		for (Territorio territorio : territorios.values()) {
-			jogador.adicionarTerritorio(territorio);
-		}
-		adicionarJogador(jogador);
+		Jogador jogador1 = new Jogador("branco","a");
+		Jogador jogador2 = new Jogador("vermelho","b");
+		Jogador jogador3 = new Jogador("preto","b");
+		Jogador jogador4 = new Jogador("azul","b");
+		adicionarJogador(jogador1);
+		adicionarJogador(jogador2);
+		adicionarJogador(jogador3);
+		adicionarJogador(jogador4);
+		sorteiaTerritorios();
 	}
 }
