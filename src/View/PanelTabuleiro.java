@@ -10,10 +10,10 @@ import Controller.Controller;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public class PanelTabuleiro extends JPanel {
-	private Image mapa;
-	private Image fundo;
+// Classe sendo usada no "WarFrame.java"
+public class PanelTabuleiro extends JPanel {    
+	private Image mapa;   //
+	private Image fundo;  //
 	private int fase = 1;
 	private Map<String,TerritorioView> territorios = new HashMap<>();
 	private JComboBox<String> cb1 = new JComboBox<>();
