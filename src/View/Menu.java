@@ -1,87 +1,83 @@
 package View;
 
-import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
+import javax.swing.*;
 
 
-public class Menu extends JFrame {
-
+public class Menu extends JFrame{
 	
-	public static void main (String[] args) throws IOException {
-		//ImageIcon image = new ImageIcon("Imagens\\menuImage.jpg");
+	JFrame frame;
+	JLabel displayField;
+	ImageIcon image;
+	public static final int LARG_DEFAULT=700; // tam horizontal da tela
+	public static final int ALT_DEFAULT=400;   // altura da tela
 	
-		ImageIcon ico = new ImageIcon("Imagens\\windowIcon.ico");
+	public Menu (String s) {
+		super(s);
+		setLayout(null);
+		setSize(LARG_DEFAULT,ALT_DEFAULT); // setando o tamanho
+		setResizable(false);               // nao permite redimensionar a tela
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // quando clicar no X, fecha o programa
 		
-		//img = ImageIO.read( new File("menuImage.jpg" ));
+		// centralizar a janela
+		Toolkit tk=Toolkit.getDefaultToolkit();  
+		Dimension screenSize=tk.getScreenSize(); 
+		int sl=screenSize.width;     
+		int sa=screenSize.height;   
+		int x=sl/2-LARG_DEFAULT/2;  
+		int y=sa/2-ALT_DEFAULT/2;   
+		setBounds(x,y,LARG_DEFAULT,ALT_DEFAULT);
 		
-				
-		JFrame fr= new JFrame();
-		fr.setTitle("War");
-		fr.setBounds(200,200,1200,700);  // diz onde a tela surgira e cria nas dimensoes desejadas
-		fr.setDefaultCloseOperation(3);
-		fr.setIconImage(ico.getImage()); // icone para janela
+        JLabel l = new JLabel(); 
+        l.setIcon(new ImageIcon("Imagens/menuImage.jpg"));
+        l.setBounds(0,0,LARG_DEFAULT,ALT_DEFAULT);
 
+		Container c = getContentPane();
 
-		//private BufferedImage img = null;
-		
-		//private ImageIcon img;
-		
-		
-		
-		
-		//fr.setIcon(image);
-		//fr.add(image);
-		//f = new WarFrame("War", ImageIO.read(new File("Imagens/coolMenuImage.jpg"))   );
-		
-		
-		//ImageIcon img = new ImagemIcon(this.getClass().getResouce("/coolMenuImage.jpg"));
-		//fr.setIcon(img);
-		
-		
-		JPanel pn = new JPanel() {
-			@Override
-			public void paint(Graphics g) {
-				
-				//g.drawImage( img, 0, 0, this );
-				g.drawRect(200, 200, 600, 150); // drawRect(int x, int y, int width, int height)  
-				g.drawRect(200, 400, 600, 150);
-				g.drawString("Jogar", 450,300);
-				g.drawString("Carregar", 450,500);
-			}
-			
-		};
+        // criação dos botões
+        JButton button1 = new JButton("Novo Jogo");
+        button1.setBounds(275, 100, 150, 40);
+        JButton button2 = new JButton("Carregar");
+        button2.setBounds(275, 180, 150, 40);
+        
+        // Adiciona action listener ao button1
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Action to perform when button1 is clicked
+                System.out.println("Novo jogo !");
+            }
+        });
 
-	fr.add(pn);
-	
-	
-	fr.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            int x = e.getX();
-            int y = e.getY();
-            if ( (x > 200 && x < 800)   && (y > 200 && y < 350)    ) {
-            System.out.println("INICIANDO NOVO JOGO");
-        }
-            
-            if ( (x > 200 && x < 400)   && (y > 400 && y < 650)    ) {
-            System.out.println("CARREGANDO JOGO");
-        }
-        }
-    });
-	
-	
-
-	fr.setVisible(true);
-	
+        // Adiciona action listener ao button2
+        button2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Action to perform when button2 is clicked
+                System.out.println("Carregando !");
+            }
+        });
+        
+        
+        // Adiciona os botões
+        c.add(button1);
+        c.add(button2);
+        
+        // Adiciona imagem de background
+        c.add(l);
+        
+        setVisible(true);
 	}
+	
+	
+	public static void main (String[] args) {
+		JFrame menu = new Menu("War");
+	}
+	
+	
 }
-
-
-
