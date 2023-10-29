@@ -15,6 +15,7 @@ import View.WarFrame;
 public class Controller {
 
 	public static void main(String[] args) {
+		// FRAME: com tabuleiros impressos
 		Fachada fachada = Fachada.getFachada();
 		fachada.inicializaJogo();
 		WarFrame f = null;
@@ -30,6 +31,10 @@ public class Controller {
 
 	}
 	
+	
+	
+	
+	// Desenha as bolinhas 
 	public static void desenhaTerritorios(Map<String,TerritorioView> territoriosView, Graphics2D g2d)
 	{
 		Fachada fachada = Fachada.getFachada();
@@ -96,6 +101,12 @@ public class Controller {
 		}
 	}
 	
+	
+	
+	
+	
+	
+	// COMBO BOX
 	public static void comboBoxAtacante(JComboBox<String> cb1) {
 		Fachada fachada = Fachada.getFachada();
 		String cor = "branco";
@@ -111,5 +122,14 @@ public class Controller {
 			cb2.addItem(territorio);
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
