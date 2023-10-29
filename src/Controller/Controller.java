@@ -61,12 +61,9 @@ public class Controller {
 	public final String dadoPreto4= "Imagens/dadoPreto/4.png";
 	public final String dadoPreto5= "Imagens/dadoPreto/5.png";
 	public final String dadoPreto6= "Imagens/dadoPreto/6.png";
-	
-	
-	
-	
-	
-	
+
+	private static String jogador;
+
 	// metodo main
 	public static void main(String[] args) {
 		// FRAME: com tabuleiros impressos
@@ -81,13 +78,15 @@ public class Controller {
 			System.exit(1); // finaliza com codigo 1
 		} 
 		f.setVisible(true);
+
+		while (true) {
+			jogador = fachada.proximoJogador();
+			f.setFase(1);
+			while (true);
+		}
 	} // end
-	
-	
-	
-	
-	
-	// Desenha as bolinhas 
+
+	// Desenha as bolinhas
 	public static void desenhaTerritorios(Map<String,TerritorioView> territoriosView, Graphics2D g2d)
 	{
 		Fachada fachada = Fachada.getFachada();
@@ -154,24 +153,27 @@ public class Controller {
 		}
 	}
 	
-	
-	
-	
-	
-	
+	public static void comboBoxRecebimento(JComboBox<String> cb1) {
+		Fachada fachada = Fachada.getFachada();
+		cb1.removeAllItems();
+		for (String territorio : fachada.territoriosJogador(jogador)) {
+			cb1.addItem(territorio);
+		}
+	}
+
 	// COMBO BOX
 	public static void comboBoxAtacante(JComboBox<String> cb1) {
 		Fachada fachada = Fachada.getFachada();
-		String cor = "branco";
-		for (String territorio : fachada.territoriosJogadorAtacante(cor)) {
+		cb1.removeAllItems();
+		for (String territorio : fachada.territoriosJogadorAtacante(jogador)) {
 			cb1.addItem(territorio);
 		}
 	}
 
 	public static void comboBoxDefensor(JComboBox<String> cb2, String territorioAtacante) {
+		cb2.removeAllItems();
 		Fachada fachada = Fachada.getFachada();
-		String cor = "branco";
-		for (String territorio : fachada.territoriosDefensor(cor, territorioAtacante)) {
+		for (String territorio : fachada.territoriosDefensor(jogador, territorioAtacante)) {
 			cb2.addItem(territorio);
 		}
 	}

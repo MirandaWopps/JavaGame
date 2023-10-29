@@ -22,6 +22,10 @@ public class Fachada {
 		tabuleiro.inicializaTerritorios();
 	}
 	
+	public String proximoJogador() {
+		return tabuleiro.proximoJogador().getCor();
+	}
+	
 	public List<String> territoriosJogador(String cor) {
 		Jogador jogador = tabuleiro.getJogador(cor);
 		if (jogador == null) {
@@ -30,11 +34,7 @@ public class Fachada {
 		
 		return new ArrayList<>(jogador.getTerritorios().keySet());
 	}
-	
-	public String getJogadorJogando() {
-		return "branco";
-	}
-	
+
 	public List<String> territoriosJogadorAtacante(String cor) {
 		Jogador jogador = tabuleiro.getJogador(cor);
 		List<String> territorios = new ArrayList<>();

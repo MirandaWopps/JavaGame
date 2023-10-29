@@ -2,6 +2,7 @@ package View;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
@@ -18,6 +19,7 @@ public class PanelTabuleiro extends JPanel {
 	private Map<String,TerritorioView> territorios = new HashMap<>();
 	private JComboBox<String> cb1 = new JComboBox<>();
 	private JComboBox<String> cb2 = new JComboBox<>();
+	private JComboBox<Integer> cb3 = new JComboBox<>();
 	
 	public PanelTabuleiro(Image mapa, Image fundo) {
 		this.mapa = mapa;
@@ -25,14 +27,17 @@ public class PanelTabuleiro extends JPanel {
 		
         add(cb1);
         add(cb2);
+		add(cb3);
 
 		cb1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cb2.removeAllItems();
-
-                String selected = (String) cb1.getSelectedItem();
-                Controller.comboBoxDefensor(cb2, selected);
+            	System.out.println(fase);
+            	if (fase == -2 || fase == 1) {
+            		cb2.removeAllItems();
+                    String selected = (String) cb1.getSelectedItem();
+                    Controller.comboBoxDefensor(cb2, selected);
+            	}   
             }
         });
 
@@ -42,20 +47,30 @@ public class PanelTabuleiro extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d=(Graphics2D) g;
-
+        
+        //
         g2d.drawImage(fundo,0,0,1000,700,null);
         g2d.drawImage(mapa,0,-30,1000,700,null);
         
         Controller.desenhaTerritorios(territorios, g2d);
 
+        Rectangle2D sideBar = new Rectangle2D.Double(1000,0,200,700);
+        g2d.setColor(Color.LIGHT_GRAY);
+        g2d.fill(sideBar);
+        g2d.draw(sideBar);
 		switch (fase) {
+			case 0:
+				Controller.comboBoxRecebimento(cb1);
+				fase = -1;
+				break;
 			case 1:
 				Controller.comboBoxAtacante(cb1);
-				fase = 0;
+				fase = -2;
+				break;
 		}
 		cb1.setLocation(1010, 30);
 		cb2.setLocation(1010, 70);
-
+		cb3.setLocation(1010, 70);
     }
 
 	public void setFase(int fase) {
