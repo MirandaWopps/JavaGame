@@ -12,6 +12,7 @@ class Jogador {
 	
 	private String cor;
 	private String nome;
+	private int exerc = 0;
 	private Map<String, Territorio> territorios = new HashMap<>();
 	private List<Carta> cartas = new ArrayList<>();
 

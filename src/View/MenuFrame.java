@@ -8,16 +8,14 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import javax.swing.*;
 
+import Controller.Controller;
 
-public class Menu extends JFrame{
-	
-	JFrame frame;
-	JLabel displayField;
-	ImageIcon image;
+
+public class MenuFrame extends JFrame{
 	public static final int LARG_DEFAULT=700; // tam horizontal da tela
 	public static final int ALT_DEFAULT=400;   // altura da tela
 	
-	public Menu (String s) {
+	public MenuFrame (String s) {
 		super(s);
 		setLayout(null);
 		setSize(LARG_DEFAULT,ALT_DEFAULT); // setando o tamanho
@@ -49,8 +47,8 @@ public class Menu extends JFrame{
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Action to perform when button1 is clicked
-                System.out.println("Novo jogo !");
+            	dispose();
+            	Controller.mainLoop();
             }
         });
 
@@ -58,7 +56,6 @@ public class Menu extends JFrame{
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Action to perform when button2 is clicked
                 System.out.println("Carregando !");
             }
         });
@@ -70,14 +67,5 @@ public class Menu extends JFrame{
         
         // Adiciona imagem de background
         c.add(l);
-        
-        setVisible(true);
 	}
-	
-	
-	public static void main (String[] args) {
-		JFrame menu = new Menu("War");
-	}
-	
-	
 }

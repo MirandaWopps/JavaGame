@@ -8,7 +8,7 @@ public class WarFrame extends JFrame{
 	public final int ALT_DEFAULT=700;   // altura da tela
 	PanelTabuleiro p; // objeto painel
 	
-	public WarFrame(String s, Image mapa, Image fundo) {  // recebe como parametros uma string, uma imagem e outra imagem.
+	public WarFrame(String s) {  // recebe como parametros uma string, uma imagem e outra imagem.
 		super(s);
 		setLayout(null);
 		setSize(LARG_DEFAULT,ALT_DEFAULT); // setando o tam 
@@ -23,9 +23,9 @@ public class WarFrame extends JFrame{
 		int y=sa/2-ALT_DEFAULT/2;   
 		setBounds(x,y,LARG_DEFAULT,ALT_DEFAULT);   
 		
-		p = new PanelTabuleiro(mapa, fundo);         
+		p = new PanelTabuleiro();
 		p.setBounds(0,0,LARG_DEFAULT,ALT_DEFAULT);   
-		getContentPane().add(p);   
+		getContentPane().add(p);
 	}
 	
 	public void setFase(int fase) {

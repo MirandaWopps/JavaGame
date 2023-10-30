@@ -3,7 +3,10 @@ package View;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import Controller.Controller;
@@ -21,9 +24,15 @@ public class PanelTabuleiro extends JPanel {
 	private JComboBox<String> cb2 = new JComboBox<>();
 	private JComboBox<Integer> cb3 = new JComboBox<>();
 	
-	public PanelTabuleiro(Image mapa, Image fundo) {
-		this.mapa = mapa;
-		this.fundo = fundo;
+	public PanelTabuleiro() {
+		try {
+			mapa = ImageIO.read(new File("Imagens/war_tabuleiro_mapa copy.png"));
+			fundo = ImageIO.read(new File("Imagens/war_tabuleiro_fundo.png"));
+		}
+		catch(IOException e) {
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
 		
         add(cb1);
         add(cb2);
@@ -33,14 +42,13 @@ public class PanelTabuleiro extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
             	System.out.println(fase);
-            	if (fase == -2 || fase == 1) {
+            	if (fase == -2 || fase == 2) {
             		cb2.removeAllItems();
                     String selected = (String) cb1.getSelectedItem();
                     Controller.comboBoxDefensor(cb2, selected);
             	}   
             }
         });
-
 		instanciaTerritoriosView();
 	}
 
@@ -48,22 +56,24 @@ public class PanelTabuleiro extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d=(Graphics2D) g;
         
-        //
+        // desenha as imagens de fundo
         g2d.drawImage(fundo,0,0,1000,700,null);
         g2d.drawImage(mapa,0,-30,1000,700,null);
         
+        // desenha os territorios
         Controller.desenhaTerritorios(territorios, g2d);
 
+        // desenha sidebar
         Rectangle2D sideBar = new Rectangle2D.Double(1000,0,200,700);
         g2d.setColor(Color.LIGHT_GRAY);
         g2d.fill(sideBar);
         g2d.draw(sideBar);
 		switch (fase) {
-			case 0:
+			case 1:
 				Controller.comboBoxRecebimento(cb1);
 				fase = -1;
 				break;
-			case 1:
+			case 2:
 				Controller.comboBoxAtacante(cb1);
 				fase = -2;
 				break;

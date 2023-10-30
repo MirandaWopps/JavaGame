@@ -9,82 +9,29 @@ import javax.imageio.ImageIO;
 import javax.swing.JComboBox;
 
 import Model.Fachada;
+import View.MenuFrame;
 import View.TerritorioView;
 import View.WarFrame;
 
 public class Controller {
-	// Dados       ps: dps colocar num enum q nem a classe objetivos ? 
-	// Vermelhos
-	public final String dadoVermelho1 = "Imagens/dadosVermelho/1.png";
-	public final String dadoVermelho2= "Imagens/dadosVermelho/2.png";
-	public final String dadoVermelho3= "Imagens/dadosVermelho/3.png";
-	public final String dadoVermelho4= "Imagens/dadosVermelho/4.png";
-	public final String dadoVermelho5= "Imagens/dadosVermelho/5.png";
-	public final String dadoVermelho6 = "Imagens/dadosVermelho/6.png";
-	
-	// Verde
-	public final String dadoVerde1= "Imagens/dadosVerde/1.png";
-	public final String dadoVerde2= "Imagens/dadosVerde/2.png";
-	public final String dadoVerde3= "Imagens/dadosVerde/3.png";
-	public final String dadoVerde4= "Imagens/dadosVerde/4.png";
-	public final String dadoVerde5= "Imagens/dadosVerde/5.png";
-	public final String dadoVerde6= "Imagens/dadosVerde/6.png";
-	
-	// Azul
-	public final String dadoAzul1= "Imagens/dadosAzul/1.png";
-	public final String dadoAzul2= "Imagens/dadosAzul/2.png";
-	public final String dadoAzul3= "Imagens/dadosAzul/3.png";
-	public final String dadoAzul4= "Imagens/dadosAzul/4.png";
-	public final String dadoAzul5= "Imagens/dadosAzul/5.png";
-	public final String dadoAzul6= "Imagens/dadosAzul/6.png";
-		
-	// Amarelo
-	public final String dadoAmarelo1= "Imagens/dadoAmarelo/1.png";
-	public final String dadoAmarelo2= "Imagens/dadoAmarelo/2.png";
-	public final String dadoAmarelo3= "Imagens/dadoAmarelo/3.png";
-	public final String dadoAmarelo4= "Imagens/dadoAmarelo/4.png";
-	public final String dadoAmarelo5= "Imagens/dadoAmarelo/5.png";
-	public final String dadoAmarelo6= "Imagens/dadoAmarelo/6.png";
-		
-	// Branco
-	public final String dadoBranco1= "Imagens/dadoBranco/1.png";
-	public final String dadoBranco2= "Imagens/dadoBranco/2.png";
-	public final String dadoBranco3= "Imagens/dadoBranco/3.png";
-	public final String dadoBranco4= "Imagens/dadoBranco/4.png";
-	public final String dadoBranco5= "Imagens/dadoBranco/5.png";
-	public final String dadoBranco6= "Imagens/dadoBranco/6.png";
-	
-	// Preto
-	public final String dadoPreto1= "Imagens/dadoPreto/1.png";
-	public final String dadoPreto2= "Imagens/dadoPreto/2.png";
-	public final String dadoPreto3= "Imagens/dadoPreto/3.png";
-	public final String dadoPreto4= "Imagens/dadoPreto/4.png";
-	public final String dadoPreto5= "Imagens/dadoPreto/5.png";
-	public final String dadoPreto6= "Imagens/dadoPreto/6.png";
-
 	private static String jogador;
 
 	// metodo main
 	public static void main(String[] args) {
-		// FRAME: com tabuleiros impressos
+		mainLoop();
+	}
+
+	public static void mainLoop() {
 		Fachada fachada = Fachada.getFachada();
 		fachada.inicializaJogo();
-		WarFrame f = null;
-		try { // faz assim
-			f = new WarFrame("War", ImageIO.read(new File("Imagens/war_tabuleiro_mapa copy.png")), ImageIO.read(new File("Imagens/war_tabuleiro_fundo.png")));
-		}
-		catch(IOException e) { // se der erro
-			System.out.println(e.getMessage()); // mostra erro
-			System.exit(1); // finaliza com codigo 1
-		} 
+		WarFrame f = new WarFrame("War");
 		f.setVisible(true);
-
 		while (true) {
 			jogador = fachada.proximoJogador();
 			f.setFase(1);
 			while (true);
 		}
-	} // end
+	}
 
 	// Desenha as bolinhas
 	public static void desenhaTerritorios(Map<String,TerritorioView> territoriosView, Graphics2D g2d)
