@@ -73,7 +73,12 @@ public class MenuNextFrame extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getSource() == button) {
-			System.out.println("Welcome" + textField.getText() );
+			System.out.println("Jogador 1: " + textField.getText() );
+			System.out.println("Jogador 2: " + textField2.getText() );
+			System.out.println("Jogador 3: " + textField3.getText() );
+			System.out.println("Jogador 4: " + textField4.getText() );
+			System.out.println("Jogador 5: " + textField5.getText() );
+			System.out.println("Jogador 6: " + textField6.getText() );
 		}
 			
 		
