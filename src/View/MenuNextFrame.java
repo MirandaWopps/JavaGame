@@ -154,11 +154,14 @@ public class MenuNextFrame extends JFrame implements ActionListener{
 			
 			
 			System.out.println(qtdJogadores);
-			
+			System.out.println("Cor: " + coresArray[0]+"\n"); 	
 			
 			for (int i= 0 ; i<6 ;i++) {
+				// crie um vetor e adicione a cor ali. Entao, verifique se a cor da vez aparece quando o vetor for percorrido
+				
+				
 			       // Vermelho                           // Verde                         // Azul                   // Preto                      // Branco                // Amarelo		
-				if ( (coresArray[i] =="Vermelho") || (coresArray[i] =="Verde") || (coresArray[i] =="Azul") || (coresArray[i] =="Preto") || (coresArray[i] =="Branco") || (coresArray[i] =="Amarelo") ){
+				if ( coresArray[i].equals("Vermelho") || coresArray[i].equals("Verde") || coresArray[i].equals("Azul") || coresArray[i].equals("Preto") || coresArray[i].equals("Branco") || coresArray[i].equals("Amarelo") ){
 					System.out.println("Nome: " + jogadoresArray[i]); //
 					System.out.println("Cor: " + coresArray[i]+"\n"); 		
 				}	else {
@@ -166,8 +169,13 @@ public class MenuNextFrame extends JFrame implements ActionListener{
 					break;
 				} // else
 			}// for
-		}				
-	}
+			
+		}// evento no botao				
+	}// action performed
+	
+	
+	
+	
 	
 	
 	// NECESSARIA VERIFICACAO DAS CORES
