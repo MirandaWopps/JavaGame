@@ -207,22 +207,4 @@ public class MenuNextFrame extends JFrame implements ActionListener{
 	}// action performed
 	
 	
-	
-	
-	
-	
-	// NECESSARIA VERIFICACAO DAS CORES
-	//
-	// cria vetor
-	// faça 2 for: verifica se existe alguma repetida - ps: atencao quando o for chegar no indice da cor em questão
-	/*
-	for(int i =0 ; i<6; i++ ) {
-		coresArray[i];
-		System.out.println("Jogador 4: " + textField4.getText() ); //
-		
-	}
-	// coloca um break se der achar repetida. O código precisa 
-	*/
-	
-	
 }
