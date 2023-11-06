@@ -1,4 +1,4 @@
-package src.View;
+package View;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,8 +17,9 @@ public class MenuNextFrame extends JFrame implements ActionListener{
     private String jogadoresArray[] = new String[6];     // allocates memory for 6 Strings
     private String coresArray[] = new String[6];     // allocates memory for 6 Strings
     private String qtdJogadoresString;  // esta dando erro fazer o casting dentro do listener
-    private int qtdJogadores;
-	
+    private int qtdJogadores, impedeTrocarTela, qtdRepeticoes;
+	private static int qtdRepeticoes2;
+    
 	private JButton button;     // Declare button as an instance variable
 	private JTextField jogadoresField;
 	private JTextField textField1; // Declare textField as an instance variable
@@ -107,7 +108,7 @@ public class MenuNextFrame extends JFrame implements ActionListener{
 		textFieldCor5.setText("Cor Jogador 5");
 		textFieldCor6.setText("Cor Jogador 6");
 		
-		// qtdJogadores e Nome dos jogadores
+		//qtdJogadores e Nome dos jogadores
 		this.add(jogadoresField);
 		this.add(textField1);
 		this.add(textField2);
@@ -150,25 +151,57 @@ public class MenuNextFrame extends JFrame implements ActionListener{
 			coresArray[4] = textFieldCor5.getText();
 			coresArray[5] = textFieldCor6.getText();
 			
+			impedeTrocarTela=  0;
+			/* Teste
+			// System.out.println(qtdJogadores);                   
+			// System.out.println("Cor: " + coresArray[0]+"\n"); 	*/
+			
+			if (qtdJogadores > 6 || qtdJogadores < 2) {
+				System.out.println("QUANTIDADE NAO PERMITIDA DE Jogadores"); 		
+
+			}else {		
+				for (int i= 0 ; i<qtdJogadores ;i++) {
+
+					
+				              // Vermelho                           // Verde                         // Azul                      // Preto                         // Branco                            // Amarelo		
+					if ( coresArray[i].equals("Vermelho") || coresArray[i].equals("Verde") || coresArray[i].equals("Azul") || coresArray[i].equals("Preto") || coresArray[i].equals("Branco") || coresArray[i].equals("Amarelo") ){
+						System.out.println("Nome: " + jogadoresArray[i]); //
+						System.out.println("Cor: " + coresArray[i]+"\n"); 		
+					}	else {
+						System.out.println("Cor do jogador " + (i+1) + " incorreta !");
+						impedeTrocarTela++;
+						break;
+					} // else
+				}// for		
+			} // else caso quantidade de jogadores permitida for inserida
 			
 			
 			
-			System.out.println(qtdJogadores);
-			System.out.println("Cor: " + coresArray[0]+"\n"); 	
+			// agora verifica cor repetida 
+			//System.out.println("VERIFICA COR!");  // test line
+			qtdRepeticoes2 = 0;
+			for (int i = 0; i < qtdJogadores; i++) {
+			    for (int j = 0; j < qtdJogadores; j++) {
+			        if (i != j && coresArray[i].equals(coresArray[j])) { // Use .equals to compare strings
+			            qtdRepeticoes2++;
+			            //System.out.println("Cor " + coresArray[j] + " repetida " + qtdRepeticoes2 + " vezes !"); // teste line
+			        }
+
+			        // Impede tela de trocar
+			        if (qtdRepeticoes2 > 0) { // Change to > 0 to prevent screen change
+			            //System.out.println("ISHHH Cor " + coresArray[j] + " repetida " + qtdRepeticoes2 + " vezes !");  // teste line
+			            impedeTrocarTela++;
+			        }
+			    }
+			}
+
+			System.out.println("TELA " + impedeTrocarTela + "   ||  qtdRepeticoes2 " + qtdRepeticoes2);
+
+			if (impedeTrocarTela == 0) {
+			    System.out.println("Troca tela");
+			}
 			
-			for (int i= 0 ; i<6 ;i++) {
-				// crie um vetor e adicione a cor ali. Entao, verifique se a cor da vez aparece quando o vetor for percorrido
-				
-				
-			       // Vermelho                           // Verde                         // Azul                   // Preto                      // Branco                // Amarelo		
-				if ( coresArray[i].equals("Vermelho") || coresArray[i].equals("Verde") || coresArray[i].equals("Azul") || coresArray[i].equals("Preto") || coresArray[i].equals("Branco") || coresArray[i].equals("Amarelo") ){
-					System.out.println("Nome: " + jogadoresArray[i]); //
-					System.out.println("Cor: " + coresArray[i]+"\n"); 		
-				}	else {
-					System.out.println("NAO INSERIU COR CORRETAMENTE");
-					break;
-				} // else
-			}// for
+			
 			
 		}// evento no botao				
 	}// action performed

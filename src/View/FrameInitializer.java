@@ -1,4 +1,4 @@
-package src.View;
+package View;
 
 public class FrameInitializer {
 	public static void main(String[] args) {
