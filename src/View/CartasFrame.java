@@ -1,10 +1,17 @@
 package View;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
 
 // JANELA ABRINDO MOSTRANDO AS CARTAS
 class CartasFrame {
@@ -81,6 +88,17 @@ class CartasFrame {
 		
 	}*/
 	
+	// Botoes
+	private static JButton buttonCarta1;  
+	private static JButton buttonCarta2;     
+	private static JButton buttonCarta3;  
+	private static JButton buttonCarta4;  
+	private static JButton buttonCarta5;  
+	private static JButton buttonConfirmar;  
+	
+	private static int[] btnPressed = new int[5];
+
+	
 	
 	public static void main(String[] args) {
 		String war_carta_coringa = "Imagens/war_carta_coringa.png";//41
@@ -118,6 +136,120 @@ class CartasFrame {
             ImageIcon image5 = new ImageIcon(war_carta_coringa); // Provide the path to your image file
             labelObjetivos5.setIcon(image5);
             
+            
+            
+            
+            
+            // Botoes na tela
+            // b1
+            buttonCarta1 = new JButton("Carta 1 ");
+            buttonCarta1.setBounds(120,10,200,40);
+            buttonCarta1.setBackground(Color.lightGray ); // a cor do botao
+            buttonCarta1.setBorder(BorderFactory.createEtchedBorder() );//o tipo da borda
+            buttonCarta1.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                	if (btnPressed[0] == 0) {
+                		buttonCarta1.setBackground(Color.blue ); // SELECIONADO
+                		btnPressed[0] = 1;
+                	} else {
+                		buttonCarta1.setBackground(Color.lightGray ); // VOLTA ao normal
+                		btnPressed[0] = 0 ;
+                	}
+                    System.out.println("Button Carta 1 clicked");
+                    
+                    
+                    
+                }
+            });
+            
+            //b2
+            buttonCarta2 = new JButton("Carta 2 ");
+            buttonCarta2.setBounds(120,10,200,40);
+            buttonCarta2.setBackground(Color.lightGray ); // a cor do botao
+            buttonCarta2.setBorder(BorderFactory.createEtchedBorder() );//o tipo da borda
+            buttonCarta2.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                	if (btnPressed[1] == 0) {
+                		buttonCarta2.setBackground(Color.blue ); // SELECIONADO
+                		btnPressed[1] = 1;
+                	} else {
+                		buttonCarta2.setBackground(Color.lightGray ); // VOLTA ao normal
+                		btnPressed[1] = 0 ;
+                	}
+                    System.out.println("Button Carta 2 clicked");
+                }
+            });
+            
+          //b3
+            buttonCarta3 = new JButton("Carta 3 ");
+            buttonCarta3.setBounds(120,10,200,40);
+            buttonCarta3.setBackground(Color.lightGray ); // a cor do botao
+            buttonCarta3.setBorder(BorderFactory.createEtchedBorder() );//o tipo da borda
+            buttonCarta3.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                	if (btnPressed[2] == 0) {
+                		buttonCarta3.setBackground(Color.blue ); // SELECIONADO
+                		btnPressed[2] = 1;
+                	} else {
+                		buttonCarta3.setBackground(Color.lightGray ); // VOLTA ao normal
+                		btnPressed[2] = 0 ;
+                	}
+                    System.out.println("Button Carta 3 clicked");
+                }
+            });
+            
+          //b4
+            buttonCarta4 = new JButton("Carta 4 ");
+            buttonCarta4.setBounds(120,10,200,40);
+            buttonCarta4.setBackground(Color.lightGray ); // a cor do botao
+            buttonCarta4.setBorder(BorderFactory.createEtchedBorder() );//o tipo da borda
+            buttonCarta4.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                	if (btnPressed[3] == 0) {
+                		buttonCarta4.setBackground(Color.blue ); // SELECIONADO
+                		btnPressed[3] = 1;
+                	} else {
+                		buttonCarta4.setBackground(Color.lightGray ); // VOLTA ao normal
+                		btnPressed[3] = 0 ;
+                	}
+                    System.out.println("Button Carta 4 clicked");
+                }
+            });
+            
+          //b5
+            buttonCarta5 = new JButton("Carta 5 ");
+            buttonCarta5.setBounds(120,10,200,40);
+            buttonCarta5.setBackground(Color.lightGray ); // a cor do botao
+            buttonCarta5.setBorder(BorderFactory.createEtchedBorder() );//o tipo da borda
+            buttonCarta5.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                	if (btnPressed[4] == 0) {
+                		buttonCarta5.setBackground(Color.blue ); // SELECIONADO
+                		btnPressed[4] = 1;
+                	} else {
+                		buttonCarta5.setBackground(Color.lightGray ); // VOLTA ao normal
+                		btnPressed[4] = 0 ;
+                	}
+                    System.out.println("Button Carta 5 clicked");
+                }
+            });
+            
+          //b6
+            buttonConfirmar = new JButton("Confirmar ! ");
+            buttonConfirmar.setBounds(120,10,200,40);
+            buttonConfirmar.setBackground(Color.lightGray ); // a cor do botao
+            buttonConfirmar.setBorder(BorderFactory.createEtchedBorder() );//o tipo da borda
+            buttonConfirmar.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+      
+                    System.out.println("Button \"confirmar\" clicked");
+                }
+            });
+            
+           
+            
+            
+            
            
             
          // Add the label to the frame
@@ -126,6 +258,20 @@ class CartasFrame {
             frame.getContentPane().add(labelObjetivos3);
             frame.getContentPane().add(labelObjetivos4);
             frame.getContentPane().add(labelObjetivos5);
+            
+  
+            
+            
+         // Botoes 
+            
+            frame.add(buttonCarta1);
+            frame.add(buttonCarta2);
+            frame.add(buttonCarta3);
+            frame.add(buttonCarta4);
+            frame.add(buttonCarta5);
+            frame.add(buttonConfirmar);
+            
+            
             
          // Prevent frame resizing
             frame.setResizable(false);
