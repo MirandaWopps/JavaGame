@@ -97,7 +97,7 @@ class CartasFrame {
 	private static JButton buttonConfirmar;  
 	
 	private static int[] btnPressed = new int[5];
-
+	private static int qtdBotoesSelecionados;
 	
 	
 	public static void main(String[] args) {
@@ -148,17 +148,25 @@ class CartasFrame {
             buttonCarta1.setBorder(BorderFactory.createEtchedBorder() );//o tipo da borda
             buttonCarta1.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	if (btnPressed[0] == 0) {
-                		buttonCarta1.setBackground(Color.blue ); // SELECIONADO
-                		btnPressed[0] = 1;
-                	} else {
-                		buttonCarta1.setBackground(Color.lightGray ); // VOLTA ao normal
-                		btnPressed[0] = 0 ;
+                	if (qtdBotoesSelecionados < 3) {
+                		if (btnPressed[0] == 0) {
+                			buttonCarta1.setBackground(Color.blue ); // SELECIONADO
+                			btnPressed[0] = 1;
+                			qtdBotoesSelecionados++;
+                		} else {
+                			buttonCarta1.setBackground(Color.lightGray ); // VOLTA ao normal
+                			btnPressed[0] = 0 ;
+                			qtdBotoesSelecionados--;
+                		}
+                		System.out.println("Button Carta 1 clicked");
+                	} else {// limita botoes
+                		if (btnPressed[0] == 1) {
+                			buttonCarta1.setBackground(Color.lightGray ); // VOLTA ao normal
+            				btnPressed[0] = 0 ;
+            				qtdBotoesSelecionados--;
+                		}
                 	}
-                    System.out.println("Button Carta 1 clicked");
-                    
-                    
-                    
+                 
                 }
             });
             
@@ -169,14 +177,25 @@ class CartasFrame {
             buttonCarta2.setBorder(BorderFactory.createEtchedBorder() );//o tipo da borda
             buttonCarta2.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	if (btnPressed[1] == 0) {
-                		buttonCarta2.setBackground(Color.blue ); // SELECIONADO
-                		btnPressed[1] = 1;
-                	} else {
-                		buttonCarta2.setBackground(Color.lightGray ); // VOLTA ao normal
-                		btnPressed[1] = 0 ;
+                	if (qtdBotoesSelecionados < 3) {
+                		if (btnPressed[1] == 0) {
+                			buttonCarta2.setBackground(Color.blue ); // SELECIONADO
+                			btnPressed[1] = 1;
+                			qtdBotoesSelecionados++;
+                		} else {
+                			buttonCarta2.setBackground(Color.lightGray ); // VOLTA ao normal
+                			btnPressed[1] = 0 ;
+                			qtdBotoesSelecionados--;
+                		}
+                		System.out.println("Button Carta 2 clicked");
+                	} else {// limita botoes
+                		if (btnPressed[1] == 1) {
+                			buttonCarta2.setBackground(Color.lightGray ); // VOLTA ao normal
+            				btnPressed[1] = 0 ;
+            				qtdBotoesSelecionados--;
+                		}
                 	}
-                    System.out.println("Button Carta 2 clicked");
+                		
                 }
             });
             
@@ -187,14 +206,26 @@ class CartasFrame {
             buttonCarta3.setBorder(BorderFactory.createEtchedBorder() );//o tipo da borda
             buttonCarta3.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	if (btnPressed[2] == 0) {
-                		buttonCarta3.setBackground(Color.blue ); // SELECIONADO
-                		btnPressed[2] = 1;
-                	} else {
-                		buttonCarta3.setBackground(Color.lightGray ); // VOLTA ao normal
-                		btnPressed[2] = 0 ;
+                	if (qtdBotoesSelecionados < 3) {
+                		if (btnPressed[2] == 0) {
+                			buttonCarta3.setBackground(Color.blue ); // SELECIONADO
+                			btnPressed[2] = 1;
+                			qtdBotoesSelecionados++;
+                		} else {
+                			buttonCarta3.setBackground(Color.lightGray ); // VOLTA ao normal
+                			btnPressed[2] = 0 ;
+                			qtdBotoesSelecionados--;
+                		}
+                		System.out.println("Button Carta 3 clicked");
+                	}else {// limita botoes
+                		if (btnPressed[2] == 1) {
+                			buttonCarta3.setBackground(Color.lightGray ); // VOLTA ao normal
+            				btnPressed[2] = 0 ;
+            				qtdBotoesSelecionados--;
+                		}
                 	}
-                    System.out.println("Button Carta 3 clicked");
+                	
+                	
                 }
             });
             
@@ -205,14 +236,26 @@ class CartasFrame {
             buttonCarta4.setBorder(BorderFactory.createEtchedBorder() );//o tipo da borda
             buttonCarta4.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	if (btnPressed[3] == 0) {
-                		buttonCarta4.setBackground(Color.blue ); // SELECIONADO
-                		btnPressed[3] = 1;
-                	} else {
-                		buttonCarta4.setBackground(Color.lightGray ); // VOLTA ao normal
-                		btnPressed[3] = 0 ;
+                	if (qtdBotoesSelecionados < 3) {
+                		if (btnPressed[3] == 0) {
+                			buttonCarta4.setBackground(Color.blue ); // SELECIONADO
+                			btnPressed[3] = 1;
+                			qtdBotoesSelecionados++;
+                		} else {
+                			buttonCarta4.setBackground(Color.lightGray ); // VOLTA ao normal
+                			btnPressed[3] = 0 ;
+                			qtdBotoesSelecionados--;
+                		}
+                    	System.out.println("Button Carta 4 clicked");
+                	}else {// limita botoes
+                		if (btnPressed[3] == 1) {
+                			buttonCarta4.setBackground(Color.lightGray ); // VOLTA ao normal
+            				btnPressed[3] = 0 ;
+            				qtdBotoesSelecionados--;
+                		}
                 	}
-                    System.out.println("Button Carta 4 clicked");
+                	
+                	
                 }
             });
             
@@ -223,14 +266,26 @@ class CartasFrame {
             buttonCarta5.setBorder(BorderFactory.createEtchedBorder() );//o tipo da borda
             buttonCarta5.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	if (btnPressed[4] == 0) {
-                		buttonCarta5.setBackground(Color.blue ); // SELECIONADO
-                		btnPressed[4] = 1;
-                	} else {
-                		buttonCarta5.setBackground(Color.lightGray ); // VOLTA ao normal
-                		btnPressed[4] = 0 ;
+                	if (qtdBotoesSelecionados < 3) {
+                		if (btnPressed[4] == 0) {
+                			buttonCarta5.setBackground(Color.blue ); // SELECIONADO
+                			btnPressed[4] = 1;
+                			qtdBotoesSelecionados++;
+                		} else {
+                			buttonCarta5.setBackground(Color.lightGray ); // VOLTA ao normal
+                			btnPressed[4] = 0 ;
+                			qtdBotoesSelecionados--;
+                		}
+                		System.out.println("Button Carta 5 clicked");
+                	}else {// limita botoes
+                		if (btnPressed[4] == 1) {
+                			buttonCarta5.setBackground(Color.lightGray ); // VOLTA ao normal
+            				btnPressed[4] = 0 ;
+            				qtdBotoesSelecionados--;
+                		}
                 	}
-                    System.out.println("Button Carta 5 clicked");
+                	
+                	
                 }
             });
             
@@ -243,6 +298,9 @@ class CartasFrame {
                 public void actionPerformed(ActionEvent e) {
       
                     System.out.println("Button \"confirmar\" clicked");
+                    if (qtdBotoesSelecionados == 3) {
+                    	 System.out.println("TROCA TELA porque 3 cartas estao selecionadas");
+                    }
                 }
             });
             
