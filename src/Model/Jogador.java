@@ -27,12 +27,10 @@ class Jogador {
 
 	static Jogador CriaJogs(String cor, String nome) {
 		if (qtdeJogadores >= limiteJogadores) {
-			//System.out.println("Quantidade máxima de jogadores atingida: " + limiteJogadores);
 			return null;
         }
 		qtdeJogadores++;
         Jogador jog = new Jogador(cor, nome);
-        //System.out.println("Nome: " + nome + "  Cor: " + cor + "  Qtde Jogadores: "+ qtdeJogadores);
         return jog;
 	}
 
@@ -42,10 +40,12 @@ class Jogador {
 
     void adicionarTerritorio(Territorio territorio) {
         territorios.put(territorio.getNome(), territorio);
+        Tabuleiro.getTabuleiro().notificaMudanca();
     }
 
     void removerTerritorio(Territorio territorio) {
         territorios.remove(territorio.getNome());
+        Tabuleiro.getTabuleiro().notificaMudanca();
     }
 
     Map<String, Territorio> getTerritorios() {
@@ -170,8 +170,7 @@ class Jogador {
     	return true;
     }
 
-	void colocaExerc(Territorio territorio, int qtdExerc) {
-		territorio.ganhaExerc(qtdExerc);
+	void exercPosicionado(int qtdExerc) {
 		exerc -= qtdExerc;
 	}
 }

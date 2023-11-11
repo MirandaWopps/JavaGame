@@ -13,19 +13,21 @@ class Territorio {
 	Territorio(String nome, List<String> vizinhos) {
 		this.nome = nome;
 		this.vizinhos = vizinhos;
-		this.qtdExerc = 2;
+		this.qtdExerc = 1;
 	}
 	
 	List<String> getVizinhos() {
 		return vizinhos;
 	}
 
-	Integer ganhaExerc(Integer n) {
-		return qtdExerc = qtdExerc + n;
+	void ganhaExerc(int n) {
+		qtdExerc += n;
+        Tabuleiro.getTabuleiro().notificaMudanca();
 	}
 
-	Integer perdeExerc(Integer n) {
-		return qtdExerc = qtdExerc - n;
+	void perdeExerc(int n) {
+		qtdExerc -= n;
+        Tabuleiro.getTabuleiro().notificaMudanca();
 	}
 
 	String getNome() {
@@ -34,9 +36,5 @@ class Territorio {
 
 	int getQtdExerc() {
 		return qtdExerc;
-	}
-
-	void adicionaVizinho(String viz) {
-		vizinhos.add(viz);
 	}
 }

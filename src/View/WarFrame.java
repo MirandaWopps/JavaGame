@@ -1,6 +1,9 @@
 package View;
 
 import javax.swing.*;
+
+import Model.Fachada;
+
 import java.awt.*;
 
 public class WarFrame extends JFrame{      
@@ -26,10 +29,6 @@ public class WarFrame extends JFrame{
 		p = new PanelTabuleiro();
 		p.setBounds(0,0,LARG_DEFAULT,ALT_DEFAULT);   
 		getContentPane().add(p);
+		Fachada.getFachada().register(p);
 	}
-	
-	public void setFase(int fase) {
-		p.setFase(fase);
-	}
-	
 }

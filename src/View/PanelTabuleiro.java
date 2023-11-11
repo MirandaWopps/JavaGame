@@ -11,24 +11,33 @@ import javax.swing.*;
 
 import Controller.Controller;
 import Model.Fachada;
+import Model.Observable;
+import Model.Observer;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// Classe sendo usada no "WarFrame.java"
-public class PanelTabuleiro extends JPanel {    
-	private Image mapa;   //
-	private Image fundo;  //
-	private int fase = 1;
+
+public class PanelTabuleiro extends JPanel implements Observer {
+	private Image mapa;
+	private Image fundo;
+
 	private Map<String,TerritorioView> territorios = new HashMap<>();
+	private int faseView = -1;
+	private List<String> possuiContinentes;
+	private boolean passouContinente = false;
+	
 	private JComboBox<String> cb1 = new JComboBox<>();
 	private JComboBox<String> cb2 = new JComboBox<>();
 	private JComboBox<Integer> cb3 = new JComboBox<>();
-	private JButton button1 = new JButton("Colocar");
+
+	private JButton button1 = new JButton("Posicionar");
 	private JButton button2 = new JButton("Atacar");
-	
+	private JButton button3 = new JButton("Deslocar");
+	private JLabel proximoLabel = new JLabel();
+
 	public PanelTabuleiro() {
 		try {
 			mapa = ImageIO.read(new File("Imagens/war_tabuleiro_mapa copy.png"));
@@ -38,7 +47,7 @@ public class PanelTabuleiro extends JPanel {
 			System.out.println(e.getMessage());
 			System.exit(1);
 		}
-		
+
         add(cb1);
         add(cb2);
 		add(cb3);
@@ -46,23 +55,62 @@ public class PanelTabuleiro extends JPanel {
 		cb1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	System.out.println(fase);
-            	if (fase == -2 || fase == 2) {
-            		cb2.removeAllItems();
-                    String selected = (String) cb1.getSelectedItem();
-                    comboBoxDefensor(cb2, selected);
-            	}   
-            }
+            	String selected = (String) cb1.getSelectedItem();
+            	if (selected != null) {
+					if (faseView == 2)
+                    	comboBoxDefensor(selected);
+					else if (faseView == 3) {
+						comboBoxDestino(selected);
+						comboBoxExercDeslocamento(selected);
+					}
+				}
+            } 
         });
-		
+
+		// botão posicionamento de tropas
 		button1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String territorio = (String) cb1.getSelectedItem();
 				int qtdExerc = (int) cb3.getSelectedItem();
-				Fachada.getFachada().colocaExerc(territorio, qtdExerc);
+
+				if (possuiContinentes.isEmpty()) {
+					Controller.posicionaExerc(territorio, qtdExerc);
+				}
+				else {
+					if (Controller.posicionaExercContinente(possuiContinentes.get(0), territorio, qtdExerc)) {
+						possuiContinentes.remove(0);
+						passouContinente = true;
+					}
+				}
 			}
 		});
+		add(button1);
+		
+		add(button2);
+
+		button3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String origem = (String) cb1.getSelectedItem();
+				String destino = (String) cb2.getSelectedItem();
+				int qtdExerc = (int) cb3.getSelectedItem();
+				if (origem != null && destino != null) {
+					Controller.deslocaExerc(origem, destino, qtdExerc);
+				}
+			}
+		});
+		add(button3);
+		
+		proximoLabel.setIcon(new ImageIcon("Imagens/war_btnProxJogada.png"));
+		proximoLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Controller.mudaFase();
+				repaint();
+			}
+		});
+		add(proximoLabel);
 		
 		instanciaTerritoriosView();
 	}
@@ -83,38 +131,258 @@ public class PanelTabuleiro extends JPanel {
         g2d.setColor(Color.LIGHT_GRAY);
         g2d.fill(sideBar);
         g2d.draw(sideBar);
-		switch (fase) {
-			// recebimento
-			case 1:
-				comboBoxRecebimento(cb1);
-				comboBoxExerc(cb3);
-				cb3.setVisible(true);
-				cb2.setVisible(false);
-				button1.setVisible(true);
-				fase = -1;
-				break;
-			// ataque
-			case 2:
-				comboBoxAtacante(cb1);
-				cb2.setVisible(true);
-				cb3.setVisible(false);
-				fase = -2;
-				break;
-		}
-		cb1.setLocation(1010, 30);
-		cb2.setLocation(1010, 70);
-		cb3.setLocation(1010, 70);
-    }
 
-	public void setFase(int fase) {
-		this.fase = fase;
+		// Obtenha o jogador atual
+		String jogadorAtual = Fachada.getFachada().atualJogador();
+
+		// Obtenha a cor do jogador
+		Color corJogador = stringToColor(jogadorAtual);
+
+		// Desenhe um retângulo com a cor do jogador
+		Rectangle2D retanguloJogador = new Rectangle2D.Double(1018, 210, 150, 150);
+		g2d.setColor(corJogador);
+		g2d.fill(retanguloJogador);
+		g2d.draw(retanguloJogador);
+
+        // fase do jogo
+        int fase = Controller.getFase();
+        boolean mudouFase = Controller.mudouFase(faseView);
+		boolean mudouJogador = Controller.mudouJogador();
+        if ((fase == 1 && (mudouFase || passouContinente)) || (fase == 0 && (mudouJogador || passouContinente)))
+        {
+        	// recebimento
+			faseView = fase;
+			passouContinente = false;
+
+        	if (mudouFase || mudouJogador)
+        		possuiContinentes = Fachada.getFachada().getContinentesJogador();
+			if (!possuiContinentes.isEmpty()) {
+				comboBoxRecebimentoContinente(possuiContinentes.get(0));
+				comboBoxExercContinente(possuiContinentes.get(0));
+			}
+			else {
+	        	comboBoxRecebimento();
+				comboBoxExerc();
+			}
+			cb3.setVisible(true);
+			button1.setVisible(true);
+
+			cb2.setVisible(false);
+			button2.setVisible(false);
+			button3.setVisible(false);
+        }
+        else if (fase == 2 && mudouFase)
+        {
+        	// ataque
+			faseView = fase;
+
+			comboBoxAtacante();
+			cb2.setVisible(true);
+			button2.setVisible(true);
+
+			cb3.setVisible(false);
+			button1.setVisible(false);
+			button3.setVisible(false);
+
+        }
+		else if (fase == 3 && mudouFase) {
+			// deslocamento
+			faseView = fase;
+
+			comboBoxOrigem();
+			cb2.setVisible(true);
+			cb3.setVisible(true);
+			button3.setVisible(true);
+
+			button1.setVisible(false);
+			button2.setVisible(false);
+		}
+        
+		cb1.setLocation(1010, 30);
+		if (faseView == 3) {
+			cb2.setLocation(1010, 70);
+			cb3.setLocation(1010, 110);
+		}
+		else {
+			cb2.setLocation(1010, 70);
+			cb3.setLocation(1010, 70);
+		}
+
+		button1.setBounds(1040, 120, 100, 30);
+		button2.setBounds(1040, 120, 100, 30);
+		button3.setBounds(1040, 160, 100, 30);
+		
+		proximoLabel.setBounds(920, 580, 100, 50);
+    }
+	
+	public void notify(Observable o) {
+		int fase = Controller.getFase();
+		if (fase == 1 || fase == 0) {
+			if (possuiContinentes.isEmpty()) {
+				comboBoxRecebimento();
+				comboBoxExerc();
+			}
+			else {
+				comboBoxRecebimentoContinente(possuiContinentes.get(0));
+				comboBoxExercContinente(possuiContinentes.get(0));
+			}
+		}
+		else if (fase == 2) {
+			comboBoxAtacante();
+		}
+		else if (fase == 3) {
+			comboBoxOrigem();
+		}
+		repaint();
+	}
+
+	
+	private void comboBoxRecebimento() {
+		// remove os itens da combobox
+		cb1.removeAllItems();
+
+		// adiciona os itens na combobox
+		List<String> territorios = Fachada.getFachada().territoriosJogador(Fachada.getFachada().atualJogador());
+		Collections.sort(territorios);
+		for (String territorio : territorios) {
+			cb1.addItem(territorio);
+		}
+	}
+
+	private void comboBoxRecebimentoContinente(String continente) {
+		// remove os itens da combobox
+		cb1.removeAllItems();
+
+		// adiciona os itens na combobox
+		List<String> territorios = Fachada.getFachada().territoriosContinente(continente);
+		Collections.sort(territorios);
+		for (String territorio : territorios) {
+			cb1.addItem(territorio);
+		}
+	}
+
+	private void comboBoxExerc() {
+		// remove os itens da combobox
+		cb3.removeAllItems();
+
+		// adiciona os itens na combobox
+		int numExerc = Fachada.getFachada().getRecebimento();
+		while (numExerc > 0) {
+			cb3.addItem(numExerc);
+			numExerc--;
+		}
+	}
+
+	private void comboBoxExercContinente(String continente) {
+		// remove os itens da combobox
+		cb3.removeAllItems();
+
+		// adiciona os itens na combobox
+		int numExerc = Fachada.getFachada().getRecebimentoContinente(continente);
+		while (numExerc > 0) {
+			cb3.addItem(numExerc);
+			numExerc--;
+		}
+	}
+
+	private void comboBoxAtacante() {
+		// seleciona o item que estava selecionado
+		Object selected = cb1.getSelectedItem();
+
+		// remove os itens da combobox
+		cb1.removeAllItems();
+
+		// adiciona os itens na combobox
+		List<String> territorios = Fachada.getFachada().territoriosAtacante();
+		Collections.sort(territorios);
+		for (String territorio : territorios) {
+			cb1.addItem(territorio);
+		}
+
+		// seleciona o item que estava selecionado
+		if (selected != null)
+			cb1.setSelectedItem(selected);
+	}
+
+	private void comboBoxDefensor(String territorioAtacante) {
+		// remove os itens da combobox
+		cb2.removeAllItems();
+
+		// adiciona os itens na combobox
+		List<String> territorios = Fachada.getFachada().territoriosDefensor(territorioAtacante);
+		Collections.sort(territorios);
+		for (String territorio : territorios) {
+			cb2.addItem(territorio);
+		}
+	}
+
+	private void comboBoxOrigem() {
+		// seleciona o item que estava selecionado
+		Object selected = cb1.getSelectedItem();
+
+		// remove os itens da combobox
+		cb1.removeAllItems();
+
+		// adiciona os itens na combobox
+		List<String> territorios = Fachada.getFachada().territoriosOrigem();
+		Collections.sort(territorios);
+		for (String territorio : territorios) {
+			cb1.addItem(territorio);
+		}
+
+		// seleciona o item que estava selecionado
+		if (selected != null)
+			cb1.setSelectedItem(selected);
+	}
+
+	private void comboBoxDestino(String territorioOrigem) {
+		// remove os itens da combobox
+		cb2.removeAllItems();
+
+		// adiciona os itens na combobox
+		List<String> territorios = Fachada.getFachada().territoriosDestino(territorioOrigem);
+		Collections.sort(territorios);
+		for (String territorio : territorios) {
+			cb2.addItem(territorio);
+		}
+	}
+
+	private void comboBoxExercDeslocamento(String territorioOrigem) {
+		// remove os itens da combobox
+		cb3.removeAllItems();
+
+		// adiciona os itens na combobox
+		int numExerc = Fachada.getFachada().qtdExerc(territorioOrigem)-1;
+		while (numExerc > 0) {
+			cb3.addItem(numExerc);
+			numExerc--;
+		}
+	}
+
+	private Color stringToColor(String cor) {
+		switch(cor) {
+			case "amarelo":
+	            return Color.YELLOW;
+	        case "vermelho":
+	            return Color.RED;
+	        case "azul":
+	            return Color.BLUE;
+	        case "branco":
+	            return Color.WHITE;
+	        case "preto":
+	            return Color.BLACK;
+	        case "verde":
+	            return Color.GREEN;
+	        default:
+	            return null;
+		}
 	}
 
 	public static void desenhaTerritorios(Map<String,TerritorioView> territoriosView, Graphics2D g2d)
 	{
 		Fachada fachada = Fachada.getFachada();
 		List<String> territoriosJogador;
-		
+
 		// territorios branco
 		territoriosJogador = fachada.territoriosJogador("branco");
 		if (territoriosJogador!=null)
@@ -124,7 +392,7 @@ public class PanelTabuleiro extends JPanel {
 				territorioView.desenha(g2d, Color.WHITE, fachada.qtdExerc(territorio));
 			}
 		}
-		
+
 		// territorios preto
 		territoriosJogador = fachada.territoriosJogador("preto");
 		if (territoriosJogador!=null)
@@ -134,7 +402,7 @@ public class PanelTabuleiro extends JPanel {
 				territorioView.desenha(g2d, Color.BLACK, fachada.qtdExerc(territorio));
 			}
 		}
-		
+
 		// territorios vermelho
 		territoriosJogador = fachada.territoriosJogador("vermelho");
 		if (territoriosJogador!=null)
@@ -144,7 +412,7 @@ public class PanelTabuleiro extends JPanel {
 				territorioView.desenha(g2d, Color.RED, fachada.qtdExerc(territorio));
 			}
 		}
-		
+
 		// territorios azul
 		territoriosJogador = fachada.territoriosJogador("azul");
 		if (territoriosJogador!=null)
@@ -154,7 +422,7 @@ public class PanelTabuleiro extends JPanel {
 				territorioView.desenha(g2d, Color.BLUE, fachada.qtdExerc(territorio));
 			}
 		}
-		
+
 		// territorios amarelo
 		territoriosJogador = fachada.territoriosJogador("amarelo");
 		if (territoriosJogador!=null)
@@ -164,7 +432,7 @@ public class PanelTabuleiro extends JPanel {
 				territorioView.desenha(g2d, Color.YELLOW, fachada.qtdExerc(territorio));
 			}
 		}
-		
+
 		// territorios verde
 		territoriosJogador = fachada.territoriosJogador("verde");
 		if (territoriosJogador!=null)
@@ -173,46 +441,6 @@ public class PanelTabuleiro extends JPanel {
 				TerritorioView territorioView = territoriosView.get(territorio);
 				territorioView.desenha(g2d, Color.GREEN, fachada.qtdExerc(territorio));
 			}
-		}
-	}
-	
-	public static void comboBoxRecebimento(JComboBox<String> cb1) {
-		Fachada fachada = Fachada.getFachada();
-		cb1.removeAllItems();
-		List<String> territorios = fachada.territoriosJogador(Fachada.getFachada().atualJogador());
-		Collections.sort(territorios);
-		for (String territorio : territorios) {
-			cb1.addItem(territorio);
-		}
-	}
-	
-	public static void comboBoxExerc(JComboBox<Integer> cb3) {
-		Fachada fachada = Fachada.getFachada();
-		cb3.removeAllItems();
-		int numExerc = fachada.getRecebimento();
-		while (numExerc > 0) {
-			cb3.addItem(numExerc);
-			numExerc--;
-		}
-	}
-
-	public static void comboBoxAtacante(JComboBox<String> cb1) {
-		Fachada fachada = Fachada.getFachada();
-		cb1.removeAllItems();
-		List<String> territorios = fachada.territoriosJogadorAtacante();
-		Collections.sort(territorios);
-		for (String territorio : territorios) {
-			cb1.addItem(territorio);
-		}
-	}
-
-	public static void comboBoxDefensor(JComboBox<String> cb2, String territorioAtacante) {
-		cb2.removeAllItems();
-		Fachada fachada = Fachada.getFachada();
-		List<String> territorios = fachada.territoriosDefensor(territorioAtacante);
-		Collections.sort(territorios);
-		for (String territorio : territorios) {
-			cb2.addItem(territorio);
 		}
 	}
 

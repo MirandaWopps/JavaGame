@@ -9,12 +9,14 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
-class Tabuleiro {
+class Tabuleiro implements Observable {
     private Map<String, Jogador> jogadores = new HashMap<>();
     private LinkedList<Jogador> ordemJogadores = new LinkedList<>();
     private Map<String, Territorio> territorios = new HashMap<>();
     private Map<String, Continente> continentes = new HashMap<>();
+	List<Observer> lob = new ArrayList<Observer>();
 	private static Tabuleiro tabuleiro;
 
 	private Tabuleiro() {
@@ -73,6 +75,24 @@ class Tabuleiro {
 		ordemJogadores.add(proximo);
 	}
 
+	public void addObserver(Observer o) {
+		lob.add(o);
+	}
+
+	public void removeObserver(Observer o) {
+		lob.remove(o);
+	}
+
+	public Object get() {
+		return this;
+	}
+	
+	void notificaMudanca() {
+		for (Observer o : lob) {
+			o.notify(this);
+		}
+	}
+
 	// Embaralha as cartas a partir do algoritmo de Fisher-Yates
     private static <T> void shuffleDeck(Deque<Integer> deck) {
         Integer[] cards = deck.toArray(new Integer[0]);
@@ -120,7 +140,6 @@ class Tabuleiro {
             atualJogador().adicionarTerritorio(arrayTerritorios[retiraSorteado]);
         }
 	}
-	
 
 	static int[] sorteiaCores() {
 		Integer total = 6;
@@ -246,7 +265,7 @@ class Tabuleiro {
 		adicionarTerritorio(new Territorio("IRAQUE", new ArrayList<>(Arrays.asList("JORDÂNIA", "ARÁBIA SAUDITA", "IRÃ", "SÍRIA"))), asia);
 		adicionarTerritorio(new Territorio("IRÃ", new ArrayList<>(Arrays.asList("SÍRIA", "PAQUISTÃO", "IRAQUE"))), asia);
 		adicionarTerritorio(new Territorio("PAQUISTÃO", new ArrayList<>(Arrays.asList("TURQUIA", "CHINA", "ÍNDIA", "IRÃ", "SÍRIA"))), asia);
-		adicionarTerritorio(new Territorio("RÚSSIA", new ArrayList<>(Arrays.asList("ESTÔNIA", "SIBÉRIA", "CAZAQUISTÃO"))), asia);
+		adicionarTerritorio(new Territorio("RÚSSIA", new ArrayList<>(Arrays.asList("ESTÔNIA", "SIBÉRIA", "CAZAQUISTÃO", "LETÔNIA"))), asia);
 		adicionarTerritorio(new Territorio("SIBÉRIA", new ArrayList<>(Arrays.asList("RÚSSIA", "ALASCA", "CAZAQUISTÃO"))), asia);
 		adicionarTerritorio(new Territorio("CAZAQUISTÃO", new ArrayList<>(Arrays.asList("RÚSSIA", "SIBÉRIA", "MONGÓLIA", "JAPÃO", "CHINA", "TURQUIA", "LETÔNIA"))), asia);
 		adicionarTerritorio(new Territorio("MONGÓLIA", new ArrayList<>(Arrays.asList("CAZAQUISTÃO", "JAPÃO", "CHINA"))), asia);
@@ -260,12 +279,8 @@ class Tabuleiro {
 
 		Jogador jogador1 = new Jogador("branco","a");
 		Jogador jogador2 = new Jogador("vermelho","b");
-		Jogador jogador3 = new Jogador("preto","b");
-		Jogador jogador4 = new Jogador("azul","b");
 		adicionarJogador(jogador1);
 		adicionarJogador(jogador2);
-		adicionarJogador(jogador3);
-		adicionarJogador(jogador4);
 		sorteiaTerritorios();
 		sorteiaOrdem();
 	}
