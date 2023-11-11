@@ -18,8 +18,23 @@ public class Fachada {
 	}
 	
 	public void inicializaJogo() {
-		tabuleiro = new Tabuleiro();
+		tabuleiro = Tabuleiro.getTabuleiro();
 		tabuleiro.inicializaTerritorios();
+	}
+	
+	public String atualJogador() {
+		return tabuleiro.atualJogador().getCor();
+	}
+	
+	public int getRecebimento() {
+		Jogador jogador = tabuleiro.atualJogador();
+		return jogador.getExerc();
+	}
+
+	public void colocaExerc(String nomeTerritorio, int qtdExerc) {
+		Jogador jogador = tabuleiro.atualJogador();
+		Territorio territorio = tabuleiro.getTerritorio(nomeTerritorio);
+		jogador.colocaExerc(territorio, qtdExerc);
 	}
 	
 	public List<String> territoriosJogador(String cor) {
@@ -30,13 +45,9 @@ public class Fachada {
 		
 		return new ArrayList<>(jogador.getTerritorios().keySet());
 	}
-	
-	public String getJogadorJogando() {
-		return "branco";
-	}
-	
-	public List<String> territoriosJogadorAtacante(String cor) {
-		Jogador jogador = tabuleiro.getJogador(cor);
+
+	public List<String> territoriosJogadorAtacante() {
+		Jogador jogador = tabuleiro.atualJogador();
 		List<String> territorios = new ArrayList<>();
 		for (Territorio territorio : jogador.getTerritorios().values()) {
 			if (territorio.getQtdExerc() > 1) {
@@ -47,8 +58,8 @@ public class Fachada {
 		return territorios;
 	}
 
-	public List<String> territoriosDefensor(String cor, String territorioAtacante) {
-		Jogador jogador = tabuleiro.getJogador(cor);
+	public List<String> territoriosDefensor(String territorioAtacante) {
+		Jogador jogador = tabuleiro.atualJogador();
 		List<String> territorios = new ArrayList<>();
 		for (String territorio : tabuleiro.getTerritorio(territorioAtacante).getVizinhos()) {
 			if (!jogador.getTerritorios().containsKey(territorio)) {

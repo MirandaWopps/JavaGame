@@ -2,17 +2,20 @@ package View;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import Controller.Controller;
+import Model.Fachada;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 
 // Classe sendo usada no "WarFrame.java"
 public class PanelTabuleiro extends JPanel {    
@@ -22,97 +25,195 @@ public class PanelTabuleiro extends JPanel {
 	private Map<String,TerritorioView> territorios = new HashMap<>();
 	private JComboBox<String> cb1 = new JComboBox<>();
 	private JComboBox<String> cb2 = new JComboBox<>();
-	private JButton jb1 = new JButton("Ataca?");
-	private JButton jb2 = new JButton("Ver Cartas");
+	private JComboBox<Integer> cb3 = new JComboBox<>();
+	private JButton button1 = new JButton("Colocar");
+	private JButton button2 = new JButton("Atacar");
 	
-	public PanelTabuleiro(Image mapa, Image fundo) {
-		this.mapa = mapa;
-		this.fundo = fundo;
+	public PanelTabuleiro() {
+		try {
+			mapa = ImageIO.read(new File("Imagens/war_tabuleiro_mapa copy.png"));
+			fundo = ImageIO.read(new File("Imagens/war_tabuleiro_fundo.png"));
+		}
+		catch(IOException e) {
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
 		
         add(cb1);
         add(cb2);
-        add(jb1);
-        
+		add(cb3);
+
 		cb1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cb2.removeAllItems();
-
-                String selected = (String) cb1.getSelectedItem();
-                Controller.comboBoxDefensor(cb2, selected);
+            	System.out.println(fase);
+            	if (fase == -2 || fase == 2) {
+            		cb2.removeAllItems();
+                    String selected = (String) cb1.getSelectedItem();
+                    comboBoxDefensor(cb2, selected);
+            	}   
             }
         });
-
+		
+		button1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String territorio = (String) cb1.getSelectedItem();
+				int qtdExerc = (int) cb3.getSelectedItem();
+				Fachada.getFachada().colocaExerc(territorio, qtdExerc);
+			}
+		});
+		
 		instanciaTerritoriosView();
 	}
 
     public void paintComponent(Graphics g) {
-    	final Image dadoA_01;
-    	final Image dadoA_02;
-    	final Image dadoA_03;
-    	final Image dadoA_04;
-    	final Image dadoA_05;
-    	final Image dadoA_06;
-    	
-    	final Image dadoD_01;
-    	final Image dadoD_02;
-    	final Image dadoD_03;
-    	final Image dadoD_04;
-    	final Image dadoD_05;
-    	final Image dadoD_06;
-    	
         super.paintComponent(g);
         Graphics2D g2d=(Graphics2D) g;
-
+        
+        // desenha as imagens de fundo
         g2d.drawImage(fundo,0,0,1000,700,null);
         g2d.drawImage(mapa,0,-30,1000,700,null);
         
-        Controller.desenhaTerritorios(territorios, g2d);
+        // desenha os territorios
+        desenhaTerritorios(territorios, g2d);
 
+        // desenha sidebar
+        Rectangle2D sideBar = new Rectangle2D.Double(1000,0,200,700);
+        g2d.setColor(Color.LIGHT_GRAY);
+        g2d.fill(sideBar);
+        g2d.draw(sideBar);
 		switch (fase) {
+			// recebimento
 			case 1:
-				Controller.comboBoxAtacante(cb1);
-				fase = 0;
+				comboBoxRecebimento(cb1);
+				comboBoxExerc(cb3);
+				cb3.setVisible(true);
+				cb2.setVisible(false);
+				button1.setVisible(true);
+				fase = -1;
+				break;
+			// ataque
+			case 2:
+				comboBoxAtacante(cb1);
+				cb2.setVisible(true);
+				cb3.setVisible(false);
+				fase = -2;
+				break;
 		}
 		cb1.setLocation(1010, 30);
 		cb2.setLocation(1010, 70);
-		jb1.setLocation(1010, 150);
-		
-		// Box ataque
-		g.setColor(Color.RED);
-        g.fillRect(1010, 200, 125, 42); // (x, y, width, height)
-        
-        // Box defesa
-        g.setColor(Color.WHITE);
-        g.fillRect(1010, 250, 125, 42); // (x, y, width, height)
-
-        try {
-            // Load the image from a file
-            dadoA_01 = ImageIO.read(new File("Imagens/dado_ataque_1.png"));
-            dadoA_02 = ImageIO.read(new File("Imagens/dado_ataque_2.png"));
-            dadoA_03 = ImageIO.read(new File("Imagens/dado_ataque_3.png"));
-            
-            g.drawImage(dadoA_01, 1015, 205, this);
-            g.drawImage(dadoA_02, 1055, 205, this);
-            g.drawImage(dadoA_03, 1095, 205, this);
-            
-            dadoD_04 = ImageIO.read(new File("Imagens/dado_defesa_4.png"));
-            dadoD_05 = ImageIO.read(new File("Imagens/dado_defesa_5.png"));
-            dadoD_06 = ImageIO.read(new File("Imagens/dado_defesa_6.png"));
-            
-            g.drawImage(dadoD_04, 1015, 255, this);
-            g.drawImage(dadoD_05, 1055, 255, this);
-            g.drawImage(dadoD_06, 1095, 255, this);
-        
-            
-            } catch (IOException ea1) {
-            ea1.printStackTrace();
-        }
-       
+		cb3.setLocation(1010, 70);
     }
 
 	public void setFase(int fase) {
 		this.fase = fase;
+	}
+
+	public static void desenhaTerritorios(Map<String,TerritorioView> territoriosView, Graphics2D g2d)
+	{
+		Fachada fachada = Fachada.getFachada();
+		List<String> territoriosJogador;
+		
+		// territorios branco
+		territoriosJogador = fachada.territoriosJogador("branco");
+		if (territoriosJogador!=null)
+		{
+			for (String territorio : territoriosJogador) {
+				TerritorioView territorioView = territoriosView.get(territorio);
+				territorioView.desenha(g2d, Color.WHITE, fachada.qtdExerc(territorio));
+			}
+		}
+		
+		// territorios preto
+		territoriosJogador = fachada.territoriosJogador("preto");
+		if (territoriosJogador!=null)
+		{
+			for (String territorio : territoriosJogador) {
+				TerritorioView territorioView = territoriosView.get(territorio);
+				territorioView.desenha(g2d, Color.BLACK, fachada.qtdExerc(territorio));
+			}
+		}
+		
+		// territorios vermelho
+		territoriosJogador = fachada.territoriosJogador("vermelho");
+		if (territoriosJogador!=null)
+		{
+			for (String territorio : territoriosJogador) {
+				TerritorioView territorioView = territoriosView.get(territorio);
+				territorioView.desenha(g2d, Color.RED, fachada.qtdExerc(territorio));
+			}
+		}
+		
+		// territorios azul
+		territoriosJogador = fachada.territoriosJogador("azul");
+		if (territoriosJogador!=null)
+		{
+			for (String territorio : territoriosJogador) {
+				TerritorioView territorioView = territoriosView.get(territorio);
+				territorioView.desenha(g2d, Color.BLUE, fachada.qtdExerc(territorio));
+			}
+		}
+		
+		// territorios amarelo
+		territoriosJogador = fachada.territoriosJogador("amarelo");
+		if (territoriosJogador!=null)
+		{
+			for (String territorio : territoriosJogador) {
+				TerritorioView territorioView = territoriosView.get(territorio);
+				territorioView.desenha(g2d, Color.YELLOW, fachada.qtdExerc(territorio));
+			}
+		}
+		
+		// territorios verde
+		territoriosJogador = fachada.territoriosJogador("verde");
+		if (territoriosJogador!=null)
+		{
+			for (String territorio : territoriosJogador) {
+				TerritorioView territorioView = territoriosView.get(territorio);
+				territorioView.desenha(g2d, Color.GREEN, fachada.qtdExerc(territorio));
+			}
+		}
+	}
+	
+	public static void comboBoxRecebimento(JComboBox<String> cb1) {
+		Fachada fachada = Fachada.getFachada();
+		cb1.removeAllItems();
+		List<String> territorios = fachada.territoriosJogador(Fachada.getFachada().atualJogador());
+		Collections.sort(territorios);
+		for (String territorio : territorios) {
+			cb1.addItem(territorio);
+		}
+	}
+	
+	public static void comboBoxExerc(JComboBox<Integer> cb3) {
+		Fachada fachada = Fachada.getFachada();
+		cb3.removeAllItems();
+		int numExerc = fachada.getRecebimento();
+		while (numExerc > 0) {
+			cb3.addItem(numExerc);
+			numExerc--;
+		}
+	}
+
+	public static void comboBoxAtacante(JComboBox<String> cb1) {
+		Fachada fachada = Fachada.getFachada();
+		cb1.removeAllItems();
+		List<String> territorios = fachada.territoriosJogadorAtacante();
+		Collections.sort(territorios);
+		for (String territorio : territorios) {
+			cb1.addItem(territorio);
+		}
+	}
+
+	public static void comboBoxDefensor(JComboBox<String> cb2, String territorioAtacante) {
+		cb2.removeAllItems();
+		Fachada fachada = Fachada.getFachada();
+		List<String> territorios = fachada.territoriosDefensor(territorioAtacante);
+		Collections.sort(territorios);
+		for (String territorio : territorios) {
+			cb2.addItem(territorio);
+		}
 	}
 
     private void instanciaTerritoriosView() {

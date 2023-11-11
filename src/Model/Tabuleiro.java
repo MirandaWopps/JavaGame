@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -14,10 +15,16 @@ class Tabuleiro {
     private LinkedList<Jogador> ordemJogadores = new LinkedList<>();
     private Map<String, Territorio> territorios = new HashMap<>();
     private Map<String, Continente> continentes = new HashMap<>();
-    
-    private	HashMap<Integer, String> Objetivos = new HashMap<>();
-    private String[] cores = new String[6];
-    
+	private static Tabuleiro tabuleiro;
+
+	private Tabuleiro() {
+	}
+
+	static Tabuleiro getTabuleiro() {
+		if (tabuleiro == null)
+			tabuleiro = new Tabuleiro();
+		return tabuleiro;
+	}
 
     void adicionarJogador(Jogador jogador) {
         jogadores.put(jogador.getCor(), jogador);
@@ -40,6 +47,10 @@ class Tabuleiro {
 	Map<String, Territorio> getTerritorios() {
 		return territorios;
 	}
+
+	Map<String, Continente> getContinentes() {
+		return continentes;
+	}
 	
 	Jogador getJogador(String cor) {
 		return jogadores.get(cor);
@@ -48,11 +59,18 @@ class Tabuleiro {
 	Territorio getTerritorio(String territorio) {
 		return territorios.get(territorio);
 	}
+
+	Continente getContinente(String continente) {
+		return continentes.get(continente);
+	}
 	
-	Jogador proximoJogador() {
+	Jogador atualJogador() {
+		return ordemJogadores.element();
+	}
+	
+	void proximoJogador() {
 		Jogador proximo = ordemJogadores.poll();
 		ordemJogadores.add(proximo);
-		return proximo;
 	}
 
 	// Embaralha as cartas a partir do algoritmo de Fisher-Yates
@@ -79,9 +97,6 @@ class Tabuleiro {
         return deck.pollFirst();
     }
 
-    //
-    // Sorteia Territórios
-    //
     void sorteiaTerritorios() {
 		int totalTerritorios = territorios.size();
 				
@@ -101,14 +116,13 @@ class Tabuleiro {
 		for (int i = 0; i < totalTerritorios; i++) {
             Integer retiraSorteado = retiraSorteado(deck);
             sorteados[i] = retiraSorteado;
-            proximoJogador().adicionarTerritorio(arrayTerritorios[retiraSorteado]);
+            proximoJogador();
+            atualJogador().adicionarTerritorio(arrayTerritorios[retiraSorteado]);
         }
 	}
 	
-    //
-    // Sorteia Cores
-    //
-    public int[] sorteiaCores() {
+
+	static int[] sorteiaCores() {
 		Integer total = 6;
 		Integer num = 1;
 		int[] sorteados = new int[total];
@@ -135,107 +149,39 @@ class Tabuleiro {
 	    return sorteados;
 	}
 
-    //
-    // Sorteia Ordem dos jogadores
-    //
-    public int[] sorteiaOrdem(int total, int num) {
-		int[] sorteados = new int[total];
-		
-		// Cria deque de tamanho total
-		Deque<Integer> deck = new ArrayDeque<>();
-		for (int i = 1; i <= total; i++) {
-			deck.add(i);
-    		}
-    
-		// Shuffle the deck (optional)
-		shuffleDeck(deck);
-		
-		// Retira Sorteado
-		for (int i = 1; i <= num; i++) {
-            Integer retiraSorteado = retiraSorteado(deck);
-            if (retiraSorteado != null) {
-                sorteados[i-1] = retiraSorteado;
-            } else {
-                System.out.println("Fim da lista de Sorteio");
-            }
-        }	
-	    return sorteados;
+	void sorteiaOrdem() {
+		Collections.shuffle(ordemJogadores);
 	}
-    
-    //
-    // Sorteia Objetivos
-    //
-    public String[] sorteiaObjetivos(int total, int num) {
+	
+	static int[] sorteiaObjetivos(int total, int num) {
 		int[] sorteados = new int[total];
 		String[] objs = new String[total];
-		
+
 		// Cria deque de tamanho total
 		Deque<Integer> deck = new ArrayDeque<>();
 		for (int i = 1; i <= total; i++) {
 			deck.add(i);
     		}
-    
+
 		// Shuffle the deck (optional)
 		shuffleDeck(deck);
-		
+
 		// Retira Sorteado
 		for (int i = 1; i <= num; i++) {
             Integer retiraSorteado = retiraSorteado(deck);
             if (retiraSorteado != null) {
+                //System.out.println("Rodada: " + i);
+                //System.out.println("Sorteado : " + retiraSorteado);
                 sorteados[i-1] = retiraSorteado;
-                objs[i-1] = Objetivos.get(retiraSorteado);
+                //objs[i-1] = ListaObjetivos[retiraSorteado];
             } else {
                 System.out.println("Fim da lista de Sorteio");
             }
         }
-		
-	    return objs;
-	}
-	
-    //
-    // Sorteia Cores - Não será usado
-    //
-    static String[] sorteiaCores(int total, int num) {
-		int[] sorteados = new int[total];
-		String[] sortcores = new String[6];
-		
-		// Cria deque de tamanho total
-		Deque<Integer> deck = new ArrayDeque<>();
-		for (int i = 1; i <= total; i++) {
-			deck.add(i);
-    		}
-    
-		// Shuffle the deck (optional)
-		shuffleDeck(deck);
-		
-		// Retira Sorteado
-		for (int i = 1; i <= num; i++) {
-            Integer retiraSorteado = retiraSorteado(deck);
-            if (retiraSorteado != null) {       
-                sorteados[i-1] = retiraSorteado;        
-                //sortcores[i-1] = cores[retiraSorteado-1];
-            } else {
-                System.out.println("Fim da lista de Sorteio");
-            }
-        }	
-	    return sortcores;
-	}
-    
-    //
-    // Sorteia Dados
-    //
-    public int[] sorteiaDados() {
-    	Random random = new Random();
-    	int[] sorteados = new int[6];
-    	
-    	for (int i = 0; i < 6; i++) {
-    		int randomNumber = random.nextInt(6) + 1;
-    		sorteados[i] = randomNumber;
-    		}
+
 	    return sorteados;
 	}
-
-
+	
 	void inicializaTerritorios() {
 		// América do Norte	
 		Continente americaDoNorte = new Continente("AMÉRICA DO NORTE", 5);
@@ -312,41 +258,15 @@ class Tabuleiro {
 		adicionarTerritorio(new Territorio("TAILÂNDIA", new ArrayList<>(Arrays.asList("COREIA DO SUL", "BANGLADESH"))), asia);
 		adicionarTerritorio(new Territorio("JAPÃO", new ArrayList<>(Arrays.asList("CAZAQUISTÃO", "MONGÓLIA", "COREIA DO NORTE"))), asia);
 
-		Jogador jogador1 = new Jogador("branco");
-		Jogador jogador2 = new Jogador("vermelho");
-		Jogador jogador3 = new Jogador("preto");
-		Jogador jogador4 = new Jogador("azul");
+		Jogador jogador1 = new Jogador("branco","a");
+		Jogador jogador2 = new Jogador("vermelho","b");
+		Jogador jogador3 = new Jogador("preto","b");
+		Jogador jogador4 = new Jogador("azul","b");
 		adicionarJogador(jogador1);
 		adicionarJogador(jogador2);
 		adicionarJogador(jogador3);
 		adicionarJogador(jogador4);
 		sorteiaTerritorios();
-	}
-	{	// Bloco de Inicialização
-		// Cores
-		cores[0] = "Azul";
-		cores[1] = "Verde";
-		cores[2] = "Amarelo";
-		cores[3] = "Vermelho";
-		cores[4] = "Preto";
-		cores[5] = "Branco";
-		
-		// Objetivos
-		Objetivos.put(1,"Conquistar na totalidade a EUROPA, a OCEANIA e mais um terceiro.");
-		Objetivos.put(2,"Conquistar na totalidade a ÁSIA e a AMÉRICA DO SUL.");
-		Objetivos.put(3,"Conquistar na totalidade a EUROPA, a AMÉRICA DO SUL e mais um terceiro.");
-		Objetivos.put(4,"Conquistar 18 TERRITÓRIOS e ocupar cada um deles com pelo menos dois exércitos.");
-		Objetivos.put(5,"Conquistar na totalidade a ÁSIA e a ÁFRICA.");
-		Objetivos.put(6,"Conquistar na totalidade a AMÉRICA DO NORTE e a ÁFRICA.");
-		Objetivos.put(7,"Conquistar 24 TERRITÓRIOS à sua escolha.");
-		Objetivos.put(8,"Conquistar na totalidade a AMÉRICA DO NORTE e a OCEANIA.");
-		Objetivos.put(9,"Destruir totalmente OS EXÉRCITOS AZUIS.");
-		Objetivos.put(10,"Destruir totalmente OS EXÉRCITOS AMARELOS.");
-		Objetivos.put(11,"Destruir totalmente OS EXÉRCITOS VERMELHOS.");
-		Objetivos.put(12,"Destruir totalmente OS EXÉRCITOS PRETOS.");
-		Objetivos.put(13,"Destruir totalmente OS EXÉRCITOS BRANCOS.");
-		Objetivos.put(14,"Destruir totalmente OS EXÉRCITOS VERDES.");
-				
-		
+		sorteiaOrdem();
 	}
 }

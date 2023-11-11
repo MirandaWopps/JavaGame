@@ -50,7 +50,9 @@ public class TesteRecebimentoExercito {
 		jogador.adicionarTerritorio(territorio4);
 		jogador.adicionarTerritorio(territorio5);
 
-		assertEquals(2, jogador.exercitoPorNumeroTerritorios());
+		jogador.exercitoPorNumeroTerritorios();
+
+		assertEquals(2, jogador.getExerc());
 	}
 
 	@Test
@@ -121,9 +123,12 @@ public class TesteRecebimentoExercito {
 		jogador.adicionarCarta(carta3);
 		jogador.adicionarCarta(carta4);
 
-		int trocaAnterior = jogador2.exercitoPorCartas(0, 1, 2);
+		jogador2.exercitoPorCartas(0, 1, 2);
+		int trocaAnterior = jogador2.getExerc();
+
+		jogador.exercitoPorCartas(0, 1, 2);
 		
-		assertEquals(trocaAnterior+2, jogador.exercitoPorCartas(0, 1, 2));
+		assertEquals(trocaAnterior+2, jogador.getExerc());
 	}
 
 	@Test

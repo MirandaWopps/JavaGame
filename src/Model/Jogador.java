@@ -12,40 +12,29 @@ class Jogador {
 	
 	private String cor;
 	private String nome;
-	private String objetivo;
-	private int Qexercito;
-	
+	private String eliminador = null;
+	private Objetivo objetivo;
+	private int exerc = 0;
 	private Map<String, Territorio> territorios = new HashMap<>();
 	private List<Carta> cartas = new ArrayList<>();
 
 	private static int trocasCarta = 0;
 
-	Jogador(String cor) {    
+	Jogador(String cor, String nome) {
         this.cor = cor;
-        }
-
-	void putNome(String nome) {
         this.nome = nome;
-        }
+    }
 
-	void putObjetivo(String objetivo) {
-        this.objetivo = objetivo;
+	static Jogador CriaJogs(String cor, String nome) {
+		if (qtdeJogadores >= limiteJogadores) {
+			//System.out.println("Quantidade máxima de jogadores atingida: " + limiteJogadores);
+			return null;
         }
-	
-	void putQexercito(int qtde) {
-        this.Qexercito = qtde;
-        }
-
-	//static Jogador CriaJogs(String cor, String nome) {
-	//	if (qtdeJogadores >= limiteJogadores) {
-	//		//System.out.println("Quantidade máxima de jogadores atingida: " + limiteJogadores);
-	//		return null;
-     //   }
-	//	qtdeJogadores++;
-        //Jogador jog = new Jogador(cor, nome);
+		qtdeJogadores++;
+        Jogador jog = new Jogador(cor, nome);
         //System.out.println("Nome: " + nome + "  Cor: " + cor + "  Qtde Jogadores: "+ qtdeJogadores);
-     //   return jog;
-	//}
+        return jog;
+	}
 
 	 static int qtdeJogs() {
 	    	return qtdeJogadores;
@@ -70,21 +59,33 @@ class Jogador {
     String getNome() {
     	return nome;
     }
-    
-    String getObjetivo() {
-    	return objetivo;
-    }
-    
-    int getQExercito() {
-    	return Qexercito;
-    }
+
+	String getEliminador() {
+		return eliminador;
+	}
+
+	int getExerc() {
+		return exerc;
+	}
+
+	void setEliminador(String cor) {
+		eliminador = cor;
+	}
+	
+	void setObjetivo(Objetivo objetivo) {
+		this.objetivo = objetivo;
+	}
+	
+	boolean testaObjetivo() {
+		return objetivo.concluido(this);
+	}
     
     boolean possuiTerritorio(Territorio territorio) {
     	return territorios.containsKey(territorio.getNome());
     }
 
-    int exercitoPorNumeroTerritorios() {
-    	return territorios.size() / 2;
+    void exercitoPorNumeroTerritorios() {
+    	exerc += territorios.size()/2;
     }
 
     void adicionarCarta(Carta carta) {
@@ -125,7 +126,7 @@ class Jogador {
     	return false;
     }
 
-    int exercitoPorCartas(int carta1, int carta2, int carta3) {
+    void exercitoPorCartas(int carta1, int carta2, int carta3) {
     	Territorio territorio1 = cartas.get(carta1).getTerritorio();
     	Territorio territorio2 = cartas.get(carta2).getTerritorio();
     	Territorio territorio3 = cartas.get(carta3).getTerritorio();
@@ -152,7 +153,11 @@ class Jogador {
 		// Remove as cartas usadas na troca
 		cartas.removeAll(cartasTrocadas);
 
-		return 4 + 2*trocasCarta++;
+		// Aumenta o número de trocas de cartas
+		trocasCarta++;
+
+		// Aumenta o número de exércitos do jogador
+		exerc += 4 + 2 * trocasCarta;
     }
 
     boolean possuiContinente(Continente continente) {
@@ -164,4 +169,9 @@ class Jogador {
     	}
     	return true;
     }
+
+	void colocaExerc(Territorio territorio, int qtdExerc) {
+		territorio.ganhaExerc(qtdExerc);
+		exerc -= qtdExerc;
+	}
 }
