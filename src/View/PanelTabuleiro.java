@@ -181,6 +181,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 			cb2.setVisible(false);
 			button2.setVisible(false);
 			button3.setVisible(false);
+			proximoLabel.setVisible(false);
         }
         else if (fase == 2 && mudouFase)
         {
@@ -190,6 +191,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 			comboBoxAtacante();
 			cb2.setVisible(true);
 			button2.setVisible(true);
+			proximoLabel.setVisible(true);
 
 			cb3.setVisible(false);
 			button1.setVisible(false);
@@ -204,6 +206,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 			cb2.setVisible(true);
 			cb3.setVisible(true);
 			button3.setVisible(true);
+			proximoLabel.setVisible(true);
 
 			button1.setVisible(false);
 			button2.setVisible(false);
