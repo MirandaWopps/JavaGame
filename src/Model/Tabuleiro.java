@@ -53,11 +53,11 @@ class Tabuleiro implements Observable {
 	Map<String, Continente> getContinentes() {
 		return continentes;
 	}
-	
+
 	Jogador getJogador(String cor) {
 		return jogadores.get(cor);
 	}
-	
+
 	Territorio getTerritorio(String territorio) {
 		return territorios.get(territorio);
 	}
@@ -65,14 +65,26 @@ class Tabuleiro implements Observable {
 	Continente getContinente(String continente) {
 		return continentes.get(continente);
 	}
-	
+
+	Jogador getDono(Territorio territorio) {
+		for (Jogador jogador : jogadores.values()) {
+			if (jogador.possuiTerritorio(territorio))
+				return jogador;
+		}
+		return null;
+	}
+
 	Jogador atualJogador() {
 		return ordemJogadores.element();
 	}
-	
+
 	void proximoJogador() {
 		Jogador proximo = ordemJogadores.poll();
 		ordemJogadores.add(proximo);
+	}
+
+	void eliminarJogador(Jogador jogador) {
+		ordemJogadores.remove(jogador);
 	}
 
 	public void addObserver(Observer o) {
@@ -139,33 +151,6 @@ class Tabuleiro implements Observable {
             proximoJogador();
             atualJogador().adicionarTerritorio(arrayTerritorios[retiraSorteado]);
         }
-	}
-
-	static int[] sorteiaCores() {
-		Integer total = 6;
-		Integer num = 1;
-		int[] sorteados = new int[total];
-
-		// Cria deque de tamanho total
-		Deque<Integer> deck = new ArrayDeque<>();
-		for (int i = 1; i <= total; i++) {
-			deck.add(i);
-    		}
-
-		// Shuffle the deck (optional)
-		shuffleDeck(deck);
-
-		// Retira Sorteado
-		for (int i = 1; i <= num; i++) {
-            Integer retiraSorteado = retiraSorteado(deck);
-            if (retiraSorteado != null) {
-                sorteados[i-1] = retiraSorteado;
-            } else {
-                System.out.println("Fim da lista de Sorteio");
-            }
-        }
-
-	    return sorteados;
 	}
 
 	void sorteiaOrdem() {
@@ -237,7 +222,7 @@ class Tabuleiro implements Observable {
 		adicionarTerritorio(new Territorio("ARGÉLIA", new ArrayList<>(Arrays.asList("NIGÉRIA", "ESPANHA", "ITÁLIA", "EGITO"))), africa);
 		adicionarTerritorio(new Territorio("EGITO", new ArrayList<>(Arrays.asList("ARGÉLIA", "NIGÉRIA", "SOMÁLIA", "JORDÂNIA", "ROMÊNIA"))), africa);
 		adicionarTerritorio(new Territorio("NIGÉRIA", new ArrayList<>(Arrays.asList("ARGÉLIA", "EGITO", "SOMÁLIA", "ANGOLA", "BRASIL"))), africa);
-		adicionarTerritorio(new Territorio("SOMÁLIA", new ArrayList<>(Arrays.asList("ÁFRICA DO SUL", "ANGOLA", "NIGÉRIA", "EGITO"))), africa);
+		adicionarTerritorio(new Territorio("SOMÁLIA", new ArrayList<>(Arrays.asList("ÁFRICA DO SUL", "ANGOLA", "NIGÉRIA", "EGITO","ARÁBIA SAUDITA"))), africa);
 		adicionarTerritorio(new Territorio("ANGOLA", new ArrayList<>(Arrays.asList("NIGÉRIA", "SOMÁLIA", "ÁFRICA DO SUL"))), africa);
 		adicionarTerritorio(new Territorio("ÁFRICA DO SUL", new ArrayList<>(Arrays.asList("ANGOLA", "SOMÁLIA"))), africa);
 
@@ -269,7 +254,7 @@ class Tabuleiro implements Observable {
 		adicionarTerritorio(new Territorio("SIBÉRIA", new ArrayList<>(Arrays.asList("RÚSSIA", "ALASCA", "CAZAQUISTÃO"))), asia);
 		adicionarTerritorio(new Territorio("CAZAQUISTÃO", new ArrayList<>(Arrays.asList("RÚSSIA", "SIBÉRIA", "MONGÓLIA", "JAPÃO", "CHINA", "TURQUIA", "LETÔNIA"))), asia);
 		adicionarTerritorio(new Territorio("MONGÓLIA", new ArrayList<>(Arrays.asList("CAZAQUISTÃO", "JAPÃO", "CHINA"))), asia);
-		adicionarTerritorio(new Territorio("CHINA", new ArrayList<>(Arrays.asList("CAZAQUISTÃO", "MONGÓLIA", "CORÉIA DO NORTE", "CORÉIA DO SUL", "ÍNDIA", "PAQUISTÃO", "TURQUIA"))), asia);
+		adicionarTerritorio(new Territorio("CHINA", new ArrayList<>(Arrays.asList("CAZAQUISTÃO", "MONGÓLIA", "COREIA DO NORTE", "COREIA DO SUL", "ÍNDIA", "PAQUISTÃO", "TURQUIA"))), asia);
 		adicionarTerritorio(new Territorio("COREIA DO NORTE", new ArrayList<>(Arrays.asList("CHINA", "JAPÃO", "COREIA DO SUL"))), asia);
 		adicionarTerritorio(new Territorio("COREIA DO SUL", new ArrayList<>(Arrays.asList("CHINA", "COREIA DO NORTE", "BANGLADESH", "TAILÂNDIA", "ÍNDIA"))), asia);
 		adicionarTerritorio(new Territorio("ÍNDIA", new ArrayList<>(Arrays.asList("PAQUISTÃO", "CHINA", "COREIA DO SUL", "BANGLADESH", "INDONÉSIA"))), asia);

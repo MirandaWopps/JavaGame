@@ -35,7 +35,7 @@ class Jogador {
 	}
 
 	 static int qtdeJogs() {
-	    	return qtdeJogadores;
+	    return qtdeJogadores;
 	 }
 
     void adicionarTerritorio(Territorio territorio) {

@@ -86,9 +86,20 @@ public class PanelTabuleiro extends JPanel implements Observer {
 			}
 		});
 		add(button1);
-		
+
+		button2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String atacante = (String) cb1.getSelectedItem();
+				String defensor = (String) cb2.getSelectedItem();
+				if (atacante != null && defensor != null) {
+					Controller.atacaTerritorio(atacante, defensor);
+				}
+			}
+		});
 		add(button2);
 
+		// botão deslocamento de tropas
 		button3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -286,7 +297,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 	}
 
 	private void comboBoxAtacante() {
-		// seleciona o item que estava selecionado
+		// guarda o item que estava selecionado
 		Object selected = cb1.getSelectedItem();
 
 		// remove os itens da combobox
@@ -305,6 +316,9 @@ public class PanelTabuleiro extends JPanel implements Observer {
 	}
 
 	private void comboBoxDefensor(String territorioAtacante) {
+		// guarda o item que estava selecionado
+		Object selected = cb2.getSelectedItem();
+
 		// remove os itens da combobox
 		cb2.removeAllItems();
 
@@ -314,10 +328,14 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		for (String territorio : territorios) {
 			cb2.addItem(territorio);
 		}
+
+		// seleciona o item que estava selecionado
+		if (selected != null)
+			cb2.setSelectedItem(selected);
 	}
 
 	private void comboBoxOrigem() {
-		// seleciona o item que estava selecionado
+		// guarda o item que estava selecionado
 		Object selected = cb1.getSelectedItem();
 
 		// remove os itens da combobox
@@ -336,6 +354,9 @@ public class PanelTabuleiro extends JPanel implements Observer {
 	}
 
 	private void comboBoxDestino(String territorioOrigem) {
+		// guarda o item que estava selecionado
+		Object selected = cb2.getSelectedItem();
+
 		// remove os itens da combobox
 		cb2.removeAllItems();
 
@@ -345,6 +366,10 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		for (String territorio : territorios) {
 			cb2.addItem(territorio);
 		}
+
+		// seleciona o item que estava selecionado
+		if (selected != null)
+			cb2.setSelectedItem(selected);
 	}
 
 	private void comboBoxExercDeslocamento(String territorioOrigem) {

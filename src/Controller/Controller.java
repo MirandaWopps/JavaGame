@@ -50,7 +50,7 @@ public class Controller {
 	public static void posicionaExerc(String nomeTerritorio, int qtdExerc) {
 		if (!Fachada.getFachada().posicionaExerc(nomeTerritorio, qtdExerc)) {
 			if (fase == 1)
-				ataque();
+				mudaFase();
 			else
 				recebimentoInicial();
 		}
@@ -59,9 +59,9 @@ public class Controller {
 	public static boolean posicionaExercContinente(String nomeContinente, String nomeTerritorio, int qtdExerc) {
 		return Fachada.getFachada().posicionaExercContinente(nomeContinente, nomeTerritorio, qtdExerc);
 	}
-	
-	public static void ataque() {
-		fase = 2;
+
+	public static void atacaTerritorio(String territorioAtacante, String territorioDefensor) {
+		Fachada.getFachada().atacaTerritorio(territorioAtacante, territorioDefensor);
 	}
 
 	public static void deslocaExerc(String territorioOrigem, String territorioDest, int qtdExerc) {
@@ -73,11 +73,17 @@ public class Controller {
 	}
 
 	public static void mudaFase() {
-		if (fase == 2)
+		switch (fase) {
+		case 1:
+			fase = 2;
+			break;
+		case 2:
 			fase = 3;
-		else if (fase == 3) {
+			break;
+		case 3:
 			Fachada.getFachada().proximoJogador();
 			recebimento();
+			break;
 		}
 	}
 	
