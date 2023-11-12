@@ -191,31 +191,31 @@ public class IntermediariaComCombo {
             	if (selectedInteger ==2){
             		matrizCorJogador[0][0] = textField1.getText();     matrizCorJogador[0][1] = (String) comboJogador1.getSelectedItem();     
             		matrizCorJogador[1][0] = textField2.getText();     matrizCorJogador[1][1] = (String)comboJogador2.getSelectedItem();  
-            		matrizCorJogador[2][0] = textField3.getText();     matrizCorJogador[2][1] = null;
-            		matrizCorJogador[3][0] = textField4.getText();     matrizCorJogador[3][1] = null;
-            		matrizCorJogador[4][0] = textField5.getText();     matrizCorJogador[4][1] = null;
-            		matrizCorJogador[5][0] = textField6.getText();     matrizCorJogador[5][1] = null;
+            		matrizCorJogador[2][0] = null;                     matrizCorJogador[2][1] = null;
+            		matrizCorJogador[3][0] = null;                     matrizCorJogador[3][1] = null;
+            		matrizCorJogador[4][0] = null;                     matrizCorJogador[4][1] = null;
+            		matrizCorJogador[5][0] = null;                     matrizCorJogador[5][1] = null;
             	} else if (selectedInteger ==3) {
             		matrizCorJogador[0][0] = textField1.getText();     matrizCorJogador[0][1] = (String)comboJogador1.getSelectedItem();     
             		matrizCorJogador[1][0] = textField2.getText();     matrizCorJogador[1][1] = (String)comboJogador2.getSelectedItem();  
             		matrizCorJogador[2][0] = textField3.getText();     matrizCorJogador[2][1] = (String)comboJogador3.getSelectedItem();
-            		matrizCorJogador[3][0] = textField4.getText();     matrizCorJogador[3][1] = null;
-            		matrizCorJogador[4][0] = textField5.getText();     matrizCorJogador[4][1] = null;
-            		matrizCorJogador[5][0] = textField6.getText();     matrizCorJogador[5][1] = null;
+            		matrizCorJogador[3][0] = null;                     matrizCorJogador[3][1] = null;
+            		matrizCorJogador[4][0] = null;                     matrizCorJogador[4][1] = null;
+            		matrizCorJogador[5][0] = null;                     matrizCorJogador[5][1] = null;
             	} else if (selectedInteger ==4) {
             		matrizCorJogador[0][0] = textField1.getText();     matrizCorJogador[0][1] = (String)comboJogador1.getSelectedItem();     
             		matrizCorJogador[1][0] = textField2.getText();     matrizCorJogador[1][1] = (String)comboJogador2.getSelectedItem();  
             		matrizCorJogador[2][0] = textField3.getText();     matrizCorJogador[2][1] = (String)comboJogador3.getSelectedItem();
             		matrizCorJogador[3][0] = textField4.getText();     matrizCorJogador[3][1] = (String)comboJogador4.getSelectedItem();
-            		matrizCorJogador[4][0] = textField5.getText();     matrizCorJogador[4][1] = null;
-            		matrizCorJogador[5][0] = textField6.getText();     matrizCorJogador[5][1] = null;
+            		matrizCorJogador[4][0] = null;                     matrizCorJogador[4][1] = null;
+            		matrizCorJogador[5][0] = null;                     matrizCorJogador[5][1] = null;
             	} else if (selectedInteger ==5) {
             		matrizCorJogador[0][0] = textField1.getText();     matrizCorJogador[0][1] = (String)comboJogador1.getSelectedItem();     
             		matrizCorJogador[1][0] = textField2.getText();     matrizCorJogador[1][1] = (String)comboJogador2.getSelectedItem();  
             		matrizCorJogador[2][0] = textField3.getText();     matrizCorJogador[2][1] = (String)comboJogador3.getSelectedItem();
             		matrizCorJogador[3][0] = textField4.getText();     matrizCorJogador[3][1] = (String)comboJogador4.getSelectedItem();
             		matrizCorJogador[4][0] = textField5.getText();     matrizCorJogador[4][1] = (String)comboJogador5.getSelectedItem();
-            		matrizCorJogador[5][0] = textField6.getText();     matrizCorJogador[5][1] = null;
+            		matrizCorJogador[5][0] = null;                     matrizCorJogador[5][1] = null;
             	} else if (selectedInteger ==6) {
             		matrizCorJogador[0][0] = textField1.getText();     matrizCorJogador[0][1] = (String)comboJogador1.getSelectedItem();     
             		matrizCorJogador[1][0] = textField2.getText();     matrizCorJogador[1][1] = (String)comboJogador2.getSelectedItem();  
