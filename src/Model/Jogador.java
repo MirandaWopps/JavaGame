@@ -20,9 +20,9 @@ class Jogador {
 
 	private static int trocasCarta = 0;
 
-	Jogador(String cor, String nome) {
-        this.cor = cor;
+	Jogador(String nome, String cor) {
         this.nome = nome;
+        this.cor = cor;
     }
 
 	static Jogador CriaJogs(String cor, String nome) {
@@ -62,6 +62,10 @@ class Jogador {
 
 	String getEliminador() {
 		return eliminador;
+	}
+	
+	Objetivo getObjetivo() {
+		return objetivo;
 	}
 
 	int getExerc() {

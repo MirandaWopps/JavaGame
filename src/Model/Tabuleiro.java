@@ -96,9 +96,9 @@ class Tabuleiro implements Observable {
 	}
 
 	public Object get() {
-		return this;
+		return null;
 	}
-	
+
 	void notificaMudanca() {
 		for (Observer o : lob) {
 			o.notify(this);
@@ -157,33 +157,40 @@ class Tabuleiro implements Observable {
 		Collections.shuffle(ordemJogadores);
 	}
 	
-	static int[] sorteiaObjetivos(int total, int num) {
-		int[] sorteados = new int[total];
-		String[] objs = new String[total];
+	void sorteiaObjetivos() {
+		// Cria lista de objetivos
+		ArrayList<Class<? extends Objetivo>> objetivos = new ArrayList<>();
+		objetivos.add(Objetivo1.class);
+		objetivos.add(Objetivo2.class);
+		objetivos.add(Objetivo3.class);
+		objetivos.add(Objetivo4.class);
+		objetivos.add(Objetivo5.class);
+		objetivos.add(Objetivo6.class);
+		objetivos.add(Objetivo7.class);
+		objetivos.add(Objetivo8.class);
+		objetivos.add(Objetivo9.class);
+		objetivos.add(Objetivo10.class);
+		objetivos.add(Objetivo11.class);
+		objetivos.add(Objetivo12.class);
+		objetivos.add(Objetivo13.class);
+		objetivos.add(Objetivo14.class);
 
-		// Cria deque de tamanho total
-		Deque<Integer> deck = new ArrayDeque<>();
-		for (int i = 1; i <= total; i++) {
-			deck.add(i);
-    		}
+		// Embaralha objetivos
+		Collections.shuffle(objetivos);
 
-		// Shuffle the deck (optional)
-		shuffleDeck(deck);
+		// Atribui objetivo a cada jogador
+		for (Jogador jogador : ordemJogadores) {
+			try {
+				jogador.setObjetivo(objetivos.get(0).getDeclaredConstructor().newInstance());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			objetivos.remove(0);
+		}
 
-		// Retira Sorteado
-		for (int i = 1; i <= num; i++) {
-            Integer retiraSorteado = retiraSorteado(deck);
-            if (retiraSorteado != null) {
-                //System.out.println("Rodada: " + i);
-                //System.out.println("Sorteado : " + retiraSorteado);
-                sorteados[i-1] = retiraSorteado;
-                //objs[i-1] = ListaObjetivos[retiraSorteado];
-            } else {
-                System.out.println("Fim da lista de Sorteio");
-            }
-        }
-
-	    return sorteados;
+		for (Jogador jogador : ordemJogadores) {
+			System.out.println(jogador.getObjetivo().getClass().getSimpleName());
+		}
 	}
 	
 	void inicializaTerritorios() {
@@ -261,12 +268,13 @@ class Tabuleiro implements Observable {
 		adicionarTerritorio(new Territorio("BANGLADESH", new ArrayList<>(Arrays.asList("COREIA DO SUL", "TAILÂNDIA", "INDONÉSIA", "ÍNDIA"))), asia);
 		adicionarTerritorio(new Territorio("TAILÂNDIA", new ArrayList<>(Arrays.asList("COREIA DO SUL", "BANGLADESH"))), asia);
 		adicionarTerritorio(new Territorio("JAPÃO", new ArrayList<>(Arrays.asList("CAZAQUISTÃO", "MONGÓLIA", "COREIA DO NORTE"))), asia);
-
-		Jogador jogador1 = new Jogador("branco","a");
-		Jogador jogador2 = new Jogador("vermelho","b");
-		adicionarJogador(jogador1);
-		adicionarJogador(jogador2);
-		sorteiaTerritorios();
-		sorteiaOrdem();
+	}
+	
+	void inicializaJogadores(String[][] jogadores) {
+		for (String[] jogador : jogadores) {
+			if (jogador[1] == null)
+				break;
+			adicionarJogador(new Jogador(jogador[0],jogador[1]));
+		}
 	}
 }
