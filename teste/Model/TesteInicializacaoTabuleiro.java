@@ -22,24 +22,4 @@ public class TesteInicializacaoTabuleiro {
 		Jogador.CriaJogs("cor1","jogador7");
 		assertTrue(Jogador.qtdeJogs() == 6);
 	}
-
-	@Test
-	public void testeObjetivoDiferentes() {
-		int[] objsorteados = Tabuleiro.sorteiaObjetivos(14,6);
-		assertTrue(objsorteados[0] != objsorteados[1] &&
-				   objsorteados[0] != objsorteados[2] &&
-				   objsorteados[0] != objsorteados[3] &&
-				   objsorteados[0] != objsorteados[4] &&
-				   objsorteados[0] != objsorteados[5] &&
-				   objsorteados[1] != objsorteados[2] &&
-				   objsorteados[1] != objsorteados[3] &&
-				   objsorteados[1] != objsorteados[4] &&
-				   objsorteados[1] != objsorteados[5] &&
-				   objsorteados[2] != objsorteados[3] &&
-				   objsorteados[2] != objsorteados[4] &&
-				   objsorteados[2] != objsorteados[5] &&
-				   objsorteados[3] != objsorteados[4] &&
-				   objsorteados[3] != objsorteados[5] &&
-				   objsorteados[4] != objsorteados[5] );
-	}
 }

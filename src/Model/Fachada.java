@@ -17,9 +17,13 @@ public class Fachada {
 		return fachada;
 	}
 
-	public void inicializaJogo() {
+	public void inicializaJogo(String[][] jogadores) {
 		tabuleiro = Tabuleiro.getTabuleiro();
 		tabuleiro.inicializaTerritorios();
+		tabuleiro.inicializaJogadores(jogadores);
+		tabuleiro.sorteiaOrdem();
+		tabuleiro.sorteiaTerritorios();
+		tabuleiro.sorteiaObjetivos();
 	}
 
 	public void register(Observer o) {
@@ -101,9 +105,6 @@ public class Fachada {
 	public void atacaTerritorio(String nomeAtacante, String nomeDefensor) {
 		Territorio atacante = tabuleiro.getTerritorio(nomeAtacante);
 		Territorio defensor = tabuleiro.getTerritorio(nomeDefensor);
-
-		System.out.println(nomeDefensor);
-		System.out.println(defensor);
 
 		// Quantidade de exercitos que podem atacar
 		int exAtaque = atacante.getQtdExerc()-1;

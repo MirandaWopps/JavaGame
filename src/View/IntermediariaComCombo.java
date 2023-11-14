@@ -1,7 +1,9 @@
 package View;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,7 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class IntermediariaComCombo {
+import Controller.Controller;
+
+public class IntermediariaComCombo extends JFrame{
 	
 	private static JTextField textField1; // Declare textField as an instance variable
 	private static JTextField textField2; // Declare textField as an instance variable
@@ -28,17 +32,21 @@ public class IntermediariaComCombo {
 	private static int impedeTrocarTela;
 	private static int qtdRepeticoes2;
 	
-    public static void main(String[] args) {
-    	javax.swing.SwingUtilities.invokeLater(() -> {
-    		
-    	
-        JFrame frame = new JFrame("Integer Combo Box Example");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public IntermediariaComCombo(String s) {
+		super(s);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // quando clicar no X, fecha o programa
+
+		// centralizar a janela
+		Toolkit tk=Toolkit.getDefaultToolkit();
+		Dimension screenSize=tk.getScreenSize();
+		int sl=screenSize.width;
+		int sa=screenSize.height;
+		int x=sl/2-100;
+		int y=sa/2-100;
+		setLocation(x,y);
 
         JPanel panel = new JPanel();
         JPanel panel2Selected = new JPanel();
-
-
         
         textField1 = new JTextField(); 
 		textField1.setPreferredSize(new Dimension(150,40));
@@ -64,32 +72,24 @@ public class IntermediariaComCombo {
 		textField4.setText("Nome Jogador 4");
 		textField5.setText("Nome Jogador 5");
 		textField6.setText("Nome Jogador 6");
-		
-        
-     // configuracoes do painel qtd2
 
-        // Create an array of Integer objects
+        // cria um array de inteiros
         Integer[] integers = { 2, 3, 4, 5, 6};
-        // Create a JComboBox with Integer items
+        // cria um JComboBox com o array de inteiros
         JComboBox<Integer> integerComboBox = new JComboBox<>(integers);
-        
-        
-       
-        String[] cores = {"vermelho", "verde", "azul", "preto" , "branco", "amarelo"}; // vetor de cores
-        JComboBox<String> comboJogador1 = new JComboBox<>(cores); // crio o combo para o jogador 1 COM A ESPECIFICAÇÃO DAS CORES NA STRING ACIMA
+
+        String[] cores = {"vermelho", "verde", "azul", "preto" , "branco", "amarelo"}; // vetor das cores
+        JComboBox<String> comboJogador1 = new JComboBox<>(cores); // crio a combo para o jogador 1 COM A ESPECIFICAÇÃO DAS CORES NA STRING ACIMA
         JComboBox<String> comboJogador2 = new JComboBox<>(cores);
         JComboBox<String> comboJogador3 = new JComboBox<>(cores);
         JComboBox<String> comboJogador4 = new JComboBox<>(cores);
         JComboBox<String> comboJogador5 = new JComboBox<>(cores);
         JComboBox<String> comboJogador6 = new JComboBox<>(cores);
 
-        
-        
-        
-        
-        
         JButton printButton = new JButton("Confirmar");
-        JButton prosseguirButton = new JButton("Começar");  // lembrar de acrescentar este  
+        JButton prosseguirButton = new JButton("Começar");
+
+		// botão confirmar
         printButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Integer selectedInteger = (Integer) integerComboBox.getSelectedItem();
@@ -104,8 +104,6 @@ public class IntermediariaComCombo {
              		panel2Selected.add(prosseguirButton);
                     panel2Selected.setVisible(false); 
                 }
-                
-                
                 else if (selectedInteger== 3) {		
                 	panel2Selected.removeAll();
                 	panel2Selected.add(textField1);
@@ -117,8 +115,6 @@ public class IntermediariaComCombo {
             		panel2Selected.add(prosseguirButton);
                     panel2Selected.setVisible(false); 
                 }
-                
-                
                 else if (selectedInteger== 4) {		
                 	panel2Selected.removeAll();
                 	panel2Selected.add(textField1);
@@ -132,8 +128,6 @@ public class IntermediariaComCombo {
             		panel2Selected.add(prosseguirButton);
                     panel2Selected.setVisible(false);  
                 }
-                
-                
                 else if (selectedInteger== 5) {		
                 	panel2Selected.removeAll();
                 	panel2Selected.add(textField1);
@@ -149,8 +143,6 @@ public class IntermediariaComCombo {
             		panel2Selected.add(prosseguirButton);
                     panel2Selected.setVisible(false); 
                 }
-                
-                
                 else if (selectedInteger== 6) {
                 	panel2Selected.removeAll();
                 	panel2Selected.add(textField1);
@@ -167,26 +159,21 @@ public class IntermediariaComCombo {
             		panel2Selected.add(comboJogador6);
             		panel2Selected.add(prosseguirButton);
                     panel2Selected.setVisible(false); 
-                    
-
                 }
                 
-             // exibe na tela
+            	// exibe na tela
             	panel2Selected.setVisible(!panel2Selected.isVisible());  
                  // Repack the frame to adjust its size
-                 frame.pack();
-        
+                pack();
+
+				// centralizar a janela
+                setLocation(x-selectedInteger*120,y);
             }
         });
-        
-        
-        // ------------------------ PAROU DE FUNCIONAR NESSE BLOCO DE LISTENER -----------------------------
-        
-        
-        
-        // BOTAO prosseguir
+
+        // botão prosseguir
         prosseguirButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
+        	public void actionPerformed(ActionEvent e) {
             	Integer selectedInteger = (Integer) integerComboBox.getSelectedItem();
             	if (selectedInteger ==2){
             		matrizCorJogador[0][0] = textField1.getText();     matrizCorJogador[0][1] = (String) comboJogador1.getSelectedItem();     
@@ -223,11 +210,10 @@ public class IntermediariaComCombo {
             		matrizCorJogador[3][0] = textField4.getText();     matrizCorJogador[3][1] = (String)comboJogador4.getSelectedItem();
             		matrizCorJogador[4][0] = textField5.getText();     matrizCorJogador[4][1] = (String) comboJogador5.getSelectedItem();
             		matrizCorJogador[5][0] = textField6.getText();     matrizCorJogador[5][1] = (String) comboJogador6.getSelectedItem();
-            	}			
-            	
-            	
+            	}
+
             	// faça verificação das cores    ps: ESSE CÓDIGO DE VERIFICAÇÃO VEIO DO OUTRO ARQUIVO ! ME LIMITO A APENAS USAR O QTDREPETICOES ali em baixo porque resolve. 
-            	//      pouco fiz questão de parar tudo para refletir
+            	// pouco fiz questão de parar tudo para refletir
             	qtdRepeticoes2 = 0;
     			for (int i = 0; i < selectedInteger; i++) {
     			    for (int j = 0; j < selectedInteger; j++) {
@@ -249,48 +235,30 @@ public class IntermediariaComCombo {
     			if (qtdRepeticoes2 == 0) {
     				for (int i = 0; i <6 ; i++) {	
         				System.out.println("Nome: "+ matrizCorJogador[i][0] + " | Cor: " + matrizCorJogador[i][1]);
-        				System.out.println("Substitua essa linha pela troca de tela");
     
     				}
-    			    System.out.println("Troca tela");
+    				dispose();
+    			    Controller.inicioJogo(matrizCorJogador);
     			}
-            	
-
-    			
-            	
             }
         });
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+		Container c = getContentPane();
+
         // comeco da tela
         panel.add(integerComboBox);
         panel.add(printButton);
-        frame.add(panel);
-        
-        
-        
-        frame.getContentPane().add(panel2Selected);
-        
-        
-        
-        // assim evitamos sobreposição
-        frame.add(panel, BorderLayout.NORTH); // You can choose other positions (e.g., SOUTH, EAST, WEST)
-        //frame.add(panel2Selected, BorderLayout.EAST);
-        frame.add(panel2Selected, BorderLayout.SOUTH);
+        c.add(panel);
 
-        
+        getContentPane().add(panel2Selected);
+
+        // assim evitamos sobreposição
+        c.add(panel, BorderLayout.NORTH); // You can choose other positions (e.g., SOUTH, EAST, WEST)
+        //frame.add(panel2Selected, BorderLayout.EAST);
+        c.add(panel2Selected, BorderLayout.SOUTH);
+
         //frame.setSize(300, 200); // resize pelo programador
-        frame.pack();  // resize auto
-        frame.setVisible(true);
-        
-    	});
+        pack();  // resize auto
+        setVisible(true);
     }
 }

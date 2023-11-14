@@ -45,7 +45,8 @@ public class MenuFrame extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
             	dispose();
-            	Controller.inicioJogo();
+                IntermediariaComCombo f = new IntermediariaComCombo("War");
+                f.setVisible(true);
             }
         });
 

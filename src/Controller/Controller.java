@@ -16,8 +16,8 @@ public class Controller {
 		mf.setVisible(true);
 	}
 
-	public static void inicioJogo() {
-		Fachada.getFachada().inicializaJogo();
+	public static void inicioJogo(String[][] jogadores) {
+		Fachada.getFachada().inicializaJogo(jogadores);
 		f = new WarFrame("War");
 		f.setVisible(true);
 		inicio = true;

@@ -64,6 +64,7 @@ public class Dado implements Observable {
 
 	int[] sorteiaDados(int atacante, int defensor) {
         Random random = new Random();
+        zerarDados();
 
         // Sorteia os dados do atacante
         for (int i = 0; i < atacante; i++) {
@@ -80,6 +81,8 @@ public class Dado implements Observable {
         for (Observer o : lob) {
             o.notify(this);
         }
+        
+        System.out.println(Arrays.toString(dados));
 
         return dados;
     }
