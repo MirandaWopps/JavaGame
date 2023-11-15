@@ -28,6 +28,10 @@ public class PanelTabuleiro extends JPanel implements Observer {
 	private int faseView = -1;
 	private List<String> possuiContinentes;
 	private boolean passouContinente = false;
+	private boolean mostrarDados = false;
+	
+	private static final Color verdeCustom = new Color(50,205,50);
+	private static final Color amareloCustom = new Color(255,200,0);
 	
 	private JComboBox<String> cb1 = new JComboBox<>();
 	private JComboBox<String> cb2 = new JComboBox<>();
@@ -130,14 +134,14 @@ public class PanelTabuleiro extends JPanel implements Observer {
         super.paintComponent(g);
         Graphics2D g2d=(Graphics2D) g;
         
-        // desenha as imagens de fundo
+        // Desenha as imagens de fundo
         g2d.drawImage(fundo,0,0,1000,700,null);
         g2d.drawImage(mapa,0,-30,1000,700,null);
         
-        // desenha os territorios
+        // Desenha os territorios
         desenhaTerritorios(territorios, g2d);
 
-        // desenha sidebar
+        // Desenha sidebar
         Rectangle2D sideBar = new Rectangle2D.Double(1000,0,200,700);
         g2d.setColor(Color.LIGHT_GRAY);
         g2d.fill(sideBar);
@@ -149,77 +153,61 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		// Obtenha a cor do jogador
 		Color corJogador = stringToColor(jogadorAtual);
 
-		// Desenhe um retângulo com a cor do jogador
-		Rectangle2D retanguloJogador = new Rectangle2D.Double(1018, 210, 150, 150);
+		// Desenha um retângulo com a cor do jogador
+		Rectangle2D retanguloJogador = new Rectangle2D.Double(1018, 210, 150, 120);
 		g2d.setColor(corJogador);
 		g2d.fill(retanguloJogador);
 		g2d.draw(retanguloJogador);
 
-        // fase do jogo
+        // Fase do jogo
         int fase = Controller.getFase();
         boolean mudouFase = Controller.mudouFase(faseView);
-		boolean mudouJogador = Controller.mudouJogador();
-        if ((fase == 1 && (mudouFase || passouContinente)) || (fase == 0 && (mudouJogador || passouContinente)))
-        {
-        	// recebimento
-			faseView = fase;
-			passouContinente = false;
 
-        	if (mudouFase || mudouJogador)
-        		possuiContinentes = Fachada.getFachada().getContinentesJogador();
-			if (!possuiContinentes.isEmpty()) {
-				comboBoxRecebimentoContinente(possuiContinentes.get(0));
-				comboBoxExercContinente(possuiContinentes.get(0));
-			}
-			else {
-	        	comboBoxRecebimento();
-				comboBoxExerc();
-			}
-			cb3.setVisible(true);
-			button1.setVisible(true);
-
-			cb2.setVisible(false);
-			button2.setVisible(false);
-			button3.setVisible(false);
-			proximoLabel.setVisible(false);
-        }
-        else if (fase == 2 && mudouFase)
-        {
-        	// ataque
-			faseView = fase;
-
-			comboBoxAtacante();
-			cb2.setVisible(true);
-			button2.setVisible(true);
-			proximoLabel.setVisible(true);
-
-			cb3.setVisible(false);
-			button1.setVisible(false);
-			button3.setVisible(false);
-
-        }
-		else if (fase == 3 && mudouFase) {
-			// deslocamento
-			faseView = fase;
-
-			comboBoxOrigem();
-			cb2.setVisible(true);
-			cb3.setVisible(true);
-			button3.setVisible(true);
-			proximoLabel.setVisible(true);
-
-			button1.setVisible(false);
-			button2.setVisible(false);
+		switch(fase) {
+			case 0:
+				boolean mudouJogador = Controller.mudouJogador();
+				if (mudouJogador || passouContinente) {
+					passouContinente = false;
+					faseRecebimento(mudouJogador);
+				}
+				
+				break;
+			case 1:
+				if (mudouFase || passouContinente) {
+					passouContinente = false;
+					faseView = fase;
+					faseRecebimento(mudouFase);
+				}
+				break;
+			case 2:
+				if (mudouFase) {
+					faseView = fase;
+					faseAtaque();
+				}
+				break;
+			case 3:
+				if (mudouFase) {
+					faseView = fase;
+					faseDeslocamento();
+				}
+				break;
 		}
-        
+
+		// Posicionamento dos componentes
 		cb1.setLocation(1010, 30);
-		if (faseView == 3) {
-			cb2.setLocation(1010, 70);
-			cb3.setLocation(1010, 110);
-		}
-		else {
-			cb2.setLocation(1010, 70);
-			cb3.setLocation(1010, 70);
+		switch (faseView) {
+			case 3:
+				cb2.setLocation(1010, 70);
+				cb3.setLocation(1010, 110);
+				break;
+			case 2:
+				// Desenha os dados
+				if (mostrarDados)
+					DadoView.getDadoView().mostrarDados(g2d);
+			default:
+				cb2.setLocation(1010, 70);
+				cb3.setLocation(1010, 70);
+				break;
 		}
 
 		button1.setBounds(1040, 120, 100, 30);
@@ -228,28 +216,92 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		
 		proximoLabel.setBounds(920, 580, 100, 50);
     }
-	
+
 	public void notify(Observable o) {
-		int fase = Controller.getFase();
-		if (fase == 1 || fase == 0) {
-			if (possuiContinentes.isEmpty()) {
-				comboBoxRecebimento();
-				comboBoxExerc();
+		// Mudança nos territórios
+		if (o.get() == null) {
+			int fase = Controller.getFase();
+			switch (fase) {
+				case 0:
+				case 1:
+					if (possuiContinentes.isEmpty()) {
+						comboBoxRecebimento();
+						comboBoxExerc();
+					}
+					else {
+						comboBoxRecebimentoContinente(possuiContinentes.get(0));
+						comboBoxExercContinente(possuiContinentes.get(0));
+					}
+					break;
+				case 2:
+					comboBoxAtacante();
+					break;
+				case 3:
+					comboBoxOrigem();
+					break;
 			}
-			else {
-				comboBoxRecebimentoContinente(possuiContinentes.get(0));
-				comboBoxExercContinente(possuiContinentes.get(0));
-			}
 		}
-		else if (fase == 2) {
-			comboBoxAtacante();
+		else {
+			// Mudança nos dados
+			int dados[] = (int[]) o.get();
+			DadoView.getDadoView().setDados(dados);
+			mostrarDados = true;
 		}
-		else if (fase == 3) {
-			comboBoxOrigem();
-		}
+
 		repaint();
 	}
 
+	private void faseRecebimento(boolean mudou) {
+		// Se mudou a fase ou o jogador, atualiza a lista de continentes que ele possui
+		if (mudou)
+			possuiContinentes = Fachada.getFachada().getContinentesJogador();
+
+		// Se tiver algum continente pendente para receber, recebe exercitos dele
+		if (!possuiContinentes.isEmpty()) {
+			comboBoxRecebimentoContinente(possuiContinentes.get(0));
+			comboBoxExercContinente(possuiContinentes.get(0));
+		} else {
+			// Senão, recebe exercitos normalmente
+			comboBoxRecebimento();
+			comboBoxExerc();
+		}
+
+		// Configura os componentes
+		cb3.setVisible(true);
+		button1.setVisible(true);
+
+		cb2.setVisible(false);
+		button2.setVisible(false);
+		button3.setVisible(false);
+		proximoLabel.setVisible(false);
+	}
+
+	private void faseAtaque() {
+		comboBoxAtacante();
+		mostrarDados = false;
+
+		// Configura os componentes
+		cb2.setVisible(true);
+		button2.setVisible(true);
+		proximoLabel.setVisible(true);
+
+		cb3.setVisible(false);
+		button1.setVisible(false);
+		button3.setVisible(false);
+	}
+
+	private void faseDeslocamento() {
+		comboBoxOrigem();
+
+		// Configura os componentes
+		cb2.setVisible(true);
+		cb3.setVisible(true);
+		button3.setVisible(true);
+		proximoLabel.setVisible(true);
+
+		button1.setVisible(false);
+		button2.setVisible(false);
+	}
 	
 	private void comboBoxRecebimento() {
 		// remove os itens da combobox
@@ -390,7 +442,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 	private Color stringToColor(String cor) {
 		switch(cor) {
 			case "amarelo":
-	            return Color.YELLOW;
+	            return amareloCustom;
 	        case "vermelho":
 	            return Color.RED;
 	        case "azul":
@@ -400,13 +452,13 @@ public class PanelTabuleiro extends JPanel implements Observer {
 	        case "preto":
 	            return Color.BLACK;
 	        case "verde":
-	            return Color.GREEN;
+	            return verdeCustom;
 	        default:
 	            return null;
 		}
 	}
 
-	public static void desenhaTerritorios(Map<String,TerritorioView> territoriosView, Graphics2D g2d)
+	private void desenhaTerritorios(Map<String,TerritorioView> territoriosView, Graphics2D g2d)
 	{
 		Fachada fachada = Fachada.getFachada();
 		List<String> territoriosJogador;
@@ -457,7 +509,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		{
 			for (String territorio : territoriosJogador) {
 				TerritorioView territorioView = territoriosView.get(territorio);
-				territorioView.desenha(g2d, Color.YELLOW, fachada.qtdExerc(territorio));
+				territorioView.desenha(g2d, amareloCustom, fachada.qtdExerc(territorio));
 			}
 		}
 
@@ -467,7 +519,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		{
 			for (String territorio : territoriosJogador) {
 				TerritorioView territorioView = territoriosView.get(territorio);
-				territorioView.desenha(g2d, Color.GREEN, fachada.qtdExerc(territorio));
+				territorioView.desenha(g2d, verdeCustom, fachada.qtdExerc(territorio));
 			}
 		}
 	}

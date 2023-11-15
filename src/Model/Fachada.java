@@ -28,6 +28,7 @@ public class Fachada {
 
 	public void register(Observer o) {
 		tabuleiro.addObserver(o);
+		Dado.getDado().addObserver(o);
 	}
 
 	public String atualJogador() {
