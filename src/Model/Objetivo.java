@@ -104,7 +104,7 @@ class Objetivo7 extends Objetivo {
 	}
 	
 	boolean concluido(Jogador jogador) {
-		return jogador.getTerritorios().size() >= 30;
+		return jogador.getTerritorios().size() >= 1;
 	}
 }
 
@@ -126,14 +126,14 @@ class Objetivo9 extends Objetivo {
 	
 	boolean concluido(Jogador jogador) {
 		if (jogador.getCor().equals("azul") || Tabuleiro.getTabuleiro().getJogador("azul") == null) {
-			return jogador.getTerritorios().size() >= 30;
+			return jogador.getTerritorios().size() >= 1;
 		}
 
 		if (Tabuleiro.getTabuleiro().getJogador("azul").getTerritorios().size() == 0) {
 			if (Tabuleiro.getTabuleiro().getJogador("azul").getEliminador().equals(jogador.getCor())) {
 				return true;
 			}
-			return jogador.getTerritorios().size() >= 30;
+			return jogador.getTerritorios().size() >= 1;
 		}
 		return false;
 	}
@@ -146,14 +146,14 @@ class Objetivo10 extends Objetivo {
 	
 	boolean concluido(Jogador jogador) {
 		if (jogador.getCor().equals("amarelo") || Tabuleiro.getTabuleiro().getJogador("amarelo") == null) {
-			return jogador.getTerritorios().size() >= 30;
+			return jogador.getTerritorios().size() >= 1;
 		}
 
 		if (Tabuleiro.getTabuleiro().getJogador("amarelo").getTerritorios().size() == 0) {
 			if (Tabuleiro.getTabuleiro().getJogador("amarelo").getEliminador().equals(jogador.getCor())) {
 				return true;
 			}
-			return jogador.getTerritorios().size() >= 30;
+			return jogador.getTerritorios().size() >= 1;
 		}
 		return false;
 	}
@@ -166,14 +166,14 @@ class Objetivo11 extends Objetivo {
 	
 	boolean concluido(Jogador jogador) {
 		if (jogador.getCor().equals("vermelho") || Tabuleiro.getTabuleiro().getJogador("vermelho") == null) {
-			return jogador.getTerritorios().size() >= 30;
+			return jogador.getTerritorios().size() >= 1;
 		}
 
 		if (Tabuleiro.getTabuleiro().getJogador("vermelho").getTerritorios().size() == 0) {
 			if (Tabuleiro.getTabuleiro().getJogador("vermelho").getEliminador().equals(jogador.getCor())) {
 				return true;
 			}
-			return jogador.getTerritorios().size() >= 30;
+			return jogador.getTerritorios().size() >= 1;
 		}
 		return false;
 	}
@@ -186,14 +186,14 @@ class Objetivo12 extends Objetivo {
 	
 	boolean concluido(Jogador jogador) {
 		if (jogador.getCor().equals("preto") || Tabuleiro.getTabuleiro().getJogador("preto") == null) {
-			return jogador.getTerritorios().size() >= 30;
+			return jogador.getTerritorios().size() >= 1;
 		}
 
 		if (Tabuleiro.getTabuleiro().getJogador("preto").getTerritorios().size() == 0) {
 			if (Tabuleiro.getTabuleiro().getJogador("preto").getEliminador().equals(jogador.getCor())) {
 				return true;
 			}
-			return jogador.getTerritorios().size() >= 30;
+			return jogador.getTerritorios().size() >= 1;
 		}
 		return false;
 	}
@@ -206,14 +206,14 @@ class Objetivo13 extends Objetivo {
 	
 	boolean concluido(Jogador jogador) {
 		if (jogador.getCor().equals("branco") || Tabuleiro.getTabuleiro().getJogador("branco") == null) {
-			return jogador.getTerritorios().size() >= 30;
+			return jogador.getTerritorios().size() >= 1;
 		}
 
 		if (Tabuleiro.getTabuleiro().getJogador("branco").getTerritorios().size() == 0) {
 			if (Tabuleiro.getTabuleiro().getJogador("branco").getEliminador().equals(jogador.getCor())) {
 				return true;
 			}
-			return jogador.getTerritorios().size() >= 30;
+			return jogador.getTerritorios().size() >= 1;
 		}
 		return false;
 	}
@@ -226,14 +226,14 @@ class Objetivo14 extends Objetivo {
 
 	boolean concluido(Jogador jogador) {
 		if (jogador.getCor().equals("verde") || Tabuleiro.getTabuleiro().getJogador("verde") == null) {
-			return jogador.getTerritorios().size() >= 30;
+			return jogador.getTerritorios().size() >= 1;
 		}
 
 		if (Tabuleiro.getTabuleiro().getJogador("verde").getTerritorios().size() == 0) {
 			if (Tabuleiro.getTabuleiro().getJogador("verde").getEliminador().equals(jogador.getCor())) {
 				return true;
 			}
-			return jogador.getTerritorios().size() >= 30;
+			return jogador.getTerritorios().size() >= 1;
 		}
 		return false;
 	}

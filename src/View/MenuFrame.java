@@ -5,12 +5,10 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import Controller.Controller;
-
 
 public class MenuFrame extends JFrame{
-	public static final int LARG_DEFAULT=700; // tam horizontal da tela
-	public static final int ALT_DEFAULT=400;   // altura da tela
+	private static final int LARG_DEFAULT=700; // tam horizontal da tela
+	private static final int ALT_DEFAULT=400;   // altura da tela
 	
 	public MenuFrame (String s) {
 		super(s);

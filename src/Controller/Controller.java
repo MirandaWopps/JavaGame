@@ -81,6 +81,10 @@ public class Controller {
 			fase = 3;
 			break;
 		case 3:
+			if (Fachada.getFachada().verificaVencedor()) {
+				fase = 4;
+				break;
+			}
 			Fachada.getFachada().proximoJogador();
 			recebimento();
 			break;

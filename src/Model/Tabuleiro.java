@@ -277,4 +277,8 @@ class Tabuleiro implements Observable {
 			adicionarJogador(new Jogador(jogador[0],jogador[1]));
 		}
 	}
+
+	void terminaJogo() {
+		tabuleiro = null;
+	}
 }

@@ -35,8 +35,25 @@ public class Fachada {
 		return tabuleiro.atualJogador().getCor();
 	}
 
+	public String nomeAtualJogador() {
+		return tabuleiro.atualJogador().getNome();
+	}
+
 	public void proximoJogador() {
 		tabuleiro.proximoJogador();
+	}
+
+	public String objetivoAtualJogador() {
+		return tabuleiro.atualJogador().getObjetivo().getDescricao();
+	}	
+
+	public boolean verificaVencedor() {
+		Jogador jogador = tabuleiro.atualJogador();
+		return jogador.testaObjetivo();
+	}
+
+	public void terminaJogo() {
+		tabuleiro.terminaJogo();
 	}
 
 	public void receberExerc() {

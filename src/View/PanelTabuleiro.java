@@ -37,10 +37,13 @@ public class PanelTabuleiro extends JPanel implements Observer {
 	private JComboBox<String> cb2 = new JComboBox<>();
 	private JComboBox<Integer> cb3 = new JComboBox<>();
 
-	private JButton button1 = new JButton("Posicionar");
-	private JButton button2 = new JButton("Atacar");
-	private JButton button3 = new JButton("Deslocar");
+	private JButton btnPosicionar = new JButton("Posicionar");
+	private JButton btnAtacar = new JButton("Atacar");
+	private JButton btnDeslocar = new JButton("Deslocar");
+	private JButton btnObjetivo = new JButton("Objetivo");
 	private JLabel proximoLabel = new JLabel();
+
+	private ObjetivoPopUp objetivoPopup;
 
 	public PanelTabuleiro() {
 		try {
@@ -61,9 +64,9 @@ public class PanelTabuleiro extends JPanel implements Observer {
             public void actionPerformed(ActionEvent e) {
             	String selected = (String) cb1.getSelectedItem();
             	if (selected != null) {
-					if (faseView == 2)
+					if (faseView == 2)  // Fase de ataque
                     	comboBoxDefensor(selected);
-					else if (faseView == 3) {
+					else if (faseView == 3) { // Fase de deslocamento
 						comboBoxDestino(selected);
 						comboBoxExercDeslocamento(selected);
 					}
@@ -71,8 +74,8 @@ public class PanelTabuleiro extends JPanel implements Observer {
             } 
         });
 
-		// botão posicionamento de tropas
-		button1.addActionListener(new ActionListener() {
+		// Botão posicionamento de tropas
+		btnPosicionar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String territorio = (String) cb1.getSelectedItem();
@@ -89,9 +92,10 @@ public class PanelTabuleiro extends JPanel implements Observer {
 				}
 			}
 		});
-		add(button1);
+		add(btnPosicionar);
 
-		button2.addActionListener(new ActionListener() {
+		// Botão ataque
+		btnAtacar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String atacante = (String) cb1.getSelectedItem();
@@ -101,10 +105,10 @@ public class PanelTabuleiro extends JPanel implements Observer {
 				}
 			}
 		});
-		add(button2);
+		add(btnAtacar);
 
-		// botão deslocamento de tropas
-		button3.addActionListener(new ActionListener() {
+		// Botão deslocamento de tropas
+		btnDeslocar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String origem = (String) cb1.getSelectedItem();
@@ -115,8 +119,19 @@ public class PanelTabuleiro extends JPanel implements Observer {
 				}
 			}
 		});
-		add(button3);
-		
+		add(btnDeslocar);
+
+		// Botão objetivo
+		btnObjetivo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String objetivo = Fachada.getFachada().objetivoAtualJogador();
+        		objetivoPopup.mostra(PanelTabuleiro.this, objetivo);
+			}
+		});
+		add(btnObjetivo);
+
+		// Botão próximo
 		proximoLabel.setIcon(new ImageIcon("Imagens/war_btnProxJogada.png"));
 		proximoLabel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -126,6 +141,8 @@ public class PanelTabuleiro extends JPanel implements Observer {
 			}
 		});
 		add(proximoLabel);
+
+		objetivoPopup = new ObjetivoPopUp();
 		
 		instanciaTerritoriosView();
 	}
@@ -191,9 +208,12 @@ public class PanelTabuleiro extends JPanel implements Observer {
 					faseDeslocamento();
 				}
 				break;
+			case 4:
+				faseFim();
+				break;
 		}
 
-		// Posicionamento dos componentes
+		// Posicionamento das combobox
 		cb1.setLocation(1010, 30);
 		switch (faseView) {
 			case 3:
@@ -210,10 +230,13 @@ public class PanelTabuleiro extends JPanel implements Observer {
 				break;
 		}
 
-		button1.setBounds(1040, 120, 100, 30);
-		button2.setBounds(1040, 120, 100, 30);
-		button3.setBounds(1040, 160, 100, 30);
-		
+		// Posicionamento dos botões
+		btnPosicionar.setBounds(1040, 120, 100, 30);
+		btnAtacar.setBounds(1040, 120, 100, 30);
+		btnDeslocar.setBounds(1040, 160, 100, 30);
+
+		btnObjetivo.setBounds(1040, 580, 100, 30);
+
 		proximoLabel.setBounds(920, 580, 100, 50);
     }
 
@@ -268,11 +291,11 @@ public class PanelTabuleiro extends JPanel implements Observer {
 
 		// Configura os componentes
 		cb3.setVisible(true);
-		button1.setVisible(true);
+		btnPosicionar.setVisible(true);
 
 		cb2.setVisible(false);
-		button2.setVisible(false);
-		button3.setVisible(false);
+		btnAtacar.setVisible(false);
+		btnDeslocar.setVisible(false);
 		proximoLabel.setVisible(false);
 	}
 
@@ -282,12 +305,12 @@ public class PanelTabuleiro extends JPanel implements Observer {
 
 		// Configura os componentes
 		cb2.setVisible(true);
-		button2.setVisible(true);
+		btnAtacar.setVisible(true);
 		proximoLabel.setVisible(true);
 
 		cb3.setVisible(false);
-		button1.setVisible(false);
-		button3.setVisible(false);
+		btnPosicionar.setVisible(false);
+		btnDeslocar.setVisible(false);
 	}
 
 	private void faseDeslocamento() {
@@ -296,11 +319,11 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		// Configura os componentes
 		cb2.setVisible(true);
 		cb3.setVisible(true);
-		button3.setVisible(true);
+		btnDeslocar.setVisible(true);
 		proximoLabel.setVisible(true);
 
-		button1.setVisible(false);
-		button2.setVisible(false);
+		btnPosicionar.setVisible(false);
+		btnAtacar.setVisible(false);
 	}
 	
 	private void comboBoxRecebimento() {
@@ -437,6 +460,17 @@ public class PanelTabuleiro extends JPanel implements Observer {
 			cb3.addItem(numExerc);
 			numExerc--;
 		}
+	}
+
+	private void faseFim() {
+		// Fecha o frame principal do jogo
+		SwingUtilities.getWindowAncestor(this).dispose();
+
+		Color cor = stringToColor(Fachada.getFachada().atualJogador());
+		String vencedor = Fachada.getFachada().nomeAtualJogador();
+
+		// Abre o frame de fim de jogo
+		new FimFrame("War", cor, vencedor);
 	}
 
 	private Color stringToColor(String cor) {

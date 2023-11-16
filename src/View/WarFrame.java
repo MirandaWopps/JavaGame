@@ -7,8 +7,8 @@ import Model.Fachada;
 import java.awt.*;
 
 public class WarFrame extends JFrame{      
-	public final int LARG_DEFAULT=1200; // tam horizontal da tela
-	public final int ALT_DEFAULT=700;   // altura da tela
+	private final int LARG_DEFAULT=1200; // tam horizontal da tela
+	private final int ALT_DEFAULT=700;   // altura da tela
 	PanelTabuleiro p; // objeto painel
 	
 	public WarFrame(String s) {  // recebe como parametros uma string, uma imagem e outra imagem.

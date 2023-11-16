@@ -29,7 +29,6 @@ public class IntermediariaComCombo extends JFrame{
 	
 	
 	// verficação das cores
-	private static int impedeTrocarTela;
 	private static int qtdRepeticoes2;
 	
     public IntermediariaComCombo(String s) {
@@ -93,7 +92,6 @@ public class IntermediariaComCombo extends JFrame{
         printButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Integer selectedInteger = (Integer) integerComboBox.getSelectedItem();
-                System.out.println("Selected Integer: " + selectedInteger);
                 
                 if (selectedInteger== 2) {
                 	panel2Selected.removeAll();
@@ -167,7 +165,7 @@ public class IntermediariaComCombo extends JFrame{
                 pack();
 
 				// centralizar a janela
-                setLocation(x-selectedInteger*120,y);
+                setLocationRelativeTo(null);
             }
         });
 
@@ -212,31 +210,17 @@ public class IntermediariaComCombo extends JFrame{
             		matrizCorJogador[5][0] = textField6.getText();     matrizCorJogador[5][1] = (String) comboJogador6.getSelectedItem();
             	}
 
-            	// faça verificação das cores    ps: ESSE CÓDIGO DE VERIFICAÇÃO VEIO DO OUTRO ARQUIVO ! ME LIMITO A APENAS USAR O QTDREPETICOES ali em baixo porque resolve. 
-            	// pouco fiz questão de parar tudo para refletir
             	qtdRepeticoes2 = 0;
     			for (int i = 0; i < selectedInteger; i++) {
     			    for (int j = 0; j < selectedInteger; j++) {
-    			        if (i != j && matrizCorJogador[i][1].equals(matrizCorJogador[j][1])) { // Use .equals to compare strings
+						// Verifica se há cores repetidas
+    			        if (i != j && matrizCorJogador[i][1].equals(matrizCorJogador[j][1])) {
     			            qtdRepeticoes2++;
-    			            //System.out.println("Cor " + coresArray[j] + " repetida " + qtdRepeticoes2 + " vezes !"); // teste line
-    			        }
-
-    			        // Impede tela de trocar
-    			        if (qtdRepeticoes2 > 0) { // Change to > 0 to prevent screen change
-    			            //System.out.println("ISHHH Cor " + coresArray[j] + " repetida " + qtdRepeticoes2 + " vezes !");  // teste line
-    			            impedeTrocarTela++;
     			        }
     			    }
     			}
 
-    			System.out.println("TELA " + impedeTrocarTela + "   ||  qtdRepeticoes2 " + qtdRepeticoes2);
-
     			if (qtdRepeticoes2 == 0) {
-    				for (int i = 0; i <6 ; i++) {	
-        				System.out.println("Nome: "+ matrizCorJogador[i][0] + " | Cor: " + matrizCorJogador[i][1]);
-    
-    				}
     				dispose();
     			    Controller.inicioJogo(matrizCorJogador);
     			}
@@ -253,11 +237,9 @@ public class IntermediariaComCombo extends JFrame{
         getContentPane().add(panel2Selected);
 
         // assim evitamos sobreposição
-        c.add(panel, BorderLayout.NORTH); // You can choose other positions (e.g., SOUTH, EAST, WEST)
-        //frame.add(panel2Selected, BorderLayout.EAST);
+        c.add(panel, BorderLayout.NORTH);
         c.add(panel2Selected, BorderLayout.SOUTH);
 
-        //frame.setSize(300, 200); // resize pelo programador
         pack();  // resize auto
         setVisible(true);
     }
