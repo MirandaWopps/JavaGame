@@ -26,6 +26,10 @@ public class Fachada {
 		tabuleiro.sorteiaObjetivos();
 	}
 
+	public void salvarJogo() {
+		tabuleiro.salvarJogo();
+	}
+
 	public void register(Observer o) {
 		tabuleiro.addObserver(o);
 		Dado.getDado().addObserver(o);

@@ -281,4 +281,8 @@ class Tabuleiro implements Observable {
 	void terminaJogo() {
 		tabuleiro = null;
 	}
+
+	void salvarJogo() {
+		// TODO
+	}
 }

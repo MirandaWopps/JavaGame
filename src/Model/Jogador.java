@@ -99,7 +99,7 @@ class Jogador {
     void removeCarta(int carta) {
     	cartas.remove(carta);
     }
-    
+
     boolean precisaTrocarCartas() {
     	if (cartas.size() < 5) {
     		return false;

@@ -29,10 +29,10 @@ public class PanelTabuleiro extends JPanel implements Observer {
 	private List<String> possuiContinentes;
 	private boolean passouContinente = false;
 	private boolean mostrarDados = false;
-	
+
 	private static final Color verdeCustom = new Color(50,205,50);
 	private static final Color amareloCustom = new Color(255,200,0);
-	
+
 	private JComboBox<String> cb1 = new JComboBox<>();
 	private JComboBox<String> cb2 = new JComboBox<>();
 	private JComboBox<Integer> cb3 = new JComboBox<>();
@@ -41,6 +41,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 	private JButton btnAtacar = new JButton("Atacar");
 	private JButton btnDeslocar = new JButton("Deslocar");
 	private JButton btnObjetivo = new JButton("Objetivo");
+	private JButton btnSalvar = new JButton("Salvar");
 	private JLabel proximoLabel = new JLabel();
 
 	private ObjetivoPopUp objetivoPopup;
@@ -142,6 +143,15 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		});
 		add(proximoLabel);
 
+		// Botão salvar
+		btnSalvar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Fachada.getFachada().salvarJogo();
+			}
+		});
+		add(btnSalvar);
+
 		objetivoPopup = new ObjetivoPopUp();
 		
 		instanciaTerritoriosView();
@@ -236,7 +246,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		btnDeslocar.setBounds(1040, 160, 100, 30);
 
 		btnObjetivo.setBounds(1040, 580, 100, 30);
-
+		btnSalvar.setBounds(1040, 500, 100, 30);
 		proximoLabel.setBounds(920, 580, 100, 50);
     }
 
@@ -297,6 +307,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		btnAtacar.setVisible(false);
 		btnDeslocar.setVisible(false);
 		proximoLabel.setVisible(false);
+		btnSalvar.setVisible(false);
 	}
 
 	private void faseAtaque() {
@@ -311,6 +322,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		cb3.setVisible(false);
 		btnPosicionar.setVisible(false);
 		btnDeslocar.setVisible(false);
+		btnSalvar.setVisible(false);
 	}
 
 	private void faseDeslocamento() {
@@ -321,6 +333,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		cb3.setVisible(true);
 		btnDeslocar.setVisible(true);
 		proximoLabel.setVisible(true);
+		btnSalvar.setVisible(true);
 
 		btnPosicionar.setVisible(false);
 		btnAtacar.setVisible(false);
