@@ -581,7 +581,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
     	territorios.put("CALIFORNIA", new TerritorioView(106,230,80,213,"CALIFORNIA"));
     	territorios.put("TEXAS", new TerritorioView(175,200,170,185,"TEXAS"));
     	territorios.put("NOVA YORK", new TerritorioView(205,222,210,207,"NOVA YORK"));
-    	territorios.put("MEXICO", new TerritorioView(150,315,120,298,"MEXICO"));
+    	territorios.put("MÉXICO", new TerritorioView(150,315,120,298,"MEXICO"));
     	
     	// América do Sul
     	territorios.put("VENEZUELA", new TerritorioView(192,375,165,360,"VENEZUELA"));
