@@ -343,7 +343,67 @@ class Tabuleiro implements Observable {
 	}
 
 	void salvarJogo()  {
-		//TODO
+		PrintWriter outputStream = null;
+		
+		// Prepara Arquivo para salvamento
+		//
+		//  Nossos Objetivos são strings que contém ",", por isso 
+		//   usamos como caractere  separador o ";"
+		//
+		
+		
+		ArrayList<String> PosicaoJogo = new ArrayList<>();
+		List<String> ListaJogadores = new ArrayList<>(jogadores.keySet());
+		
+		PosicaoJogo.add("Inicia Salvamento do Jogo");
+		// Lista as cores dos jogadores da partida
+		for (String key : ListaJogadores) {
+			// Recebe Obj do Jogador
+			String ObjJogador = getJogador(key).getObjetivo().getDescricao();
+			
+			// Recebe Nome do Jogador
+			String NomeJogador = getJogador(key).getNome();
+			
+			// Guarda Informações
+			PosicaoJogo.add(key + ";" + ObjJogador + ";"+ NomeJogador);
+			
+			// Recebe territórios do jogador e qtde de exxercitos por território
+			List<String> ListaTerritorios = new ArrayList<>(getJogador(key).getTerritorios().keySet());
+			for (String key2 : ListaTerritorios) {
+				int qtde = getTerritorio(key2).getQtdExerc();
+				// Guarda informações
+				PosicaoJogo.add(key2 + ";" + qtde);
+			}
+			PosicaoJogo.add("INÍCIO CARTAS");
+			List<Carta> ListaCartas = new ArrayList<>(getJogador(key).getCartas());
+			for (Carta key3 : ListaCartas) {
+				String tipo = key3.getTipo().name(); 
+				String NomeTerritorio = key3.getTerritorio().getNome();
+				// Guarda informações
+				PosicaoJogo.add(tipo +";"+ NomeTerritorio);
+			}
+			PosicaoJogo.add("FIM CARTAS");
+		}
+		
+		//PosicaoJogo.add("CARTAS_BARALHO");
+		
+		PosicaoJogo.add("FIM_ARQUIVO");
+		
+		
+		try {
+			outputStream = new PrintWriter(new FileWriter("SalvaJogo.txt"));
+			for (int i = 0; i< PosicaoJogo.size(); i++) {
+				System.out.printf("%s\n",PosicaoJogo.get(i));
+				outputStream.println(PosicaoJogo.get(i));
+				}
+		}
+		catch (IOException e) {
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
+		finally {
+			outputStream.close();
+		}	
 	}
 	
 	void recuperarJogo() {
