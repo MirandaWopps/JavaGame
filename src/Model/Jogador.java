@@ -17,6 +17,7 @@ class Jogador {
 	private int exerc = 0;
 	private Map<String, Territorio> territorios = new HashMap<>();
 	private List<Carta> cartas = new ArrayList<>();
+	private boolean recebeCarta = false;
 
 	private static int trocasCarta = 0;
 
@@ -68,6 +69,18 @@ class Jogador {
 		return objetivo;
 	}
 
+	List<Carta> getCartas() {
+        return cartas;
+    }
+
+	boolean getRecebeCarta() {
+		return recebeCarta;
+	}
+
+	void setRecebeCarta(boolean recebeCarta) {
+		this.recebeCarta = recebeCarta;
+	}
+
 	int getExerc() {
 		return exerc;
 	}
@@ -111,7 +124,7 @@ class Jogador {
         Carta.TipoCarta tipo1 = cartas.get(carta1).getTipo();
         Carta.TipoCarta tipo2 = cartas.get(carta2).getTipo();
         Carta.TipoCarta tipo3 = cartas.get(carta3).getTipo();
-        
+
         // Pode trocar porque pelo menos uma carta é um coringa
         if (tipo1 == Carta.TipoCarta.coringa || tipo2 == Carta.TipoCarta.coringa || tipo3 == Carta.TipoCarta.coringa) {
         	return true;
@@ -135,7 +148,7 @@ class Jogador {
     	Territorio territorio2 = cartas.get(carta2).getTerritorio();
     	Territorio territorio3 = cartas.get(carta3).getTerritorio();
     	List<Carta> cartasTrocadas = new ArrayList<>(Arrays.asList(cartas.get(carta1),cartas.get(carta2),cartas.get(carta3)));
-    	
+
     	// Verifica se o jogador possui o território correspondente à carta 1
 		if (territorio1 != null && territorios.containsKey(territorio1.getNome())) {
 			// Se o jogador possuir o território correspondente à carta 1, adiciona 2 exércitos a esse território
@@ -147,13 +160,13 @@ class Jogador {
 			// Se o jogador possuir o território correspondente à carta 2, adiciona 2 exércitos a esse território
 			territorios.get(territorio2.getNome()).ganhaExerc(2);
 		}
-		
+
 		// Verifica se o jogador possui o território correspondente à carta 3
 		if (territorio3 != null && territorios.containsKey(territorio3.getNome())) {
 			// Se o jogador possuir o território correspondente à carta 3, adiciona 2 exércitos a esse território
 			territorios.get(territorio3.getNome()).ganhaExerc(2);
 		}
-		
+
 		// Remove as cartas usadas na troca
 		cartas.removeAll(cartasTrocadas);
 

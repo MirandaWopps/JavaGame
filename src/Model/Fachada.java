@@ -20,14 +20,21 @@ public class Fachada {
 	public void inicializaJogo(String[][] jogadores) {
 		tabuleiro = Tabuleiro.getTabuleiro();
 		tabuleiro.inicializaTerritorios();
+		tabuleiro.adicionaCoringas();
 		tabuleiro.inicializaJogadores(jogadores);
 		tabuleiro.sorteiaOrdem();
 		tabuleiro.sorteiaTerritorios();
 		tabuleiro.sorteiaObjetivos();
+		tabuleiro.embaralhaCartas();
 	}
 
 	public void salvarJogo() {
 		tabuleiro.salvarJogo();
+	}
+	
+	public void recuperarJogo() {
+		tabuleiro = Tabuleiro.getTabuleiro();
+		tabuleiro.recuperarJogo();
 	}
 
 	public void register(Observer o) {
@@ -170,6 +177,9 @@ public class Fachada {
 			jogadorAtacante.adicionarTerritorio(defensor);
 			atacante.perdeExerc(exAtaque);
 			defensor.ganhaExerc(exAtaque);
+
+			// Verifica se o jogador atacante recebe carta
+			jogadorAtacante.setRecebeCarta(true);
 
 			// Verifica se o jogador defensor foi eliminado
 			if (jogadorDefensor.getTerritorios().isEmpty()) {
