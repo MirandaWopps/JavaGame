@@ -21,45 +21,54 @@ import java.util.Map;
 
 
 public class PanelTabuleiro extends JPanel implements Observer {
-	private Image mapa;
-	private Image fundo;
+	private Image mapa;  // imagem do mapa
+	private Image fundo; // o fundo atras do mapa
 
+	// nao sei oq e isso
 	private Map<String,TerritorioView> territorios = new HashMap<>();
-	private int faseView = -1;
+	private int faseView = -1; 
 	private List<String> possuiContinentes;
 	private boolean passouContinente = false;
 	private boolean mostrarDados = false;
 
+	// tambem n sei porque temos isso
 	private static final Color verdeCustom = new Color(50,205,50);
 	private static final Color amareloCustom = new Color(255,200,0);
 
-	private JComboBox<String> cb1 = new JComboBox<>();
-	private JComboBox<String> cb2 = new JComboBox<>();
-	private JComboBox<Integer> cb3 = new JComboBox<>();
+	// Combo boxes
+	private JComboBox<String> cb1 = new JComboBox<>();  // Territorio de cima
+	private JComboBox<String> cb2 = new JComboBox<>();  // Territorio de baixo
+	private JComboBox<Integer> cb3 = new JComboBox<>(); // Tropas.
 
+	// os botos da UI
 	private JButton btnPosicionar = new JButton("Posicionar");
 	private JButton btnAtacar = new JButton("Atacar");
 	private JButton btnDeslocar = new JButton("Deslocar");
 	private JButton btnObjetivo = new JButton("Objetivo");
+	
+	private JButton btnCartas = new JButton("Cartas"); // botao para as cartas
+	
 	private JButton btnSalvar = new JButton("Salvar");
 	private JLabel proximoLabel = new JLabel();
 
+	// nao sei
 	private ObjetivoPopUp objetivoPopup;
 
-	public PanelTabuleiro() {
-		try {
-			mapa = ImageIO.read(new File("Imagens/war_tabuleiro_mapa copy.png"));
-			fundo = ImageIO.read(new File("Imagens/war_tabuleiro_fundo.png"));
+	public PanelTabuleiro() { // metodo do tabuleiro na View
+		try {  // tente inicializar as 2 imagens
+			mapa = ImageIO.read(new File("Imagens/war_tabuleiro_mapa copy.png")); // img do mapa na frente
+			fundo = ImageIO.read(new File("Imagens/war_tabuleiro_fundo.png"));  // imagem de fundo
 		}
 		catch(IOException e) {
-			System.out.println(e.getMessage());
-			System.exit(1);
+			System.out.println(e.getMessage()); // expoe o erro
+			System.exit(1); // aborta com codigo 1
 		}
 
-        add(cb1);
-        add(cb2);
-		add(cb3);
+        add(cb1); // adiciona                   
+        add(cb2); //          as 
+		add(cb3); //             combos boxes
 
+		// 
 		cb1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -250,7 +259,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		proximoLabel.setBounds(920, 580, 100, 50);
     }
 
-	public void notify(Observable o) {
+	public void notify(Observable o) { // O q e esse parametro ?
 		// Mudança nos territórios
 		if (o.get() == null) {
 			int fase = Controller.getFase();
@@ -310,6 +319,8 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		btnSalvar.setVisible(false);
 	}
 
+	
+	// METODOS "FREQUENTES"
 	private void faseAtaque() {
 		comboBoxAtacante();
 		mostrarDados = false;
@@ -486,6 +497,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		new FimFrame("War", cor, vencedor);
 	}
 
+	// variando a cor do jogador precisamos saber qual a cor dele para pintar o territorio de acordo.
 	private Color stringToColor(String cor) {
 		switch(cor) {
 			case "amarelo":
@@ -505,8 +517,8 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		}
 	}
 
-	private void desenhaTerritorios(Map<String,TerritorioView> territoriosView, Graphics2D g2d)
-	{
+	// ESTAMOS PREPARANDO PARA DESENHAR OS TERRITORIOS: aq com o cuidado de termos a cor do jogador
+	private void desenhaTerritorios(Map<String,TerritorioView> territoriosView, Graphics2D g2d){ // Nome,
 		Fachada fachada = Fachada.getFachada();
 		List<String> territoriosJogador;
 
@@ -571,6 +583,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		}
 	}
 
+	// ANOTA O NOME DOS TERRITORIOS NO TABULEIRO
     private void instanciaTerritoriosView() {
     	// América do Norte
     	territorios.put("ALASCA", new TerritorioView(95,104,82,90,"ALASCA"));

@@ -14,7 +14,7 @@ public class DadoView {
     private static DadoView dadoView = null;
 
     private DadoView() {
-        try {
+        try { // tente anexar as imagens aos dados
             dadosAtq[0] = ImageIO.read(new File("Imagens/dado_ataque_1.png"));
             dadosAtq[1] = ImageIO.read(new File("Imagens/dado_ataque_2.png"));
             dadosAtq[2] = ImageIO.read(new File("Imagens/dado_ataque_3.png"));
@@ -27,22 +27,25 @@ public class DadoView {
             dadosDef[3] = ImageIO.read(new File("Imagens/dado_defesa_4.png"));
             dadosDef[4] = ImageIO.read(new File("Imagens/dado_defesa_5.png"));
             dadosDef[5] = ImageIO.read(new File("Imagens/dado_defesa_6.png"));
-        }
+        } // do contrario exiba que deu erro e feche a aplicacao
         catch (IOException e) {
             System.out.println(e.getMessage());
             System.exit(1);
         }
 
+        // todos os dados recebem 0;
         for (int i = 0; i < 6; i++)
             dados[i] = 0;
     }
 
+    // por que temos static aqui ?
     static DadoView getDadoView() {
         if (dadoView == null)
             dadoView = new DadoView();
         return dadoView;
     }
 
+    // DESENHA OS DADOS
     void mostrarDados(Graphics2D g2d) {
         // Mostra os dados de ataque
         for (int i = 0; i < 3; i++) {

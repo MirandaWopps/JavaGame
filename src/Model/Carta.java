@@ -2,11 +2,11 @@ package Model;
 
 class Carta {
     enum TipoCarta {
-        circulo,triangulo,quadrado,coringa;
-    }
+        circulo,triangulo,quadrado,coringa;  // tipo da carta    
+    }                                        // 1circulo, triangulo,  quadrado, coringa
 	
-	private TipoCarta tipo;
-	private Territorio territorio;
+	private TipoCarta tipo;    // 
+	private Territorio territorio;  // 
 	
 	Carta(TipoCarta tipo, Territorio territorio) {
 		this.tipo = tipo;

@@ -4,11 +4,11 @@ import Model.Fachada;
 import View.MenuFrame;
 import View.WarFrame;
 
-public class Controller {
+public class Controller { // ele controla qual a etapa do jogo
 	private static WarFrame f;
 	private static String primeiroJogador;
-	private static boolean inicio = false;
-	private static int fase;
+	private static boolean inicio = false;   // primeira parte nao tem ataque, apenas distribuição dos exércitos.
+	private static int fase; 
 	private static boolean mudouJogador = true;
 	
 	public static void main(String[] args) {

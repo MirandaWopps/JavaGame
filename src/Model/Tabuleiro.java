@@ -18,15 +18,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 class Tabuleiro implements Observable {
-    private Map<String, Jogador> jogadores = new HashMap<>();
-    private LinkedList<Jogador> ordemJogadores = new LinkedList<>();
-    private Map<String, Territorio> territorios = new HashMap<>();
-    private Map<String, Continente> continentes = new HashMap<>();
-	private Deque<Carta> cartas = new ArrayDeque<>();
-	List<Observer> lob = new ArrayList<Observer>();
-	private static Tabuleiro tabuleiro;
+    private Map<String, Jogador> jogadores = new HashMap<>(); // 
+    private LinkedList<Jogador> ordemJogadores = new LinkedList<>(); // grava a ordem dos jogadores 
+    private Map<String, Territorio> territorios = new HashMap<>(); //
+    private Map<String, Continente> continentes = new HashMap<>(); //
+	private Deque<Carta> cartas = new ArrayDeque<>();  //
+	List<Observer> lob = new ArrayList<Observer>(); //
+	private static Tabuleiro tabuleiro; // 
 
-	private Tabuleiro() {
+	private Tabuleiro() { 
 	}
 
 	static Tabuleiro getTabuleiro() {
@@ -248,6 +248,9 @@ class Tabuleiro implements Observable {
 		}
 	}
 	
+	// Iniciamos todos os territorios do arquivo.
+	// qnd criamos um territorio ele está anexado a um continente, entao criamos o continente POR CAUSA DOS OBJETIVOS
+	// e colocamos o nome do territorio, os vizinhos, continente pertencente, e por algum motivo o tipo dele na carta
 	void inicializaTerritorios() {
 		// América do Norte	
 		Continente americaDoNorte = new Continente("AMÉRICA DO NORTE", 5);
@@ -325,10 +328,12 @@ class Tabuleiro implements Observable {
 		adicionarTerritorio(new Territorio("JAPÃO", new ArrayList<>(Arrays.asList("CAZAQUISTÃO", "MONGÓLIA", "COREIA DO NORTE"))), asia, TipoCarta.circulo);
 	}
 
+	
 	void adicionaCoringas() {
 		adicionarCarta(new Carta(TipoCarta.coringa, null));
 		adicionarCarta(new Carta(TipoCarta.coringa, null));
 	}
+	
 	
 	void inicializaJogadores(String[][] jogadores) {
 		for (String[] jogador : jogadores) {
@@ -338,10 +343,12 @@ class Tabuleiro implements Observable {
 		}
 	}
 
+	// destroi o construtor
 	void terminaJogo() {
 		tabuleiro = null;
 	}
 
+	// METODO para salvar o jogo
 	void salvarJogo()  {
 		PrintWriter outputStream = null;
 		
@@ -406,6 +413,7 @@ class Tabuleiro implements Observable {
 		}	
 	}
 	
+	// METODO PARA RECUPERAÇÃO DO JOGO
 	void recuperarJogo() {
 		// TODO
 	}

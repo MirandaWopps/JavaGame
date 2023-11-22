@@ -1,38 +1,46 @@
-package Model;
+package Model; // parte de logica 
 
 import java.util.ArrayList;
 import java.util.List;
 
 class Territorio {
-	private String nome;
-	private int qtdExerc;
-	private List<String> vizinhos = new ArrayList<>();
+	private String nome; // nome do territorio
+	private int qtdExerc; // qtd de exercitos em determinado territorio
+	private List<String> vizinhos = new ArrayList<>(); // territorios vizinhos
 
-	Territorio(String nome, List<String> vizinhos) {
+	/* METODOS da class Territorio*/
+	//Construtor
+	Territorio(String nome, List<String> vizinhos) { // construtor = faz um territorio existir
 		this.nome = nome;
 		this.vizinhos = vizinhos;
 		this.qtdExerc = 1;
 	}
 	
-	List<String> getVizinhos() {
+	
+	// metodo para receber a lista de vizinhos de um territorio
+	List<String> getVizinhos() { 
 		return vizinhos;
 	}
 
-	void ganhaExerc(int n) {
+	// acrescenta exercito em qtdExerc 
+	void ganhaExerc(int n) { 
 		qtdExerc += n;
         Tabuleiro.getTabuleiro().notificaMudanca();
 	}
 
-	void perdeExerc(int n) {
+	// diminiui qtdExerc em determinado territorio
+	void perdeExerc(int n) { 
 		qtdExerc -= n;
-        Tabuleiro.getTabuleiro().notificaMudanca();
+        Tabuleiro.getTabuleiro().notificaMudanca(); // por que tem 2 metodos aqui ? e para notificar o tabuleiro ?
 	}
 
-	String getNome() {
+	// recebe o nome do territorio
+	String getNome() { 
 		return nome;
 	}
 
-	int getQtdExerc() {
+	// recebe a qtdExerc de um territorio
+	int getQtdExerc() { 
 		return qtdExerc;
 	}
 }

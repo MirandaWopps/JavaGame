@@ -1,11 +1,17 @@
 package View;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.FlowLayout;
-
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap; // faz o hash map funcionar 
+import java.util.Map;     // 
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,6 +21,13 @@ import javax.swing.JLabel;
 
 // JANELA ABRINDO MOSTRANDO AS CARTAS
 class CartasFrame {
+	private Map<String,Image> cartas = new HashMap<>();
+	
+	// primeiro
+	// fazu m construtor da classe com try 
+	
+	
+	
 	// 52 CARTAS
 	//Africa
 	public final String war_carta_af_africadosul = "Imagens/war_carta_af_africadosul.png"; //1
@@ -81,7 +94,7 @@ class CartasFrame {
 	//public final String war_carta_oc_indonesia = "Imagens/war_carta_oc_indonesia.png";//51
 	//public final String war_carta_oc_novazelandia = "Imagens/war_carta_oc_novazelandia.png";//52
 	//public final String war_carta_oc_perth = "Imagens/war_carta_oc_perth.png";//53
-
+	
 	/*
 	void CartasObjetivo(){
 		setLayout(new FlowLayout());
@@ -100,7 +113,26 @@ class CartasFrame {
 	private static int qtdBotoesSelecionados;
 	
 	
-	public static void main(String[] args) {
+	 CartasFrame() {
+		 /*try {
+			 // poe para receber uma array de string com 5 strings. 
+			 // pos 0.get()  , espere um confere se é null 
+			 //
+			 //
+			 //
+			 // dá um get no mapa com array e se for NULL não mostre nada
+			 
+			 
+			 // e as strings do território coloca com o memso nome do tabuleiro
+	           ((Container) cartas).add("África do Sul", ImageIO.read(new File("Imagens/war_carta_af_africadosul.png")));
+	        } catch(IOException e) {
+	            System.out.println(e.getMessage());
+	            System.exit(1);
+	        }*/
+		 
+	 }
+
+	 public static void openCartasFrame() {
 		String war_carta_coringa = "Imagens/war_carta_coringa.png";//41
 		String war_carta_oc_australia = "Imagens/war_carta_oc_australia.png";//50
 		String war_carta_oc_indonesia = "Imagens/war_carta_oc_indonesia.png";//51
@@ -305,12 +337,12 @@ class CartasFrame {
             });
             
            
-            
+                                  
             
             
            
             
-         // Add the label to the frame
+         // Add as labels ao frame
             frame.getContentPane().add(labelObjetivos1);
             frame.getContentPane().add(labelObjetivos2);
             frame.getContentPane().add(labelObjetivos3);
@@ -338,4 +370,11 @@ class CartasFrame {
             frame.setVisible(true);
         });
     }
+	 
+	 
+	 public static void main(String[] args) {
+	        openCartasFrame();
+	    }
+	 
+	 
 }
