@@ -69,6 +69,7 @@ class Jogador {
 		return objetivo;
 	}
 
+	// pega cartas
 	List<Carta> getCartas() {
         return cartas;
     }

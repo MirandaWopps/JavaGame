@@ -5,19 +5,24 @@ class Carta {
         circulo,triangulo,quadrado,coringa;  // tipo da carta    
     }                                        // 1circulo, triangulo,  quadrado, coringa
 	
-	private TipoCarta tipo;    // 
-	private Territorio territorio;  // 
+	private TipoCarta tipo;    // e algum daqueles ali em cima
+	private Territorio territorio;  // territorio tem nome
 	
+	// Constroi carta
 	Carta(TipoCarta tipo, Territorio territorio) {
 		this.tipo = tipo;
 		this.territorio = territorio;
 	}
 
-	TipoCarta getTipo() {
-		return tipo;
-	}
-
+	// Adquire nome da carta
 	Territorio getTerritorio() {
 		return territorio;
 	}
+	
+	// Adquire tipo carta
+	TipoCarta getTipo() { 
+		return tipo;
+	}
 }
+
+

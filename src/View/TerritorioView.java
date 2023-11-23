@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.*;
 
 
-public class TerritorioView {
+public class TerritorioView { // ela desenha o tabuleiro.
 	private static Font fonteNome = new Font("SERIF", Font.BOLD, 10);  // fonte para escrita/desenho do nome
 	private static Font fonteExerc = new Font("Arial", Font.BOLD, 12); // fonte para escrita/desenho do exercito
 	
@@ -14,6 +14,7 @@ public class TerritorioView {
 	private int y_nome;   // y onde ficara o nome do exercito
 	private String nome;   // qual sera o nome do territorio
 	
+	// desenha a bolinha e o nome de um territorio
 	TerritorioView(int x_exerc, int y_exerc, int x_nome, int y_nome, String nome) {
 		this.x_exerc = x_exerc;
 		this.y_exerc = y_exerc;

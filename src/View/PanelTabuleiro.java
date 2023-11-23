@@ -157,6 +157,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//TODO <==================================================== enfia o que abre a tela das cartas aqui >:)
+				CartasFrame.openCartasFrame();
 			}
 		});
 		add(btnCartas);

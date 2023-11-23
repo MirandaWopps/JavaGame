@@ -1,7 +1,6 @@
 package View;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -21,85 +20,7 @@ import javax.swing.JLabel;
 
 // JANELA ABRINDO MOSTRANDO AS CARTAS
 class CartasFrame {
-	private Map<String,Image> cartas = new HashMap<>();
-	
-	// primeiro
-	// fazu m construtor da classe com try 
-	
-	
-	
-	// 52 CARTAS
-	//Africa
-	public final String war_carta_af_africadosul = "Imagens/war_carta_af_africadosul.png"; //1
-	public final String war_carta_af_angola = "Imagens/war_carta_af_angola.png"; //2
-	public final String war_carta_af_argelia = "Imagens/war_carta_af_argelia.png"; //3
-	public final String war_carta_af_egito = "Imagens/war_carta_af_egito.png"; //4
-	public final String war_carta_af_nigeria = "Imagens/war_carta_af_nigeria.png";//5
-	public final String war_carta_af_somalia = "Imagens/war_carta_af_somalia.png";	//6
-	
-	//America do Norte
-	public final String war_carta_an_alasca = "Imagens/war_carta_an_alasca.png";	//7
-	public final String war_carta_an_calgary = "Imagens/war_carta_an_calgary.png";//8
-	public final String war_carta_an_california = "Imagens/war_carta_an_california.png";//9
-	public final String war_carta_an_groelandia = "Imagens/war_carta_an_groelandia.png";//10
-	public final String war_carta_an_mexico = "Imagens/war_carta_an_mexico.png";//11
-	public final String war_carta_an_novayork = "Imagens/war_carta_an_novayork.png";//12
-	public final String war_carta_an_quebec = "Imagens/war_carta_an_quebec.png";//13
-	public final String war_carta_an_texas = "Imagens/war_carta_an_texas.png";//14
-	public final String war_carta_an_vancouver = "Imagens/war_carta_an_vancouver.png";// 15
-	
-	//ASIA
-	public final String war_carta_as_arabiasaudita = "Imagens/war_carta_as_arabiasaudita.png";//16
-	public final String war_carta_as_bangladesh = "Imagens/war_carta_as_bangladesh.png";//171
-	public final String war_carta_as_cazaquistao = "Imagens/war_carta_as_cazaquistao.png";//18
-	public final String war_carta_as_china = "Imagens/war_carta_as_china.png";//19
-	public final String war_carta_as_coreiadonorte = "Imagens/war_carta_as_coreiadonorte.png";//20
-	public final String war_carta_as_coreiadosul = "Imagens/war_carta_as_coreiadosul.png";//21
-	public final String war_carta_as_estonia = "Imagens/war_carta_as_estonia.png";//22
-	public final String war_carta_as_india = "Imagens/war_carta_as_india.png";//23
-	public final String war_carta_as_ira = "Imagens/war_carta_as_ira.png";//24
-	public final String war_carta_as_iraque = "Imagens/war_carta_as_iraque.png";//25
-	public final String war_carta_as_japao = "Imagens/war_carta_as_japao.png";//27
-	public final String war_carta_as_jordania = "Imagens/war_carta_as_jordania.png";//28
-	public final String war_carta_as_letonia = "Imagens/war_carta_as_letonia.png";//29
-	public final String war_carta_as_mongolia = "Imagens/war_carta_as_mongolia.png";//30
-	public final String war_carta_as_paquistao = "Imagens/war_carta_as_paquistao.png";//31
-	public final String war_carta_as_russia = "Imagens/war_carta_as_russia.png";//32
-	public final String war_carta_as_siberia = "war_carta_as_siberia.png";//33
-	public final String war_carta_as_siria = "Imagens/war_carta_as_siria.png";//34
-	public final String war_carta_as_tailandia = "Imagens/war_carta_as_tailandia.png";//35
-	public final String war_carta_as_turquia = "Imagens/war_carta_as_turquia.png";//36
-	
-	//AMRICA DO SUL
-	public final String war_carta_asl_argentina = "Imagens/war_carta_asl_argentina.png";//37
-	public final String war_carta_asl_brasil = "Imagens/war_carta_asl_brasil.png";//38
-	public final String war_carta_asl_peru = "Imagens/war_carta_asl_peru.png";//39
-	public final String war_carta_asl_venezuela = "Imagens/war_carta_asl_venezuela.png";//40
-	
-	//CORINGA
-	//public final String war_carta_coringa = "Imagens/dadosVermelho/1.png";//41
-	
-	//EUROPA
-	public final String war_carta_eu_espanha = "Imagens/war_carta_eu_espanha.png";//42
-	public final String war_carta_eu_franca = "Imagens/war_carta_eu_franca.png";//43
-	public final String war_carta_eu_italia = "Imagens/war_carta_eu_italia.png";//44
-	public final String war_carta_eu_polonia = "Imagens/war_carta_eu_polonia.png";//45
-	public final String war_carta_eu_reinounido = "Imagens/war_carta_eu_reinounido.png";//46
-	public final String war_carta_eu_romenia = "Imagens/war_carta_eu_romenia.png";//47
-	public final String war_carta_eu_suecia = "Imagens/war_carta_eu_suecia.png";//48
-	public final String war_carta_eu_ucrania = "Imagens/war_carta_eu_ucrania.png";//49
-	
-	//OCEANIA
-	//public final String war_carta_oc_australia = "Imagens/war_carta_oc_australia.png";//50
-	//public final String war_carta_oc_indonesia = "Imagens/war_carta_oc_indonesia.png";//51
-	//public final String war_carta_oc_novazelandia = "Imagens/war_carta_oc_novazelandia.png";//52
-	//public final String war_carta_oc_perth = "Imagens/war_carta_oc_perth.png";//53
-	
-	/*
-	void CartasObjetivo(){
-		setLayout(new FlowLayout());
-		
-	}*/
+	private  Map<String,Image> cartasMap = new HashMap<>();
 	
 	// Botoes
 	private static JButton buttonCarta1;  
@@ -113,26 +34,95 @@ class CartasFrame {
 	private static int qtdBotoesSelecionados;
 	
 	
-	 CartasFrame() {
-		 /*try {
-			 // poe para receber uma array de string com 5 strings. 
-			 // pos 0.get()  , espere um confere se é null 
-			 //
-			 //
-			 //
-			 // dá um get no mapa com array e se for NULL não mostre nada
-			 
-			 
-			 // e as strings do território coloca com o memso nome do tabuleiro
-	           ((Container) cartas).add("África do Sul", ImageIO.read(new File("Imagens/war_carta_af_africadosul.png")));
-	        } catch(IOException e) {
-	            System.out.println(e.getMessage());
-	            System.exit(1);
-	        }*/
-		 
-	 }
+	
+	// Method to load and add an image to the map
+    private void loadAndAddImage(String key, String imagePath) throws IOException {
+        Image image = ImageIO.read(new File(imagePath));
+        cartasMap.put(key, image);
+    }
+	
+ // Constructor
+    CartasFrame() {
+        // Load images and add them to the map
+        try {
+            // America do Norte
+            loadAndAddImage("ALASCA", "Imagens/war_carta_an_alasca.png");
+            loadAndAddImage("CALGARY", "Imagens/war_carta_an_calgary.png");
+            loadAndAddImage("GROELÂNDIA", "Imagens/war_carta_an_groelandia.png");
+            loadAndAddImage("VANCOUVER", "Imagens/war_carta_an_vancouver.png");
+            loadAndAddImage("QUEBEC", "Imagens/war_carta_an_quebec.png");
+            loadAndAddImage("CALIFORNIA", "Imagens/war_carta_an_california.png");
+            loadAndAddImage("TEXAS", "Imagens/war_carta_an_texas.png");
+            loadAndAddImage("NOVA YORK", "Imagens/war_carta_an_novayork.png");
+            loadAndAddImage("MÉXICO", "Imagens/war_carta_an_mexico.png");
+
+            // America do Sul
+            loadAndAddImage("VENEZUELA", "Imagens/war_carta_asl_venezuela.png");
+            loadAndAddImage("PERU", "Imagens/war_carta_asl_peru.png");
+            loadAndAddImage("BRASIL", "Imagens/war_carta_asl_brasil.png");
+            loadAndAddImage("ARGENTINA", "Imagens/war_carta_asl_argentina.png");
+
+            // Africa
+            loadAndAddImage("ARGÉLIA", "Imagens/war_carta_af_argelia.png");
+            loadAndAddImage("EGITO", "Imagens/war_carta_af_egito.png");
+            loadAndAddImage("NIGÉRIA", "Imagens/war_carta_af_nigeria.png");
+            loadAndAddImage("SOMÁLIA", "Imagens/war_carta_af_somalia.png");
+            loadAndAddImage("ANGOLA", "Imagens/war_carta_af_angola.png");
+            loadAndAddImage("ÁFRICA DO SUL", "Imagens/war_carta_af_africadosul.png");
+
+            // Europa
+            loadAndAddImage("REINO UNIDO", "Imagens/war_carta_eu_reinounido.png");
+            loadAndAddImage("ESPANHA", "Imagens/war_carta_eu_espanha.png");
+            loadAndAddImage("FRANÇA", "Imagens/war_carta_eu_franca.png");
+            loadAndAddImage("SUÉCIA", "Imagens/war_carta_eu_suecia.png");
+            loadAndAddImage("POLÔNIA", "Imagens/war_carta_eu_polonia.png");
+            loadAndAddImage("ITÁLIA", "Imagens/war_carta_eu_italia.png");
+            loadAndAddImage("ROMÊNIA", "Imagens/war_carta_eu_romenia.png");
+            loadAndAddImage("UCRÂNIA", "Imagens/war_carta_eu_ucrania.png");
+
+            // Asia
+            loadAndAddImage("ESTÔNIA", "Imagens/war_carta_as_estonia.png");
+            loadAndAddImage("LETÔNIA", "Imagens/war_carta_as_letonia.png");
+            loadAndAddImage("TURQUIA", "Imagens/war_carta_as_turquia.png");
+            loadAndAddImage("SÍRIA", "Imagens/war_carta_as_siria.png");
+            loadAndAddImage("JORDÂNIA", "Imagens/war_carta_as_jordania.png");
+            loadAndAddImage("ARÁBIA SAUDITA", "Imagens/war_carta_as_arabiasaudita.png");
+            loadAndAddImage("IRAQUE", "Imagens/war_carta_as_iraque.png");
+            loadAndAddImage("IRÃ", "Imagens/war_carta_as_ira.png");
+            loadAndAddImage("PAQUISTÃO", "Imagens/war_carta_as_paquistao.png");
+            loadAndAddImage("RÚSSIA", "Imagens/war_carta_as_russia.png");
+            loadAndAddImage("SIBÉRIA", "war_carta_as_siberia.png");
+            loadAndAddImage("CAZAQUISTÃO", "Imagens/war_carta_as_cazaquistao.png");
+            loadAndAddImage("MONGÓLIA", "Imagens/war_carta_as_mongolia.png");
+            loadAndAddImage("CHINA", "Imagens/war_carta_as_china.png");
+            loadAndAddImage("COREIA DO NORTE", "Imagens/war_carta_as_coreiadonorte.png");
+            loadAndAddImage("COREIA DO SUL", "Imagens/war_carta_as_coreiadosul.png");
+            loadAndAddImage("ÍNDIA", "Imagens/war_carta_as_india.png");
+            loadAndAddImage("BANGLADESH", "Imagens/war_carta_as_bangladesh.png");
+            loadAndAddImage("TAILÂNDIA", "Imagens/war_carta_as_tailandia.png");
+            loadAndAddImage("JAPÃO", "Imagens/war_carta_as_japao.png");
+
+            // Oceania
+            loadAndAddImage("AUSTRÁLIA", "Imagens/war_carta_oc_australia.png");
+            loadAndAddImage("INDONÉSIA", "Imagens/war_carta_oc_indonesia.png");
+            loadAndAddImage("NOVA ZELÂNDIA", "Imagens/war_carta_oc_novazelandia.png");
+            loadAndAddImage("PERTH", "Imagens/war_carta_oc_perth.png");
+
+            // Add more images as needed
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
 	 public static void openCartasFrame() {
+		 
+		//ImageIcon imageIcon = cartasMap.get("NOVA ZELÂNDIA");
+		String[] cartasAtualJogador = new String[5];
+		cartasAtualJogador = cartasAtualJogador; 
+		
 		String war_carta_coringa = "Imagens/war_carta_coringa.png";//41
 		String war_carta_oc_australia = "Imagens/war_carta_oc_australia.png";//50
 		String war_carta_oc_indonesia = "Imagens/war_carta_oc_indonesia.png";//51
@@ -369,11 +359,16 @@ class CartasFrame {
             frame.pack();
             frame.setVisible(true);
         });
+        System.out.println("Abriu");
+        System.out.println(cartasAtualJogador[0]); // pega a carta de um jogador
+        
+        
     }
 	 
 	 
-	 public static void main(String[] args) {
+	 public static void main(String[] args) { // usamos essa linha para testar abrir so a classe sem o resto do tabuleiro
 	        openCartasFrame();
+	        
 	    }
 	 
 	 
