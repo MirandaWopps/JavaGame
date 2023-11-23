@@ -107,7 +107,7 @@ class Tabuleiro implements Observable {
 			proximo.setRecebeCarta(false);
 		}
 
-		// adiciona o jogador no final da fila
+		// Adiciona o jogador no final da fila
 		ordemJogadores.add(proximo);
 	}
 

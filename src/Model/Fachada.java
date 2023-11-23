@@ -31,7 +31,7 @@ public class Fachada {
 	public void salvarJogo() {
 		tabuleiro.salvarJogo();
 	}
-	
+
 	public void recuperarJogo() {
 		tabuleiro = Tabuleiro.getTabuleiro();
 		tabuleiro.recuperarJogo();
@@ -52,6 +52,14 @@ public class Fachada {
 
 	public void proximoJogador() {
 		tabuleiro.proximoJogador();
+	}
+
+	public ArrayList<String> cartasAtualJogador() {
+		ArrayList<String> cartas = new ArrayList<>();
+		for (Carta carta : tabuleiro.atualJogador().getCartas()) {
+			cartas.add(carta.getTerritorio().getNome());
+		}
+		return cartas;
 	}
 
 	public String objetivoAtualJogador() {
@@ -178,7 +186,7 @@ public class Fachada {
 			atacante.perdeExerc(exAtaque);
 			defensor.ganhaExerc(exAtaque);
 
-			// Verifica se o jogador atacante recebe carta
+			// Seta jogador para receber carta
 			jogadorAtacante.setRecebeCarta(true);
 
 			// Verifica se o jogador defensor foi eliminado
