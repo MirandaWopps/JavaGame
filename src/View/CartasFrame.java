@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap; // faz o hash map funcionar 
+import java.util.List;
 import java.util.Map;     // 
 
 import javax.imageio.ImageIO;
@@ -17,10 +18,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import Model.Fachada;
+
 
 // JANELA ABRINDO MOSTRANDO AS CARTAS
 class CartasFrame {
-	private  Map<String,Image> cartasMap = new HashMap<>();
+	private static Map<String,Image> cartasMap = new HashMap<>();
 	
 	// Botoes
 	private static JButton buttonCarta1;  
@@ -107,8 +110,11 @@ class CartasFrame {
             loadAndAddImage("INDONÉSIA", "Imagens/war_carta_oc_indonesia.png");
             loadAndAddImage("NOVA ZELÂNDIA", "Imagens/war_carta_oc_novazelandia.png");
             loadAndAddImage("PERTH", "Imagens/war_carta_oc_perth.png");
-
+            
             // Add more images as needed
+            loadAndAddImage("VERSO", "Imagens/war_carta_verso.png");
+            loadAndAddImage(null, "Imagens/war_carta_verso.png");
+            loadAndAddImage("SMOKING", "Imagens/pacific.gif");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -117,27 +123,49 @@ class CartasFrame {
 
 
 
-	 public static void openCartasFrame() {
-		 
-		//ImageIcon imageIcon = cartasMap.get("NOVA ZELÂNDIA");
-		String[] cartasAtualJogador = new String[5];
-		cartasAtualJogador = cartasAtualJogador; 
+	 public void openCartasFrame() {		
+		List<String> cartasAtualJogador ;
+	
+		cartasAtualJogador = Fachada.getFachada().cartasAtualJogador();
 		
-		String war_carta_coringa = "Imagens/war_carta_coringa.png";//41
-		String war_carta_oc_australia = "Imagens/war_carta_oc_australia.png";//50
-		String war_carta_oc_indonesia = "Imagens/war_carta_oc_indonesia.png";//51
-		String war_carta_oc_novazelandia = "Imagens/war_carta_oc_novazelandia.png";//52
-		String war_carta_oc_perth = "Imagens/war_carta_oc_perth.png";//53
+		
+		String[] vetorCartas = new String[5];
+		// tratamento de erro porque se pegar um que nao tem nada VAI DAR ERRO
+		if (cartasAtualJogador.size() >= 4) { 
+		    vetorCartas[0] = cartasAtualJogador.get(0);
+		    vetorCartas[1] = cartasAtualJogador.get(1);
+		    vetorCartas[2] = cartasAtualJogador.get(2);
+		    vetorCartas[3] = cartasAtualJogador.get(3);
+		} else if (cartasAtualJogador.size() >= 3){
+			vetorCartas[0] = cartasAtualJogador.get(0);
+			vetorCartas[1] = cartasAtualJogador.get(1);
+			vetorCartas[2] = cartasAtualJogador.get(2);
+		} else if (cartasAtualJogador.size() >= 2){
+			vetorCartas[0] = cartasAtualJogador.get(0);
+			vetorCartas[1] = cartasAtualJogador.get(1);
+		} else if (cartasAtualJogador.size() >= 1){
+			vetorCartas[0] = cartasAtualJogador.get(0);
+		} else {
+			
+		}
+		
+		
+		// Tapa buracos porque ta dando erro qnd pega NULL
+		
+		
+		
+		
+		
+		
+		
+
         javax.swing.SwingUtilities.invokeLater(() -> {
         	
             JFrame frame = new JFrame("Cartas");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Esse fecha tudo
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // fecha so o frame
             frame.setLayout(new FlowLayout());
-             /*
-            ImageIcon static image1 = new ImageIcon(getClass().getResource(war_carta_oc_perth)); // Provide the path to your image file
-            frame.add(image1);
-            ImageIcon image2 = new ImageIcon(war_carta_oc_indonesia); // Provide the path to your image file
-            frame.setIcon(image2);*/
+  
             
             // Label
             JLabel labelObjetivos1 = new JLabel();
@@ -145,19 +173,53 @@ class CartasFrame {
             JLabel labelObjetivos3 = new JLabel();
             JLabel labelObjetivos4 = new JLabel();
             JLabel labelObjetivos5 = new JLabel();
+            System.out.println("asd");
             
+            //if ( vetorCartas[0] != null) {
+            	//ImageIcon image1 = new ImageIcon(cartasMap.get(vetorCartas[0])); // Provide the path to your image file
+            	ImageIcon image1 = new ImageIcon(cartasMap.get("VERSO")); // Provide the path to your image file
+            	labelObjetivos1.setIcon(image1);
+            /*} else {
+            	ImageIcon image1 = new ImageIcon(cartasMap.get("VERSO")); // Provide the path to your image file
+            	labelObjetivos1.setIcon(image1);
+            }*/
 
-            ImageIcon image1 = new ImageIcon(war_carta_oc_australia); // Provide the path to your image file
-            labelObjetivos1.setIcon(image1);
-            ImageIcon image2 = new ImageIcon(war_carta_oc_indonesia); // Provide the path to your image file
-            labelObjetivos2.setIcon(image2);
-            ImageIcon image3 = new ImageIcon(war_carta_oc_novazelandia); // Provide the path to your image file
-            labelObjetivos3.setIcon(image3);
-            ImageIcon image4 = new ImageIcon(war_carta_oc_perth); // Provide the path to your image file
-            labelObjetivos4.setIcon(image4);
-            ImageIcon image5 = new ImageIcon(war_carta_coringa); // Provide the path to your image file
-            labelObjetivos5.setIcon(image5);
             
+            //if ( vetorCartas[1] != null) {
+            	//ImageIcon image2 = new ImageIcon(cartasMap.get(vetorCartas[1])); // Provide the path to your image file
+            	ImageIcon image2 = new ImageIcon(cartasMap.get("VERSO")); // Provide the path to your image file
+            	labelObjetivos2.setIcon(image2);
+           /* } else {
+            	ImageIcon image2 = new ImageIcon(cartasMap.get("VERSO")); // Provide the path to your image file
+            	labelObjetivos2.setIcon(image2);
+            }*/
+            
+           // if ( vetorCartas[2] != null) {
+            	//ImageIcon image2 = new ImageIcon(cartasMap.get(vetorCartas[2])); // Provide the path to your image file
+            	ImageIcon image3 = new ImageIcon(cartasMap.get("VERSO")); // Provide the path to your image file
+            	labelObjetivos3.setIcon(image3);
+           /* } else {
+            	ImageIcon image3 = new ImageIcon(cartasMap.get("VERSO")); // Provide the path to your image file
+            	labelObjetivos3.setIcon(image3);
+            }*/
+            
+           // if ( vetorCartas[3] != null) {
+            	//ImageIcon image4 = new ImageIcon(cartasMap.get(vetorCartas[3])); // Provide the path to your image file
+            	ImageIcon image4 = new ImageIcon(cartasMap.get("VERSO")); // Provide the path to your image file
+            	labelObjetivos4.setIcon(image4);
+           /* } else {
+            	ImageIcon image4 = new ImageIcon(cartasMap.get("VERSO")); // Provide the path to your image file
+                labelObjetivos4.setIcon(image4);
+            }*/
+            
+            //if ( vetorCartas[4] != null) {
+            	//ImageIcon image5 = new ImageIcon(cartasMap.get(vetorCartas[4])); // Provide the path to your image file
+            	ImageIcon image5 = new ImageIcon(cartasMap.get("VERSO")); // Provide the path to your image file
+            	labelObjetivos5.setIcon(image5);
+           /* } else {
+            	ImageIcon image5 = new ImageIcon(cartasMap.get("VERSO")); // Provide the path to your image file
+            	labelObjetivos5.setIcon(image5);
+            }*/
             
             
             
@@ -329,7 +391,7 @@ class CartasFrame {
            
                                   
             
-            
+             
            
             
          // Add as labels ao frame
@@ -359,17 +421,25 @@ class CartasFrame {
             frame.pack();
             frame.setVisible(true);
         });
+        
+        
         System.out.println("Abriu");
-        System.out.println(cartasAtualJogador[0]); // pega a carta de um jogador
+        System.out.println(cartasMap.get("VERSO"));
+        System.out.println(vetorCartas[0]   ); 
+        System.out.println(vetorCartas[1]   ); 
+        System.out.println(vetorCartas[2]   );
+        System.out.println(vetorCartas[3]   ); 
+        System.out.println(vetorCartas[4]   ); 
+        System.out.println(vetorCartas[4]   );
         
         
-    }
+        
+        
+        
+    } // fim do metodo q abre tudo 
 	 
 	 
-	 public static void main(String[] args) { // usamos essa linha para testar abrir so a classe sem o resto do tabuleiro
-	        openCartasFrame();
-	        
-	    }
 	 
 	 
-}
+	 
+}// fim da classe

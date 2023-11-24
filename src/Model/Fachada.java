@@ -54,6 +54,8 @@ public class Fachada {
 		tabuleiro.proximoJogador();
 	}
 
+	
+	// Parece que so retorna a primeira parte da carta  - USADO NA VIEW
 	public ArrayList<String> cartasAtualJogador() {
 		ArrayList<String> cartas = new ArrayList<>();
 		for (Carta carta : tabuleiro.atualJogador().getCartas()) {
@@ -61,6 +63,17 @@ public class Fachada {
 		}
 		return cartas;
 	}
+	
+	// esse pode retornar o tipo inteiro tudo  - Criado, mas não usado !
+	public List<Carta> cartasFullAtualJogador() {
+	    List<Carta> cartas = new ArrayList<>();
+	    for (Carta carta : tabuleiro.atualJogador().getCartas()) {
+	        cartas.add(carta);
+	    }
+	    return cartas;
+	}
+	
+	
 
 	public String objetivoAtualJogador() {
 		return tabuleiro.atualJogador().getObjetivo().getDescricao();

@@ -3,7 +3,7 @@ package Model;
 class Carta {
     enum TipoCarta {
         circulo,triangulo,quadrado,coringa;  // tipo da carta    
-    }                                        // 1circulo, triangulo,  quadrado, coringa
+    }                                        // circulo, triangulo,  quadrado, coringa
 	
 	private TipoCarta tipo;    // e algum daqueles ali em cima
 	private Territorio territorio;  // territorio tem nome
