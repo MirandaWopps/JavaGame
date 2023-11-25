@@ -239,8 +239,8 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		btnCartas.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CartasFrame cartasFrame = new CartasFrame();
-		        cartasFrame.openCartasFrame();
+				CartasFrameV2 cartasFrame = new CartasFrameV2(Fachada.getFachada());  // O cartasFrameV2 precisa receber informações da fachada para usar cartasAtualJogador()
+		        cartasFrame.openCartasFrameV2(); // abre interface grafica com os dados ja adquiridos atraves do metodo construtor.
 			}
 		});
 		add(btnCartas);
