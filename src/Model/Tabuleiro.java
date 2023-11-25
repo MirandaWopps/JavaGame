@@ -21,13 +21,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 class Tabuleiro implements Observable {
-    private Map<String, Jogador> jogadores = new HashMap<>(); // 
+    private Map<String, Jogador> jogadores = new HashMap<>();
     private LinkedList<Jogador> ordemJogadores = new LinkedList<>(); // grava a ordem dos jogadores 
-    private Map<String, Territorio> territorios = new HashMap<>(); //
-    private Map<String, Continente> continentes = new HashMap<>(); //
-	private Deque<Carta> cartas = new ArrayDeque<>();  //
-	List<Observer> lob = new ArrayList<Observer>(); //
-	private static Tabuleiro tabuleiro; // 
+    private Map<String, Territorio> territorios = new HashMap<>();
+    private Map<String, Continente> continentes = new HashMap<>();
+	private Deque<Carta> cartas = new ArrayDeque<>();
+	List<Observer> lob = new ArrayList<Observer>();
+	private boolean dominou = false; // variavel para verificar se ocorreu dominio de territorio
+	private static Tabuleiro tabuleiro;
 
 	private Tabuleiro() { 
 	}
@@ -127,10 +128,16 @@ class Tabuleiro implements Observable {
 	}
 
 	public Object get() {
-		return null;
+		return dominou;
 	}
 
-	void notificaMudanca() {
+	void notificaMudanca(boolean dominou) {
+		if (dominou) {
+			this.dominou = true;
+		}
+		else {
+			this.dominou = false;
+		}
 		for (Observer o : lob) {
 			o.notify(this);
 		}
@@ -593,7 +600,6 @@ class Tabuleiro implements Observable {
 		System.out.println("Recuperando Cartas");
 
 		for (int i = 0; i < tam; i++) {
-			Boolean coringa = true;
             sub_strings = ALista.get(i).split("\\,", 0);
             String corJogador = sub_strings[0];
             //String tipoCarta = sub_strings[1]; 

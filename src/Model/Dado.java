@@ -62,6 +62,28 @@ public class Dado implements Observable {
     	}
 	}
 
+    int[] manipulaDados(int[] dadosAtaque, int[] dadosDefesa) { 
+        zerarDados();
+
+        for (int i = 0; i < 3; i++) {
+        	dados[i] = dadosAtaque[i];
+        }
+
+        for (int i = 0; i < 3; i++) {
+        	dados[i+3] = dadosDefesa[i];
+        }
+
+        ordenaDados();
+
+        for (Observer o : lob) {
+            o.notify(this);
+        }
+        
+        System.out.println(Arrays.toString(dados));
+
+        return dados;
+    }
+
 	int[] sorteiaDados(int atacante, int defensor) {
         Random random = new Random();
         zerarDados();

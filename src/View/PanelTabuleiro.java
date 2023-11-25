@@ -110,8 +110,16 @@ public class PanelTabuleiro extends JPanel implements Observer {
 						// Visibilidade dos dados manipulados
 						int qtdExerc = Fachada.getFachada().qtdExerc(selected);
 						qtdExerc--;
+
+						// Guarda os dados selecionados
+						int dados[] = { (int) dadoAtq1.getSelectedItem(), (int) dadoAtq2.getSelectedItem(), (int) dadoAtq3.getSelectedItem() };
+
+						// Atualiza a combobox dos dados do atacante
 						for (int i = 0; i < qtdExerc && i < 3; i++) {
 							preencheDado(dadosAtq.get(i));
+							// Seleciona o item que estava selecionado
+							if (dados[i] != 0)
+								dadosAtq.get(i).setSelectedItem(dados[i]);
 						}
 						for (int i = qtdExerc; i < 3; i++) {
 							zeraDado(dadosAtq.get(i));
@@ -130,6 +138,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
             } 
         });
 
+		// Listener da combobox do defensor, para atualizar os dados manipulados
 		cb2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -138,8 +147,16 @@ public class PanelTabuleiro extends JPanel implements Observer {
 					if (selected != null) {
 						// Visibilidade dos dados manipulados
 						int qtdExerc = Fachada.getFachada().qtdExerc(selected);
+
+						// Guarda os dados selecionados
+						int dados[] = { (int) dadoDef1.getSelectedItem(), (int) dadoDef2.getSelectedItem(), (int) dadoDef3.getSelectedItem() };
+
+						// Atualiza a combobox dos dados do defensor
 						for (int i = 0; i < qtdExerc && i < 3; i++) {
 							preencheDado(dadosDef.get(i));
+							// Seleciona o item que estava selecionado
+							if (dados[i] != 0)
+								dadosDef.get(i).setSelectedItem(dados[i]);
 						}
 						for (int i = qtdExerc; i < 3; i++) {
 							zeraDado(dadosDef.get(i));
@@ -372,32 +389,33 @@ public class PanelTabuleiro extends JPanel implements Observer {
     }
 
 	public void notify(Observable o) {
+		Object obj = o.get();
 		// Mudança nos territórios
-		if (o.get() == null) {
-			int fase = Controller.getFase();
-			switch (fase) {
-				case 0:
-				case 1:
-					if (possuiContinentes.isEmpty()) {
-						comboBoxRecebimento();
-						comboBoxExerc();
-					}
-					else {
-						comboBoxRecebimentoContinente(possuiContinentes.get(0));
-						comboBoxExercContinente(possuiContinentes.get(0));
-					}
-					break;
-				case 2:
-					comboBoxAtacante();
-					break;
-				case 3:
-					comboBoxOrigem();
-					break;
+		if (obj instanceof Boolean) {
+			if (!(boolean)obj) {
+				int fase = Controller.getFase();
+				switch (fase) {
+					case 0:
+					case 1:
+						if (possuiContinentes.isEmpty()) {
+							comboBoxExerc();
+						}
+						else {
+							comboBoxExercContinente(possuiContinentes.get(0));
+						}
+						break;
+					case 3:
+						comboBoxOrigem();
+						break;
+				}
+			}
+			else {
+				comboBoxAtacante();
 			}
 		}
 		else {
 			// Mudança nos dados
-			int dados[] = (int[]) o.get();
+			int dados[] = (int[]) obj;
 			DadoView.getDadoView().setDados(dados);
 			mostrarDados = true;
 		}
@@ -576,8 +594,10 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		}
 
 		// seleciona o item que estava selecionado
-		if (selected != null)
+		if (selected != null && territorios.contains(selected)) {
+			System.out.println("selected: " + selected);
 			cb2.setSelectedItem(selected);
+		}
 	}
 
 	private void comboBoxOrigem() {
@@ -661,8 +681,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		}
 	}
 
-	// ESTAMOS PREPARANDO PARA DESENHAR OS TERRITORIOS: aq com o cuidado de termos a cor do jogador
-	private void desenhaTerritorios(Map<String,TerritorioView> territoriosView, Graphics2D g2d){ // Nome,
+	private void desenhaTerritorios(Map<String,TerritorioView> territoriosView, Graphics2D g2d){
 		Fachada fachada = Fachada.getFachada();
 		List<String> territoriosJogador;
 

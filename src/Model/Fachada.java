@@ -80,9 +80,7 @@ public class Fachada { // funciona como se fosse uma vitrine: atras o model e ap
 		}
 		return cartas;
 	}
-	
-	
-	
+
 	public String objetivoAtualJogador() {
 		return tabuleiro.atualJogador().getObjetivo().getDescricao();
 	}	
@@ -197,7 +195,7 @@ public class Fachada { // funciona como se fosse uma vitrine: atras o model e ap
 		// Atualiza os exercitos
 		atacante.perdeExerc(perdaAtaque);
 		defensor.perdeExerc(perdaDefesa);
-		
+
 		if (defensor.getQtdExerc() == 0) {
 			// Atualiza o dono do territorio
 			Jogador jogadorAtacante = tabuleiro.atualJogador();
@@ -234,12 +232,16 @@ public class Fachada { // funciona como se fosse uma vitrine: atras o model e ap
 			exDefesa = 3;
 		}
 
+		// Manipula os dados
+		Dado dado = Dado.getDado();
+		int[] dados = dado.manipulaDados(dadosAtaque, dadosDefesa);
+
 		// Realiza a batalha
 		int perdaAtaque = 0;
 		int perdaDefesa = 0;
 		for (int i = 0; i < 3; i++) {
-			if (dadosAtaque[i] > 0 && dadosDefesa[i] > 0) {
-				if (dadosAtaque[i] > dadosDefesa[i])
+			if (dados[i] > 0 && dados[i+3] > 0) {
+				if (dados[i] > dados[i+3])
 					perdaDefesa++;
 				else
 					perdaAtaque++;
@@ -251,7 +253,7 @@ public class Fachada { // funciona como se fosse uma vitrine: atras o model e ap
 		// Atualiza os exercitos
 		atacante.perdeExerc(perdaAtaque);
 		defensor.perdeExerc(perdaDefesa);
-		
+
 		if (defensor.getQtdExerc() == 0) {
 			// Atualiza o dono do territorio
 			Jogador jogadorAtacante = tabuleiro.atualJogador();
@@ -260,6 +262,7 @@ public class Fachada { // funciona como se fosse uma vitrine: atras o model e ap
 			jogadorAtacante.adicionarTerritorio(defensor);
 			atacante.perdeExerc(exAtaque);
 			defensor.ganhaExerc(exAtaque);
+			tabuleiro.notificaMudanca(true);
 
 			// Seta jogador para receber carta
 			jogadorAtacante.setRecebeCarta(true);

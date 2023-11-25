@@ -29,13 +29,13 @@ class Territorio {
 	// acrescenta exercito em qtdExerc 
 	void ganhaExerc(int n) { 
 		qtdExerc += n;
-        Tabuleiro.getTabuleiro().notificaMudanca();
+        Tabuleiro.getTabuleiro().notificaMudanca(false);
 	}
 
 	// diminiui qtdExerc em determinado territorio
 	void perdeExerc(int n) { 
 		qtdExerc -= n;
-        Tabuleiro.getTabuleiro().notificaMudanca(); // por que tem 2 metodos aqui ? e para notificar o tabuleiro ?
+        Tabuleiro.getTabuleiro().notificaMudanca(false);
 	}
 
 	// recebe o nome do territorio
