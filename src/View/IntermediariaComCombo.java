@@ -73,7 +73,7 @@ public class IntermediariaComCombo extends JFrame{
 		textField6.setText("Nome Jogador 6");
 
         // cria um array de inteiros
-        Integer[] integers = { 2, 3, 4, 5, 6};
+        Integer[] integers = { 3, 4, 5, 6};
         // cria um JComboBox com o array de inteiros
         JComboBox<Integer> integerComboBox = new JComboBox<>(integers);
 
@@ -93,16 +93,8 @@ public class IntermediariaComCombo extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 Integer selectedInteger = (Integer) integerComboBox.getSelectedItem();
                 
-                if (selectedInteger== 2) {
-                	panel2Selected.removeAll();
-                	panel2Selected.add(textField1);
-                    panel2Selected.add(comboJogador1);
-             		panel2Selected.add(textField2);
-             		panel2Selected.add(comboJogador2);
-             		panel2Selected.add(prosseguirButton);
-                    panel2Selected.setVisible(false); 
-                }
-                else if (selectedInteger== 3) {		
+                
+                if (selectedInteger== 3) {		
                 	panel2Selected.removeAll();
                 	panel2Selected.add(textField1);
                     panel2Selected.add(comboJogador1);
