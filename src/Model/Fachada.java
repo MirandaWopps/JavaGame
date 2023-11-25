@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Fachada { // sigleton porque so pode ter 1      
+public class Fachada { // funciona como se fosse uma vitrine: atras o model e apos o controller e view
 	private static Fachada fachada;
 	private Tabuleiro tabuleiro;
 
