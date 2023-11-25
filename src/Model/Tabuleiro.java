@@ -279,9 +279,9 @@ class Tabuleiro implements Observable {
 		// Oceania
 		Continente oceania = new Continente("OCEANIA", 2);
 		adicionarContinente(oceania);
-		adicionarTerritorio(new Territorio("PERTH", new ArrayList<>(Arrays.asList("AUSTRALIA"))), oceania, TipoCarta.circulo);
-		adicionarTerritorio(new Territorio("AUSTRALIA", new ArrayList<>(Arrays.asList("PERTH", "INDONÉSIA", "NOVA ZELÂNDIA"))), oceania, TipoCarta.triangulo);
-		adicionarTerritorio(new Territorio("NOVA ZELÂNDIA", new ArrayList<>(Arrays.asList("AUSTRALIA", "INDONÉSIA"))), oceania, TipoCarta.quadrado);
+		adicionarTerritorio(new Territorio("PERTH", new ArrayList<>(Arrays.asList("AUSTRÁLIA"))), oceania, TipoCarta.circulo);
+		adicionarTerritorio(new Territorio("AUSTRÁLIA", new ArrayList<>(Arrays.asList("PERTH", "INDONÉSIA", "NOVA ZELÂNDIA"))), oceania, TipoCarta.triangulo);
+		adicionarTerritorio(new Territorio("NOVA ZELÂNDIA", new ArrayList<>(Arrays.asList("AUSTRÁLIA", "INDONÉSIA"))), oceania, TipoCarta.quadrado);
 		adicionarTerritorio(new Territorio("INDONÉSIA", new ArrayList<>(Arrays.asList("ÍNDIA", "BANGLADESH", "AUSTRÁLIA", "NOVA ZELÂNDIA"))), oceania, TipoCarta.triangulo);
 
 		// África

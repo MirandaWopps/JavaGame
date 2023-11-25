@@ -748,7 +748,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
     	
     	// Oceania
     	territorios.put("PERTH", new TerritorioView(788,528,770,513,"PERTH"));
-    	territorios.put("AUSTRALIA", new TerritorioView(844,551,820,535,"AUSTRALIA"));
+    	territorios.put("AUSTRÁLIA", new TerritorioView(844,551,820,535,"AUSTRÁLIA"));
     	territorios.put("NOVA ZELÂNDIA", new TerritorioView(903,572,900,557,"NOVA ZELÂNDIA"));
     	territorios.put("INDONÉSIA", new TerritorioView(841,422,860,430,"INDONÉSIA"));
     	
