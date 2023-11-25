@@ -22,6 +22,10 @@ class Territorio {
 		return vizinhos;
 	}
 
+	void setExerc(int n) { 
+		qtdExerc = n;
+	}
+
 	// acrescenta exercito em qtdExerc 
 	void ganhaExerc(int n) { 
 		qtdExerc += n;

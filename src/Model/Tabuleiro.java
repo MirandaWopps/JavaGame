@@ -5,6 +5,8 @@ import java.util.Random;
 
 import Model.Carta.TipoCarta;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -328,18 +331,20 @@ class Tabuleiro implements Observable {
 		adicionarTerritorio(new Territorio("JAPÃO", new ArrayList<>(Arrays.asList("CAZAQUISTÃO", "MONGÓLIA", "COREIA DO NORTE"))), asia, TipoCarta.circulo);
 	}
 
-	
 	void adicionaCoringas() {
 		adicionarCarta(new Carta(TipoCarta.coringa, null));
 		adicionarCarta(new Carta(TipoCarta.coringa, null));
 	}
-	
-	
+
 	void inicializaJogadores(String[][] jogadores) {
 		for (String[] jogador : jogadores) {
 			if (jogador[1] == null)
 				break;
 			adicionarJogador(new Jogador(jogador[0],jogador[1]));
+		}
+		System.out.println("Jogadores Inicializados");
+		for (Jogador jogador : ordemJogadores) {
+			System.out.println(jogador.getNome());
 		}
 	}
 
@@ -349,31 +354,43 @@ class Tabuleiro implements Observable {
 	}
 
 	// METODO para salvar o jogo
-	void salvarJogo()  {
+	void salvarJogo(String caminho_nome)  {
 		PrintWriter outputStream = null;
-		
+
 		// Prepara Arquivo para salvamento
-		//
-		//  Nossos Objetivos são strings que contém ",", por isso 
-		//   usamos como caractere  separador o ";"
-		//
-		
-		
+		//  Usamos como caractere  separador o ";"
+
 		ArrayList<String> PosicaoJogo = new ArrayList<>();
-		List<String> ListaJogadores = new ArrayList<>(jogadores.keySet());
-		
+
+		// Recebe a ordem dos jogadores com o atual no final, pois o salvamento é no deslocamento
+		ArrayList<String> ListaJogadores = new ArrayList<>();
+		for (int i = 1; i < ordemJogadores.size(); i++) {
+			ListaJogadores.add(ordemJogadores.get(i).getCor());
+		}
+		Jogador jogadorAtual = atualJogador();
+		ListaJogadores.add(jogadorAtual.getCor());
+
+		// Confere se o jogador atual pode receber carta
+		if (jogadorAtual.getRecebeCarta()) {
+			jogadorAtual.adicionarCarta(retirarCarta());
+			jogadorAtual.setRecebeCarta(false);
+		}
+
 		PosicaoJogo.add("Inicia Salvamento do Jogo");
 		// Lista as cores dos jogadores da partida
 		for (String key : ListaJogadores) {
 			// Recebe Obj do Jogador
-			String ObjJogador = getJogador(key).getObjetivo().getDescricao();
-			
+			String ObjJogador = getJogador(key).getObjetivo().getClass().getName();
+
 			// Recebe Nome do Jogador
 			String NomeJogador = getJogador(key).getNome();
-			
+
+			PosicaoJogo.add("Cor_Objetivo_Nome");
+
 			// Guarda Informações
 			PosicaoJogo.add(key + ";" + ObjJogador + ";"+ NomeJogador);
-			
+
+			PosicaoJogo.add("Territorio_QtdeExercitos");
 			// Recebe territórios do jogador e qtde de exxercitos por território
 			List<String> ListaTerritorios = new ArrayList<>(getJogador(key).getTerritorios().keySet());
 			for (String key2 : ListaTerritorios) {
@@ -381,7 +398,7 @@ class Tabuleiro implements Observable {
 				// Guarda informações
 				PosicaoJogo.add(key2 + ";" + qtde);
 			}
-			PosicaoJogo.add("INÍCIO CARTAS");
+			PosicaoJogo.add("INÍCIO_CARTAS");
 			List<Carta> ListaCartas = new ArrayList<>(getJogador(key).getCartas());
 			for (Carta key3 : ListaCartas) {
 				String tipo = key3.getTipo().name(); 
@@ -389,16 +406,29 @@ class Tabuleiro implements Observable {
 				// Guarda informações
 				PosicaoJogo.add(tipo +";"+ NomeTerritorio);
 			}
-			PosicaoJogo.add("FIM CARTAS");
+			PosicaoJogo.add("FIM_CARTAS");
 		}
-		
-		//PosicaoJogo.add("CARTAS_BARALHO");
-		
+
+		PosicaoJogo.add("CARTAS_MONTE");
+		// Iterator
+		Iterator<Carta> itr = cartas.iterator();
+
+	    while (itr.hasNext()) {
+	    	Carta cartaMonte = itr.next();
+	    	String tipo = cartaMonte.getTipo().name(); 
+			String NomeTerritorio = "coringa";
+			if(tipo != "coringa") {
+				NomeTerritorio = cartaMonte.getTerritorio().getNome();
+			}
+			System.out.println(NomeTerritorio);
+			// Guarda informações
+			PosicaoJogo.add(tipo +";"+ NomeTerritorio);
+		}
+
 		PosicaoJogo.add("FIM_ARQUIVO");
-		
-		
+
 		try {
-			outputStream = new PrintWriter(new FileWriter("SalvaJogo.txt"));
+			outputStream = new PrintWriter(new FileWriter(caminho_nome));
 			for (int i = 0; i< PosicaoJogo.size(); i++) {
 				System.out.printf("%s\n",PosicaoJogo.get(i));
 				outputStream.println(PosicaoJogo.get(i));
@@ -412,9 +442,210 @@ class Tabuleiro implements Observable {
 			outputStream.close();
 		}	
 	}
-	
-	// METODO PARA RECUPERAÇÃO DO JOGO
-	void recuperarJogo() {
-		// TODO
+
+	List<ArrayList<String>> recuperarJogo(String caminho_nome) {
+		List<ArrayList<String>> listadeArrayLists = new ArrayList<>();
+
+		BufferedReader inputStream = null;
+		ArrayList<String> listaJogadores = new ArrayList<>();
+		ArrayList<String> listaObjetivos = new ArrayList<>();
+		ArrayList<String> listaTerritorios = new ArrayList<>();
+		ArrayList<String> listaCartas = new ArrayList<>();
+		ArrayList<String> listaMonte = new ArrayList<>();
+		String[] sub_strings = new String[3];
+		String cor_atual = "";
+
+		try {
+			inputStream = new BufferedReader(new FileReader(caminho_nome));
+			String l;
+			int tipo_linha = 0;
+			while ((l = inputStream.readLine()) != null) {
+				//System.out.printf("%s\n",l);
+
+				// Identifica o separador das informações no arquivo
+				if (l.equals("Cor_Objetivo_Nome")) {
+					tipo_linha = 1; 
+				}
+				if (l.equals("Territorio_QtdeExercitos")) {
+					tipo_linha = 2; 
+				}
+				if (l.equals("INÍCIO_CARTAS")) {
+					tipo_linha = 3; 
+				}
+				if (l.equals("CARTAS_MONTE")) {
+					tipo_linha = 4; 
+				}
+
+				// Leitura das linhas para  as estruturas do Jogo
+				if (tipo_linha == 1) {
+					if(!l.equals("Cor_Objetivo_Nome")) {
+						sub_strings = l.split("\\;", 0);
+				        listaJogadores.add(sub_strings[2] + "," + sub_strings[0]);
+				        listaObjetivos.add(sub_strings[1]);
+				        cor_atual  =  sub_strings[0];
+					}
+				}
+				if (tipo_linha == 2) {
+					if(!l.equals("Territorio_QtdeExercitos")) {
+						sub_strings = l.split("\\;", 0);
+				        listaTerritorios.add(cor_atual + "," + sub_strings[0] + "," + sub_strings[1]);
+					}
+				}
+
+				if (tipo_linha == 3) {
+					if(!l.equals("INÍCIO_CARTAS") && !l.equals("FIM_CARTAS")) {
+						sub_strings = l.split("\\;", 0);
+				      listaCartas.add(cor_atual + "," + sub_strings[0] + "," + sub_strings[1]);
+					}
+				}
+				if (tipo_linha == 4) {
+					if(!l.equals("CARTAS_MONTE") && !l.equals("FIM_ARQUIVO")){
+						sub_strings = l.split("\\;", 0);
+				        listaMonte.add("Monte" + "," +sub_strings[0] + "," + sub_strings[1]);
+					}
+				}
+			}
+			inputStream.close();
+		}
+		catch (IOException e) {
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
+
+		finally { 
+			//inputStream.close();
+			System.out.println("Processo Terminado");
+			for (String elemento : listaJogadores) {
+	            System.out.println(elemento);
+	        }
+	           
+			for (String elemento : listaObjetivos) {
+	            System.out.println(elemento);
+	        }
+			
+			for (String elemento : listaTerritorios) {
+	            System.out.println(elemento);
+	        }
+	        
+			for (String elemento : listaCartas) {
+	            System.out.println(elemento);
+	        }
+			for (String elemento : listaMonte) {
+	            System.out.println(elemento);
+	        }
+		}
+		listadeArrayLists.add(listaJogadores);
+		listadeArrayLists.add(listaObjetivos);
+		listadeArrayLists.add(listaTerritorios);
+		listadeArrayLists.add(listaCartas);
+		listadeArrayLists.add(listaMonte);
+		
+		return listadeArrayLists;
+	}
+
+	String[][] organizaJogadores(ArrayList<String> AList){
+		String[] sub_strings = new String[2];
+		int tam = AList.size();
+		String[][] jogadores = new String[tam][tam];
+		for (int i = 0; i < tam; i++) {
+            sub_strings = AList.get(i).split("\\,", 0);
+            jogadores[i][0] = sub_strings[0];
+            jogadores[i][1] = sub_strings[1];
+        }
+
+		return jogadores;
+	}
+
+	void recuperaObjetivos(ArrayList<String> AList){
+		int tam = AList.size();
+		String[] objetivos = new String[tam];
+		for (int i = 0; i < tam; i++) {
+			objetivos[i] = AList.get(i);
+		}
+		for (int i = 0; i < tam; i++) {
+			try {
+				jogadores.get(ordemJogadores.get(i).getCor()).setObjetivo((Objetivo) Class.forName(objetivos[i]).getDeclaredConstructor().newInstance());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		for (Jogador jogador : ordemJogadores) {
+			System.out.println(jogador.getObjetivo().getClass().getSimpleName());
+		}
+	}
+
+	void recuperaTerritorios(ArrayList<String> ALterritorios){
+		String[] sub_strings = new String[2];
+		int tam = ALterritorios.size();
+		for (int i = 0; i < tam; i++) {
+            sub_strings = ALterritorios.get(i).split("\\,", 0);
+            String corJogador = sub_strings[0];
+            String nomeTerritorio = sub_strings[1];
+            int QtdeExerc = Integer.parseInt(sub_strings[2]);
+            jogadores.get(corJogador).adicionarTerritorio(territorios.get(nomeTerritorio));
+            territorios.get(nomeTerritorio).setExerc(QtdeExerc);
+		}
+	}
+
+	void recuperaCartas(ArrayList<String> ALista){
+		String[] sub_strings = new String[2];
+		int tam = ALista.size();
+		System.out.println("Recuperando Cartas");
+
+		for (int i = 0; i < tam; i++) {
+            sub_strings = ALista.get(i).split("\\,", 0);
+            String corJogador = sub_strings[0];
+            //String tipoCarta = sub_strings[1];
+            String nomeTerritorio = sub_strings[2];
+
+            Iterator<Carta> iterator = cartas.iterator();
+
+            while (iterator.hasNext()) {
+                Carta estaCarta = iterator.next();
+                if (estaCarta.getTerritorio().equals(territorios.get(nomeTerritorio)) ) {
+                    jogadores.get(corJogador).adicionarCarta(estaCarta);
+                    iterator.remove(); 
+                	System.out.println("Carta adicionada ao jogador");
+                    break; 
+                }
+            }     
+        }
+		System.out.println("Termina a recuperação das Cartas");
+	}
+
+	void recuperaMonte(ArrayList<String> ALista){
+		String[] sub_strings = new String[2];
+		int tam = ALista.size();
+		System.out.println("Recuperando MONTE");
+
+		// Limpa monte
+		cartas.clear();
+		for (int i = 0; i < tam; i++) {
+            sub_strings = ALista.get(i).split("\\,", 0);
+            //String corJogador = sub_strings[0];
+            String tipo_Carta = sub_strings[1];
+            String nomeTerritorio = sub_strings[2];
+
+            if (tipo_Carta.equals("coringa")) {
+            	Carta carta = new Carta(TipoCarta.coringa, null);
+            	cartas.add(carta);
+            }
+
+            if (tipo_Carta.equals("circulo")) {
+            	Carta carta = new Carta(TipoCarta.circulo, territorios.get(nomeTerritorio));
+            	cartas.add(carta);
+            }
+
+            if (tipo_Carta.equals("triangulo")) {
+            	Carta carta = new Carta(TipoCarta.triangulo, territorios.get(nomeTerritorio));
+            	cartas.add(carta);
+            }
+
+            if (tipo_Carta.equals("quadrado")) {
+            	Carta carta = new Carta(TipoCarta.quadrado, territorios.get(nomeTerritorio));
+            	cartas.add(carta);
+            }
+        }
+		System.out.println("Termina a recuperação do MONTE de Cartas");
 	}
 }

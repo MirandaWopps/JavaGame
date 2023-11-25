@@ -25,6 +25,15 @@ public class Controller { // ele controla qual a etapa do jogo
 		recebimentoInicial();
 	}
 
+	public static void recuperarJogo(String caminho_nome) {
+		Fachada fachada = Fachada.getFachada();
+		fachada.recuperarJogo(caminho_nome);
+		f = new WarFrame("War");
+		f.setVisible(true);
+		recebimento();
+
+	}
+
 	public static void recebimentoInicial() {
 		if (inicio) {
 			inicio = false;

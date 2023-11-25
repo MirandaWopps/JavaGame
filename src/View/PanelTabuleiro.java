@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 
 import Controller.Controller;
 import Model.Fachada;
@@ -249,7 +250,12 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		btnSalvar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Fachada.getFachada().salvarJogo();
+				JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+				int r = fileChooser.showSaveDialog(null);
+				if (r == JFileChooser.APPROVE_OPTION) {
+					File file = fileChooser.getSelectedFile();
+					Fachada.getFachada().salvarJogo(file.getAbsolutePath());
+				}
 			}
 		});
 		add(btnSalvar);

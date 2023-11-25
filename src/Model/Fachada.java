@@ -28,13 +28,27 @@ public class Fachada {
 		tabuleiro.embaralhaCartas();
 	}
 
-	public void salvarJogo() {
-		tabuleiro.salvarJogo();
+	public void salvarJogo(String caminhoArquivo) {
+		tabuleiro.salvarJogo(caminhoArquivo);
 	}
 
-	public void recuperarJogo() {
+	public void recuperarJogo(String caminhoArquivo) {
 		tabuleiro = Tabuleiro.getTabuleiro();
-		tabuleiro.recuperarJogo();
+		// Recebe lista de ArrayLists do método de leitura do arquivo
+		List<ArrayList<String>> listadeArrayLists = tabuleiro.recuperarJogo(caminhoArquivo);
+
+		// Organiza
+		String[][] jogadores = tabuleiro.organizaJogadores(listadeArrayLists.get(0));
+
+		tabuleiro.inicializaTerritorios();
+		tabuleiro.inicializaJogadores(jogadores);
+
+		tabuleiro.recuperaObjetivos(listadeArrayLists.get(1));
+
+		tabuleiro.recuperaTerritorios(listadeArrayLists.get(2));
+		tabuleiro.recuperaCartas(listadeArrayLists.get(3));
+
+		tabuleiro.recuperaMonte(listadeArrayLists.get(4));
 	}
 
 	public void register(Observer o) {

@@ -3,7 +3,12 @@ package View;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+
+import Controller.Controller;
 
 
 public class MenuFrame extends JFrame{
@@ -52,7 +57,13 @@ public class MenuFrame extends JFrame{
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Carregando !");
+				JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+				int r = fileChooser.showOpenDialog(null);
+                if (r == JFileChooser.APPROVE_OPTION) {
+                    dispose();
+                    File file = fileChooser.getSelectedFile();
+                    Controller.recuperarJogo(file.getAbsolutePath());
+                }
             }
         });
         
