@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Fachada {
+public class Fachada { // sigleton porque so pode ter 1      
 	private static Fachada fachada;
 	private Tabuleiro tabuleiro;
 
@@ -68,15 +68,21 @@ public class Fachada {
 		tabuleiro.proximoJogador();
 	}
 	
-	// Parece que so retorna a primeira parte da carta  - USADO NA VIEW
 	public ArrayList<String> cartasAtualJogador() {
 		ArrayList<String> cartas = new ArrayList<>();
+		Territorio territorio;
 		for (Carta carta : tabuleiro.atualJogador().getCartas()) {
-			cartas.add(carta.getTerritorio().getNome());
+			territorio = carta.getTerritorio();
+			if (territorio == null)
+				cartas.add("CORINGA");
+			else
+				cartas.add(carta.getTerritorio().getNome());
 		}
 		return cartas;
 	}
-
+	
+	
+	
 	public String objetivoAtualJogador() {
 		return tabuleiro.atualJogador().getObjetivo().getDescricao();
 	}	

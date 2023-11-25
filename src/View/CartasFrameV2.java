@@ -119,9 +119,9 @@ class CartasFrameV2 {
 	            loadAndAddImage("PERTH", "Imagens/war_carta_oc_perth.png");
 	            
 	            // Add more images as needed
-	            loadAndAddImage("VERSO", "Imagens/war_carta_verso.png");
+	            loadAndAddImage("CORINGA", "Imagens/war_carta_coringa.png");
 	            loadAndAddImage("null", "Imagens/war_carta_verso.png");
-	            loadAndAddImage("SMOKING", "Imagens/pacific.gif");
+	           
 
 	        } catch (IOException e) {
 	        	System.out.println("Algo deu errado na criacao do hash map");
@@ -138,6 +138,7 @@ class CartasFrameV2 {
 	    // Inicializa parte gráfica
 	    public void openCartasFrameV2() {
 	        javax.swing.SwingUtilities.invokeLater(() -> {
+	        	System.out.println(playerCards.size());
 	            JFrame frame = new JFrame("Cartas");
 	            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	            frame.setSize(600, 400); // Set your preferred size
@@ -180,46 +181,34 @@ class CartasFrameV2 {
 		            buttonCarta3 = createButton(playerCards.get(2));
 		            buttonCarta4 = createButton(playerCards.get(3));
 		            buttonCarta5 = createButton("null");
-	                break;
-	            
-	            default: // 5 CARTAS? 
+	                break;            
+	            case 5:  // 5 CARTAS
 	            	buttonCarta1 = createButton(playerCards.get(0));
 		            buttonCarta2 = createButton(playerCards.get(1));
 		            buttonCarta3 = createButton(playerCards.get(2));
 		            buttonCarta4 = createButton(playerCards.get(3));
 		            buttonCarta5 = createButton(playerCards.get(4));
-	                // code to be executed if none of the cases match
+		            break;
 	        }
-	           
-	            /*
-	            // Create buttons with images
-	            buttonCarta1 = createButton("ALASCA");
-	            buttonCarta2 = createButton("CALGARY");
-	            buttonCarta3 = createButton("GROELÂNDIA");
-	            buttonCarta4 = createButton("VANCOUVER");
-	            buttonCarta5 = createButton("null");
-	            */
 
-	            // Add buttons to the panel
-	            panel.add(buttonCarta1);
-	            panel.add(buttonCarta2);
-	            panel.add(buttonCarta3);
-	            panel.add(buttonCarta4);
-	            panel.add(buttonCarta5);
+            // Add buttons to the panel
+            panel.add(buttonCarta1);
+            panel.add(buttonCarta2);
+            panel.add(buttonCarta3);
+            panel.add(buttonCarta4);
+            panel.add(buttonCarta5);
 
-	            // Add the panel to the frame
-	            frame.getContentPane().add(panel);
+            // Add the panel to the frame
+            frame.getContentPane().add(panel);
 
-	            // Prevent frame resizing
-	            frame.setResizable(false);
+            // Prevent frame resizing
+            frame.setResizable(false);
 
-	            frame.pack();
-	            frame.setVisible(true);
-	        });
+            frame.pack();
+            frame.setVisible(true);
+        });
 	    }
 
-	    
-	    
 	    
 	 // Method to unselect all buttons
 	    private void unselectAllButtons() {
@@ -238,8 +227,10 @@ class CartasFrameV2 {
 	    
 	    // Metodo criador de botoes
 	    private JButton createButton(String key) {
+	    System.out.println(key);
 	    JButton button = new JButton(); // surge novo botao
 	    ImageIcon imageIcon = new ImageIcon(cartasMap.get(key)); // a imagem do botao aparece aq
+	    
 	    button.setIcon(imageIcon);
 
 	    // Set initial background color

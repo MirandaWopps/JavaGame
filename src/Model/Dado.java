@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class Dado implements Observable {
+public class Dado implements Observable { 
     private List<Observer> lob = new ArrayList<Observer>();
     private static int dados[];
     private static Dado dado;

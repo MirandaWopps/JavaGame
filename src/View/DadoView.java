@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class DadoView {
+public class DadoView { // singleton
 	private Image dadosAtq[] = new Image[6];
     private Image dadosDef[] = new Image[6];
     private int dados[] = new int[6];

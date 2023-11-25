@@ -104,10 +104,13 @@ class Jogador {
     	exerc += territorios.size()/2;
     }
 
-    void adicionarCarta(Carta carta) {
+    // da carta ao jogador
+    void adicionarCarta(Carta carta) { 
     	cartas.add(carta);
     }
 
+    
+    
     void removeCarta(int carta) {
     	cartas.remove(carta);
     }

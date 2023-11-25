@@ -587,28 +587,34 @@ class Tabuleiro implements Observable {
 		}
 	}
 
-	void recuperaCartas(ArrayList<String> ALista){
-		String[] sub_strings = new String[2];
+	void recuperaCartas(ArrayList<String> ALista){    // usado na parte de recuperar cartas
+		String[] sub_strings = new String[2];  //  
 		int tam = ALista.size();
 		System.out.println("Recuperando Cartas");
 
 		for (int i = 0; i < tam; i++) {
+			Boolean coringa = true;
             sub_strings = ALista.get(i).split("\\,", 0);
             String corJogador = sub_strings[0];
-            //String tipoCarta = sub_strings[1];
+            //String tipoCarta = sub_strings[1]; 
             String nomeTerritorio = sub_strings[2];
-
-            Iterator<Carta> iterator = cartas.iterator();
-
-            while (iterator.hasNext()) {
-                Carta estaCarta = iterator.next();
-                if (estaCarta.getTerritorio().equals(territorios.get(nomeTerritorio)) ) {
-                    jogadores.get(corJogador).adicionarCarta(estaCarta);
-                    iterator.remove(); 
-                	System.out.println("Carta adicionada ao jogador");
-                    break; 
-                }
-            }     
+            if( nomeTerritorio.equals("coringa") ){
+            	jogadores.get(corJogador).adicionarCarta(new Carta(TipoCarta.coringa,null) );
+            } else {
+                Iterator<Carta> iterator = cartas.iterator();
+                
+                while (iterator.hasNext()) {
+                    Carta estaCarta = iterator.next();
+                    if (estaCarta.getTerritorio().equals(territorios.get(nomeTerritorio)) ) {  	
+                    	System.out.println(nomeTerritorio);
+                    	System.out.println(estaCarta.getTerritorio().getNome());
+                        jogadores.get(corJogador).adicionarCarta(estaCarta);
+                        iterator.remove(); 
+                    	System.out.println("Carta adicionada ao jogador");
+                        break; 
+                    }
+                }    
+            } 
         }
 		System.out.println("Termina a recuperação das Cartas");
 	}
@@ -620,7 +626,7 @@ class Tabuleiro implements Observable {
 
 		// Limpa monte
 		cartas.clear();
-		for (int i = 0; i < tam; i++) {
+		for (int i = 0; i < tam; i++) { // cria uma var que intera sobre toodo o hash map dando next ate acabar. Imagina que e um for otimizado. Precisa ficar dando nextnextnext
             sub_strings = ALista.get(i).split("\\,", 0);
             //String corJogador = sub_strings[0];
             String tipo_Carta = sub_strings[1];
