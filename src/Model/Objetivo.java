@@ -121,7 +121,7 @@ class Objetivo8 extends Objetivo {
 
 class Objetivo9 extends Objetivo {
 	Objetivo9() {
-		super("Destruir totalmente OS EXÉRCITOS AZUIS.");
+		super("Destruir totalmente OS EXÉRCITOS AZUIS, se você quem possui os exércitos azuis ou se quem possui já foi eliminado ou não existe, seu objetivo passa a ser conquistar 24 TERRITÓRIOS.");
 	}
 	
 	boolean concluido(Jogador jogador) {
@@ -141,7 +141,7 @@ class Objetivo9 extends Objetivo {
 
 class Objetivo10 extends Objetivo {
 	Objetivo10() {
-		super("Destruir totalmente OS EXÉRCITOS AMARELOS.");
+		super("Destruir totalmente OS EXÉRCITOS AMARELOS, se você quem possui os exércitos amarelos ou se quem possui já foi eliminado ou não existe, seu objetivo passa a ser conquistar 24 TERRITÓRIOS.");
 	}
 	
 	boolean concluido(Jogador jogador) {
@@ -161,7 +161,7 @@ class Objetivo10 extends Objetivo {
 
 class Objetivo11 extends Objetivo {
 	Objetivo11() {
-		super("Destruir totalmente OS EXÉRCITOS VERMELHOS.");
+		super("Destruir totalmente OS EXÉRCITOS VERMELHOS, se você quem possui os exércitos vermelhos ou se quem possui já foi eliminado ou não existe, seu objetivo passa a ser conquistar 24 TERRITÓRIOS.");
 	}
 	
 	boolean concluido(Jogador jogador) {
@@ -181,7 +181,7 @@ class Objetivo11 extends Objetivo {
 
 class Objetivo12 extends Objetivo {
 	Objetivo12() {
-		super("Destruir totalmente OS EXÉRCITOS PRETOS.");
+		super("Destruir totalmente OS EXÉRCITOS PRETOS, se você quem possui os exércitos pretos ou se quem possui já foi eliminado ou não existe, seu objetivo passa a ser conquistar 24 TERRITÓRIOS.");
 	}
 	
 	boolean concluido(Jogador jogador) {
@@ -201,7 +201,7 @@ class Objetivo12 extends Objetivo {
 
 class Objetivo13 extends Objetivo {
 	Objetivo13() {
-		super("Destruir totalmente OS EXÉRCITOS BRANCOS.");
+		super("Destruir totalmente OS EXÉRCITOS BRANCOS, se você quem possui os exércitos brancos ou se quem possui já foi eliminado ou não existe, seu objetivo passa a ser conquistar 24 TERRITÓRIOS.");
 	}
 	
 	boolean concluido(Jogador jogador) {
@@ -221,7 +221,7 @@ class Objetivo13 extends Objetivo {
 
 class Objetivo14 extends Objetivo {
 	Objetivo14() {
-		super("Destruir totalmente OS EXÉRCITOS VERDES.");
+		super("Destruir totalmente OS EXÉRCITOS VERDES, se você quem possui os exércitos verdes ou se quem possui já foi eliminado ou não existe, seu objetivo passa a ser conquistar 24 TERRITÓRIOS.");
 	}
 
 	boolean concluido(Jogador jogador) {
