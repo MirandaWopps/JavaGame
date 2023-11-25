@@ -53,7 +53,6 @@ public class Fachada {
 	public void proximoJogador() {
 		tabuleiro.proximoJogador();
 	}
-
 	
 	// Parece que so retorna a primeira parte da carta  - USADO NA VIEW
 	public ArrayList<String> cartasAtualJogador() {
@@ -63,17 +62,6 @@ public class Fachada {
 		}
 		return cartas;
 	}
-	
-	// esse pode retornar o tipo inteiro tudo  - Criado, mas não usado !
-	public List<Carta> cartasFullAtualJogador() {
-	    List<Carta> cartas = new ArrayList<>();
-	    for (Carta carta : tabuleiro.atualJogador().getCartas()) {
-	        cartas.add(carta);
-	    }
-	    return cartas;
-	}
-	
-	
 
 	public String objetivoAtualJogador() {
 		return tabuleiro.atualJogador().getObjetivo().getDescricao();
@@ -178,6 +166,60 @@ public class Fachada {
 		for (int i = 0; i < 3; i++) {
 			if (dados[i] > 0 && dados[i+3] > 0) {
 				if (dados[i] > dados[i+3])
+					perdaDefesa++;
+				else
+					perdaAtaque++;
+			}
+			else
+				break;
+		}
+
+		// Atualiza os exercitos
+		atacante.perdeExerc(perdaAtaque);
+		defensor.perdeExerc(perdaDefesa);
+		
+		if (defensor.getQtdExerc() == 0) {
+			// Atualiza o dono do territorio
+			Jogador jogadorAtacante = tabuleiro.atualJogador();
+			Jogador jogadorDefensor = tabuleiro.getDono(defensor);
+			jogadorDefensor.removerTerritorio(defensor);
+			jogadorAtacante.adicionarTerritorio(defensor);
+			atacante.perdeExerc(exAtaque);
+			defensor.ganhaExerc(exAtaque);
+
+			// Seta jogador para receber carta
+			jogadorAtacante.setRecebeCarta(true);
+
+			// Verifica se o jogador defensor foi eliminado
+			if (jogadorDefensor.getTerritorios().isEmpty()) {
+				jogadorDefensor.setEliminador(jogadorAtacante.getCor());
+				tabuleiro.eliminarJogador(jogadorDefensor);
+			}
+		}
+	}
+
+	public void atacaTerritorioManipulado(String nomeAtacante, String nomeDefensor, int[] dadosAtaque, int[] dadosDefesa) {
+		Territorio atacante = tabuleiro.getTerritorio(nomeAtacante);
+		Territorio defensor = tabuleiro.getTerritorio(nomeDefensor);
+
+		// Quantidade de exercitos que podem atacar
+		int exAtaque = atacante.getQtdExerc()-1;
+		if (exAtaque > 3) {
+			exAtaque = 3;
+		}
+
+		// Quantidade de exercitos que podem defender
+		int exDefesa = defensor.getQtdExerc();
+		if (exDefesa > 3) {
+			exDefesa = 3;
+		}
+
+		// Realiza a batalha
+		int perdaAtaque = 0;
+		int perdaDefesa = 0;
+		for (int i = 0; i < 3; i++) {
+			if (dadosAtaque[i] > 0 && dadosDefesa[i] > 0) {
+				if (dadosAtaque[i] > dadosDefesa[i])
 					perdaDefesa++;
 				else
 					perdaAtaque++;

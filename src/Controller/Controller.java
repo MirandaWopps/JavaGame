@@ -64,6 +64,10 @@ public class Controller { // ele controla qual a etapa do jogo
 		Fachada.getFachada().atacaTerritorio(territorioAtacante, territorioDefensor);
 	}
 
+	public static void atacaTerritorioManipulado(String territorioAtacante, String territorioDefensor, int[] dadosAtaque, int[] dadosDefesa) {
+		Fachada.getFachada().atacaTerritorioManipulado(territorioAtacante, territorioDefensor, dadosAtaque, dadosDefesa);
+	}
+
 	public static void deslocaExerc(String territorioOrigem, String territorioDest, int qtdExerc) {
 		Fachada.getFachada().deslocaExerc(territorioOrigem, territorioDest, qtdExerc);
 	}

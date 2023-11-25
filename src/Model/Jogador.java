@@ -41,12 +41,10 @@ class Jogador {
 
     void adicionarTerritorio(Territorio territorio) {
         territorios.put(territorio.getNome(), territorio);
-        Tabuleiro.getTabuleiro().notificaMudanca();
     }
 
     void removerTerritorio(Territorio territorio) {
         territorios.remove(territorio.getNome());
-        Tabuleiro.getTabuleiro().notificaMudanca();
     }
 
     Map<String, Territorio> getTerritorios() {

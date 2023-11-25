@@ -38,7 +38,6 @@ public class DadoView {
             dados[i] = 0;
     }
 
-    // por que temos static aqui ?
     static DadoView getDadoView() {
         if (dadoView == null)
             dadoView = new DadoView();

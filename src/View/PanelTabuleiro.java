@@ -14,6 +14,7 @@ import Model.Fachada;
 import Model.Observable;
 import Model.Observer;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -24,14 +25,12 @@ public class PanelTabuleiro extends JPanel implements Observer {
 	private Image mapa;  // imagem do mapa
 	private Image fundo; // o fundo atras do mapa
 
-	// nao sei oq e isso
 	private Map<String,TerritorioView> territorios = new HashMap<>();
 	private int faseView = -1; 
 	private List<String> possuiContinentes;
 	private boolean passouContinente = false;
 	private boolean mostrarDados = false;
 
-	// tambem n sei porque temos isso
 	private static final Color verdeCustom = new Color(50,205,50);
 	private static final Color amareloCustom = new Color(255,200,0);
 
@@ -40,18 +39,31 @@ public class PanelTabuleiro extends JPanel implements Observer {
 	private JComboBox<String> cb2 = new JComboBox<>();  // Territorio de baixo
 	private JComboBox<Integer> cb3 = new JComboBox<>(); // Tropas.
 
+	// Combo boxes para dados
+	private JComboBox<Integer> dadoAtq1 = new JComboBox<>();
+	private JComboBox<Integer> dadoAtq2 = new JComboBox<>();
+	private JComboBox<Integer> dadoAtq3 = new JComboBox<>();
+	private JComboBox<Integer> dadoDef1 = new JComboBox<>();
+	private JComboBox<Integer> dadoDef2 = new JComboBox<>();
+	private JComboBox<Integer> dadoDef3 = new JComboBox<>();
+
+	// Listas de dados
+	private List<JComboBox<Integer>> dadosAtq = Arrays.asList(dadoAtq1, dadoAtq2, dadoAtq3);
+	private List<JComboBox<Integer>> dadosDef = Arrays.asList(dadoDef1, dadoDef2, dadoDef3);
+
 	// os botos da UI
 	private JButton btnPosicionar = new JButton("Posicionar");
 	private JButton btnAtacar = new JButton("Atacar");
+	private JButton btnAtaqueManipulado = new JButton("<html><center>Ataque<br>Manipulado</center></html>");
 	private JButton btnDeslocar = new JButton("Deslocar");
+
 	private JButton btnObjetivo = new JButton("Objetivo");
-	
+
 	private JButton btnCartas = new JButton("Cartas"); // botao para as cartas
 	
 	private JButton btnSalvar = new JButton("Salvar");
 	private JLabel proximoLabel = new JLabel();
 
-	// nao sei
 	private ObjetivoPopUp objetivoPopup;
 
 	public PanelTabuleiro() { // metodo do tabuleiro na View
@@ -64,25 +76,81 @@ public class PanelTabuleiro extends JPanel implements Observer {
 			System.exit(1); // aborta com codigo 1
 		}
 
-        add(cb1); // adiciona                   
-        add(cb2); //          as 
-		add(cb3); //             combos boxes
+		// Adiciona as combobox
+        add(cb1);
+        add(cb2);
+		add(cb3);
 
-		// 
+		// Adiciona as combobox para dados
+		add(dadoAtq1);
+		add(dadoAtq2);
+		add(dadoAtq3);
+		add(dadoDef1);
+		add(dadoDef2);
+		add(dadoDef3);
+
+		// Adiciona as opções dos dados
+		for (int i = 1; i <= 6; i++) {
+			dadoAtq1.addItem(i);
+			dadoAtq2.addItem(i);
+			dadoAtq3.addItem(i);
+			dadoDef1.addItem(i);
+			dadoDef2.addItem(i);
+			dadoDef3.addItem(i);
+		}
+
+		// Listener da combobox dos territórios do jogador atual, para atualizar as outras combobox
 		cb1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	String selected = (String) cb1.getSelectedItem();
             	if (selected != null) {
-					if (faseView == 2)  // Fase de ataque
-                    	comboBoxDefensor(selected);
+					if (faseView == 2) {  // Fase de ataque
+						// Visibilidade dos dados manipulados
+						int qtdExerc = Fachada.getFachada().qtdExerc(selected);
+						qtdExerc--;
+						for (int i = 0; i < qtdExerc && i < 3; i++) {
+							preencheDado(dadosAtq.get(i));
+						}
+						for (int i = qtdExerc; i < 3; i++) {
+							zeraDado(dadosAtq.get(i));
+						}
+						
+						// Atualiza a combobox do defensor
+						comboBoxDefensor(selected);
+					}
 					else if (faseView == 3) { // Fase de deslocamento
+						// Atualiza a combobox do destino
 						comboBoxDestino(selected);
+						// Atualiza a combobox de exercitos
 						comboBoxExercDeslocamento(selected);
 					}
 				}
             } 
         });
+
+		cb2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String selected = (String) cb2.getSelectedItem();
+				if (faseView == 2) {
+					if (selected != null) {
+						// Visibilidade dos dados manipulados
+						int qtdExerc = Fachada.getFachada().qtdExerc(selected);
+						for (int i = 0; i < qtdExerc && i < 3; i++) {
+							preencheDado(dadosDef.get(i));
+						}
+						for (int i = qtdExerc; i < 3; i++) {
+							zeraDado(dadosDef.get(i));
+						}
+						visibilidadeDadosManipulados(true);
+					}
+					else {
+						visibilidadeDadosManipulados(false);
+					}
+				}
+			} 
+		});
 
 		// Botão posicionamento de tropas
 		btnPosicionar.addActionListener(new ActionListener() {
@@ -116,6 +184,21 @@ public class PanelTabuleiro extends JPanel implements Observer {
 			}
 		});
 		add(btnAtacar);
+
+		// Botão ataque manipulado
+		btnAtaqueManipulado.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String atacante = (String) cb1.getSelectedItem();
+				String defensor = (String) cb2.getSelectedItem();
+				if (atacante != null && defensor != null) {
+					int dadosAtq[] = { (int) dadoAtq1.getSelectedItem(), (int) dadoAtq2.getSelectedItem(), (int) dadoAtq3.getSelectedItem() };
+					int dadosDef[] = { (int) dadoDef1.getSelectedItem(), (int) dadoDef2.getSelectedItem(), (int) dadoDef3.getSelectedItem() };
+					Controller.atacaTerritorioManipulado(atacante, defensor, dadosAtq, dadosDef);
+				}
+			}
+		});
+		add(btnAtaqueManipulado);
 
 		// Botão deslocamento de tropas
 		btnDeslocar.addActionListener(new ActionListener() {
@@ -156,7 +239,6 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		btnCartas.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO <====================================================abre a tela das cartas aqui 
 				CartasFrame cartasFrame = new CartasFrame();
 		        cartasFrame.openCartasFrame();
 			}
@@ -264,6 +346,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		// Posicionamento dos botões
 		btnPosicionar.setBounds(1040, 120, 100, 30);
 		btnAtacar.setBounds(1040, 120, 100, 30);
+		btnAtaqueManipulado.setBounds(1040, 450, 100, 60);
 		btnDeslocar.setBounds(1040, 160, 100, 30);
 
 		btnObjetivo.setBounds(1040, 580, 100, 30);
@@ -272,9 +355,17 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		
 		btnSalvar.setBounds(1040, 500, 100, 30);
 		proximoLabel.setBounds(920, 580, 100, 50);
+
+		// Posicionamento das combobox para dados
+		dadoAtq1.setLocation(1038, 350);
+		dadoAtq2.setLocation(1078, 350);
+		dadoAtq3.setLocation(1118, 350);
+		dadoDef1.setLocation(1038, 410);
+		dadoDef2.setLocation(1078, 410);
+		dadoDef3.setLocation(1118, 410);
     }
 
-	public void notify(Observable o) { // O q e esse parametro ?
+	public void notify(Observable o) {
 		// Mudança nos territórios
 		if (o.get() == null) {
 			int fase = Controller.getFase();
@@ -330,13 +421,13 @@ public class PanelTabuleiro extends JPanel implements Observer {
 
 		cb2.setVisible(false);
 		btnAtacar.setVisible(false);
+		btnAtaqueManipulado.setVisible(false);
 		btnDeslocar.setVisible(false);
 		proximoLabel.setVisible(false);
 		btnSalvar.setVisible(false);
+		visibilidadeDadosManipulados(false);
 	}
 
-	
-	// METODOS "FREQUENTES"
 	private void faseAtaque() {
 		comboBoxAtacante();
 		mostrarDados = false;
@@ -344,7 +435,9 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		// Configura os componentes
 		cb2.setVisible(true);
 		btnAtacar.setVisible(true);
+		btnAtaqueManipulado.setVisible(true);
 		proximoLabel.setVisible(true);
+		visibilidadeDadosManipulados(true);
 
 		cb3.setVisible(false);
 		btnPosicionar.setVisible(false);
@@ -365,9 +458,36 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		
 		btnPosicionar.setVisible(false);
 		btnAtacar.setVisible(false);
+		btnAtaqueManipulado.setVisible(false);
 		btnCartas.setVisible(false);
+		visibilidadeDadosManipulados(false);
 	}
-	
+
+	private void visibilidadeDadosManipulados(boolean visivel) {
+		dadoAtq1.setVisible(visivel);
+		dadoAtq2.setVisible(visivel);
+		dadoAtq3.setVisible(visivel);
+		dadoDef1.setVisible(visivel);
+		dadoDef2.setVisible(visivel);
+		dadoDef3.setVisible(visivel);
+	}
+
+	private void zeraDado(JComboBox<Integer> dado) {
+		// remove os itens da combobox
+		dado.removeAllItems();
+		// adiciona o 0
+		dado.addItem(0);
+	}
+
+	private void preencheDado(JComboBox<Integer> dado) {
+		// remove os itens da combobox
+		dado.removeAllItems();
+		// adiciona 1 até 6
+		for (int i = 1; i <= 6; i++) {
+			dado.addItem(i);
+		}
+	} 
+
 	private void comboBoxRecebimento() {
 		// remove os itens da combobox
 		cb1.removeAllItems();
