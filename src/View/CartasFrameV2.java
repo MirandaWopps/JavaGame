@@ -210,12 +210,60 @@ class CartasFrameV2 {
 	    }
 
 	    
-	 // Method to unselect all buttons
+	    // cria botoes
+	    private JButton createButton(String key) {
+	        JButton button = new JButton(); // cria var do do tipo botao
+	        ImageIcon imageIcon = new ImageIcon(cartasMap.get(key)); // tera imagem equivalente ao pathing da imagem adquirido pelo hashMap
+	        button.setIcon(imageIcon); // essa imagem e adicionada para o botao
+	        button.setBackground(Color.WHITE); // o background do botao sera branco
+
+	        // cada botao tem seu proprio action lister, entao, o isClicked sera desmarcado para cada botao qnd reclicado
+	        button.addActionListener(createButtonActionListener(button));
+
+	        return button;
+	    }
+
+	    
+	    private ActionListener createButtonActionListener(JButton button) {
+	        return new ActionListener() {
+	            private boolean isClicked = false;
+
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                // Toggle the color on each click
+	                if (isClicked) {
+	                    button.setBackground(Color.WHITE);
+	                    qtdBotoesSelecionados--;
+	                } else {
+	                    // Set the desired color when the button is clicked
+	                    button.setBackground(Color.RED);
+	                    qtdBotoesSelecionados++;
+	                }
+
+	                // Toggle the clicked state
+	                isClicked = !isClicked;
+
+	                // Handle button click if needed  DEBUG LINE
+	                System.out.println("Button " + button.getName() + " clicked");
+
+	                // Se existem 3 todos devem ser unselected
+	                if (qtdBotoesSelecionados == 3) {
+	                    unselectAllButtons();
+	                    // implementar troca de cartas
+	                    return;
+	                }
+	            }
+	        };
+	    }
+
 	    private void unselectAllButtons() {
 	        // Unselect all buttons and reset the count
 	        for (Component comp : buttonCarta1.getParent().getComponents()) {
 	            if (comp instanceof JButton) {
-	                ((JButton) comp).setBackground(Color.WHITE);
+	                JButton button = (JButton) comp;
+	                button.setBackground(Color.WHITE);
+	                button.removeActionListener(button.getActionListeners()[0]); // Remove the existing ActionListener
+	                button.addActionListener(createButtonActionListener(button)); // Add a new ActionListener
 	            }
 	        }
 	        qtdBotoesSelecionados = 0;
@@ -225,50 +273,17 @@ class CartasFrameV2 {
 	    
 	    
 	    
-	    // Metodo criador de botoes
-	    private JButton createButton(String key) {
-	    System.out.println(key);
-	    JButton button = new JButton(); // surge novo botao
-	    ImageIcon imageIcon = new ImageIcon(cartasMap.get(key)); // a imagem do botao aparece aq
 	    
-	    button.setIcon(imageIcon);
+	    
+	    
 
-	    // Set initial background color
-	    button.setBackground(Color.WHITE);
-
-	    button.addActionListener(new ActionListener() {
-	        private boolean isClicked = false;
-
-	        public void actionPerformed(ActionEvent e) {
-	        	// Se existem 3 todos devem ser unselected
-                if (qtdBotoesSelecionados >= 3) {
-                    unselectAllButtons();
-                    // implementar troca de cartas
-                    return;
-                }
-	            	
-	        	
-	        	
-	            // Toggle the color on each click
-	            if (isClicked) {
-	                button.setBackground(Color.WHITE);
-	                qtdBotoesSelecionados--;
-	            } else {
-	                // Set the desired color when the button is clicked
-	                button.setBackground(Color.RED);
-	                qtdBotoesSelecionados++;
-	            }
-
-
-	            // Handle button click if needed  DEBUG LINE
-	            System.out.println("Button " + key + " clicked");
-	            
-	          
-	            
-	        }
-	    });
-	    return button;
-	}
+	    
+	    
+	    
+	    
+	    
+	    
+	    
 	    
 	    
 	    
