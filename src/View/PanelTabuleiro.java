@@ -329,9 +329,6 @@ public class PanelTabuleiro extends JPanel implements Observer {
 					passouContinente = false;
 					faseView = fase;
 					faseRecebimento(mudouFase);
-					if (Fachada.getFachada().precisaTrocarCartas()) {
-						CartasView.getCartasView().openCartasView((JFrame)SwingUtilities.getWindowAncestor(PanelTabuleiro.this));
-					}
 				}
 				break;
 			case 2:
@@ -434,16 +431,20 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		if (!possuiContinentes.isEmpty()) {
 			comboBoxRecebimentoContinente(possuiContinentes.get(0));
 			comboBoxExercContinente(possuiContinentes.get(0));
+			btnCartas.setVisible(false);
 		} else {
 			// Senão, recebe exercitos normalmente
 			comboBoxRecebimento();
 			comboBoxExerc();
+			btnCartas.setVisible(true);
+			if (Fachada.getFachada().precisaTrocarCartas()) {
+				CartasView.getCartasView().openCartasView((JFrame)SwingUtilities.getWindowAncestor(PanelTabuleiro.this));
+			}
 		}
 
 		// Configura os componentes
 		cb3.setVisible(true);
 		btnPosicionar.setVisible(true);
-		btnCartas.setVisible(true);
 
 		cb2.setVisible(false);
 		btnAtacar.setVisible(false);
