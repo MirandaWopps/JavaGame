@@ -224,8 +224,8 @@ public class PanelTabuleiro extends JPanel implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				String origem = (String) cb1.getSelectedItem();
 				String destino = (String) cb2.getSelectedItem();
-				int qtdExerc = (int) cb3.getSelectedItem();
-				if (origem != null && destino != null) {
+				Integer qtdExerc = (Integer) cb3.getSelectedItem();
+				if (origem != null && destino != null && qtdExerc != null) {
 					Controller.deslocaExerc(origem, destino, qtdExerc);
 				}
 			}
@@ -579,6 +579,9 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		// seleciona o item que estava selecionado
 		if (selected != null)
 			cb1.setSelectedItem(selected);
+		else {
+			cb2.removeAllItems();
+		}
 	}
 
 	private void comboBoxDefensor(String territorioAtacante) {
@@ -619,6 +622,10 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		// seleciona o item que estava selecionado
 		if (selected != null)
 			cb1.setSelectedItem(selected);
+		else {
+			cb2.removeAllItems();
+			cb3.removeAllItems();
+		}
 	}
 
 	private void comboBoxDestino(String territorioOrigem) {
@@ -645,7 +652,7 @@ public class PanelTabuleiro extends JPanel implements Observer {
 		cb3.removeAllItems();
 
 		// adiciona os itens na combobox
-		int numExerc = Fachada.getFachada().qtdExerc(territorioOrigem)-1;
+		int numExerc = Fachada.getFachada().qtdExercDesloc(territorioOrigem);
 		while (numExerc > 0) {
 			cb3.addItem(numExerc);
 			numExerc--;
