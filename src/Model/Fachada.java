@@ -81,6 +81,35 @@ public class Fachada { // funciona como se fosse uma vitrine: atras o model e ap
 		return cartas;
 	}
 
+	public boolean trocaCartas(int[] cartas) {
+		Jogador jogador = tabuleiro.atualJogador();
+		// Verifica se foi passado um array válido
+		if (cartas.length != 3) {
+			return false;
+		}
+
+		// Verifica se as cartas passadas são válidas
+		for (int i = 0; i < 3; i++) {
+			if (cartas[i] < 0 || cartas[i] >= jogador.getCartas().size()) {
+				return false;
+			}
+		}
+
+		// Verifica se o jogador pode trocar as cartas
+		if (jogador.podeTrocarCartas(cartas[0], cartas[1], cartas[2])) {
+			// Troca as cartas
+			jogador.exercitoPorCartas(cartas[0], cartas[1], cartas[2]);
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean precisaTrocarCartas() {
+		Jogador jogador = tabuleiro.atualJogador();
+		return jogador.precisaTrocarCartas();
+	}
+
 	public String objetivoAtualJogador() {
 		return tabuleiro.atualJogador().getObjetivo().getDescricao();
 	}	
@@ -204,6 +233,7 @@ public class Fachada { // funciona como se fosse uma vitrine: atras o model e ap
 			jogadorAtacante.adicionarTerritorio(defensor);
 			atacante.perdeExerc(exAtaque);
 			defensor.ganhaExerc(exAtaque);
+			tabuleiro.notificaMudanca(true);
 
 			// Seta jogador para receber carta
 			jogadorAtacante.setRecebeCarta(true);

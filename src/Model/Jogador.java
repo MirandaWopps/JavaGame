@@ -109,8 +109,6 @@ class Jogador {
     	cartas.add(carta);
     }
 
-    
-    
     void removeCarta(int carta) {
     	cartas.remove(carta);
     }
@@ -177,6 +175,8 @@ class Jogador {
 
 		// Aumenta o número de exércitos do jogador
 		exerc += 4 + 2 * trocasCarta;
+
+		Tabuleiro.getTabuleiro().notificaMudanca(false);;
     }
 
     boolean possuiContinente(Continente continente) {
