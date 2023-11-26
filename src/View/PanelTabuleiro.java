@@ -544,9 +544,14 @@ public class PanelTabuleiro extends JPanel implements Observer {
 
 		// adiciona os itens na combobox
 		int numExerc = Fachada.getFachada().getRecebimento();
-		while (numExerc > 0) {
-			cb3.addItem(numExerc);
-			numExerc--;
+		if (numExerc > 0) {
+			while (numExerc > 0) {
+				cb3.addItem(numExerc);
+				numExerc--;
+			}
+		}
+		else {
+			cb3.addItem(0);
 		}
 	}
 

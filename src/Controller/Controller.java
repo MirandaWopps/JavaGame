@@ -31,7 +31,6 @@ public class Controller { // ele controla qual a etapa do jogo
 		f = new WarFrame("War");
 		f.setVisible(true);
 		recebimento();
-
 	}
 
 	public static void recebimentoInicial() {
