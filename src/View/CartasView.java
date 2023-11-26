@@ -256,13 +256,13 @@ class CartasView {
 					qtdBotoesSelecionados++;
 					cartasSelecionadas.add(botoesMap.get(button));
 				}
-				System.out.println(botoesMap.get(button));
 
 				// Troca o estado da flag
 				isClicked = !isClicked;
 
 				// Se existem 3 todos devem ser desmarcados
 				if (qtdBotoesSelecionados == 3) {
+					// Cria um array com as cartas selecionadas
 					int cartas[] = new int[3];
 					for (int i = 0; i < 3; i++) {
 						cartas[i] = cartasSelecionadas.get(i);
@@ -273,6 +273,7 @@ class CartasView {
 						dialog.dispose();
 						openCartasView((JFrame)dialog.getParent());
 					}
+					// Limpa a lista
 					cartasSelecionadas.clear();
 					unselectAllButtons();
 					return;

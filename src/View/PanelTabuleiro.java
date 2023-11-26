@@ -605,7 +605,6 @@ public class PanelTabuleiro extends JPanel implements Observer {
 
 		// seleciona o item que estava selecionado
 		if (selected != null && territorios.contains(selected)) {
-			System.out.println("selected: " + selected);
 			cb2.setSelectedItem(selected);
 		}
 	}

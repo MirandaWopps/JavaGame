@@ -65,21 +65,22 @@ public class Dado implements Observable {
     int[] manipulaDados(int[] dadosAtaque, int[] dadosDefesa) { 
         zerarDados();
 
+        // Seta os dados do atacante
         for (int i = 0; i < 3; i++) {
         	dados[i] = dadosAtaque[i];
         }
 
+        // Seta os dados do defensor
         for (int i = 0; i < 3; i++) {
         	dados[i+3] = dadosDefesa[i];
         }
 
         ordenaDados();
 
+        // Notifica a view
         for (Observer o : lob) {
             o.notify(this);
         }
-        
-        System.out.println(Arrays.toString(dados));
 
         return dados;
     }
@@ -100,11 +101,10 @@ public class Dado implements Observable {
         
         ordenaDados();
 
+        // Notifica a view
         for (Observer o : lob) {
             o.notify(this);
         }
-        
-        System.out.println(Arrays.toString(dados));
 
         return dados;
     }

@@ -252,10 +252,6 @@ class Tabuleiro implements Observable {
 			}
 			objetivos.remove(0);
 		}
-
-		for (Jogador jogador : ordemJogadores) {
-			System.out.println(jogador.getObjetivo().getClass().getSimpleName());
-		}
 	}
 	
 	// Iniciamos todos os territorios do arquivo.
@@ -344,14 +340,11 @@ class Tabuleiro implements Observable {
 	}
 
 	void inicializaJogadores(String[][] jogadores) {
+		// Adiciona os jogadores
 		for (String[] jogador : jogadores) {
 			if (jogador[1] == null)
 				break;
 			adicionarJogador(new Jogador(jogador[0],jogador[1]));
-		}
-		System.out.println("Jogadores Inicializados");
-		for (Jogador jogador : ordemJogadores) {
-			System.out.println(jogador.getNome());
 		}
 	}
 
@@ -470,49 +463,49 @@ class Tabuleiro implements Observable {
 			inputStream.readLine(); // Pula a primeira linha
 			Jogador.setTrocasCarta(Integer.parseInt(inputStream.readLine()));
 			while ((l = inputStream.readLine()) != null) {
-				//System.out.printf("%s\n",l);
 
 				// Identifica o separador das informações no arquivo
 				if (l.equals("Cor_Objetivo_Nome")) {
 					tipo_linha = 1; 
 				}
-				if (l.equals("Territorio_QtdeExercitos")) {
+				else if (l.equals("Territorio_QtdeExercitos")) {
 					tipo_linha = 2; 
 				}
-				if (l.equals("INÍCIO_CARTAS")) {
+				else if (l.equals("INÍCIO_CARTAS")) {
 					tipo_linha = 3; 
 				}
-				if (l.equals("CARTAS_MONTE")) {
+				else if (l.equals("CARTAS_MONTE")) {
 					tipo_linha = 4; 
 				}
 
 				// Leitura das linhas para  as estruturas do Jogo
-				if (tipo_linha == 1) {
-					if(!l.equals("Cor_Objetivo_Nome")) {
-						sub_strings = l.split("\\;", 0);
-				        listaJogadores.add(sub_strings[2] + "," + sub_strings[0]);
-				        listaObjetivos.add(sub_strings[1]);
-				        cor_atual  =  sub_strings[0];
-					}
-				}
-				if (tipo_linha == 2) {
-					if(!l.equals("Territorio_QtdeExercitos")) {
-						sub_strings = l.split("\\;", 0);
-				        listaTerritorios.add(cor_atual + "," + sub_strings[0] + "," + sub_strings[1]);
-					}
-				}
-
-				if (tipo_linha == 3) {
-					if(!l.equals("INÍCIO_CARTAS") && !l.equals("FIM_CARTAS")) {
-						sub_strings = l.split("\\;", 0);
-				      listaCartas.add(cor_atual + "," + sub_strings[0] + "," + sub_strings[1]);
-					}
-				}
-				if (tipo_linha == 4) {
-					if(!l.equals("CARTAS_MONTE") && !l.equals("FIM_ARQUIVO")){
-						sub_strings = l.split("\\;", 0);
-				        listaMonte.add("Monte" + "," +sub_strings[0] + "," + sub_strings[1]);
-					}
+				switch(tipo_linha)	{
+					case 1:
+						if(!l.equals("Cor_Objetivo_Nome")) {
+							sub_strings = l.split("\\;", 0);
+							listaJogadores.add(sub_strings[2] + "," + sub_strings[0]);
+							listaObjetivos.add(sub_strings[1]);
+							cor_atual  =  sub_strings[0];
+						}
+						break;
+					case 2:
+						if(!l.equals("Territorio_QtdeExercitos")) {
+							sub_strings = l.split("\\;", 0);
+							listaTerritorios.add(cor_atual + "," + sub_strings[0] + "," + sub_strings[1]);
+						}
+						break;
+					case 3:
+						if(!l.equals("INÍCIO_CARTAS") && !l.equals("FIM_CARTAS")) {
+							sub_strings = l.split("\\;", 0);
+						listaCartas.add(cor_atual + "," + sub_strings[0] + "," + sub_strings[1]);
+						}
+						break;
+					case 4:
+						if(!l.equals("CARTAS_MONTE") && !l.equals("FIM_ARQUIVO")){
+							sub_strings = l.split("\\;", 0);
+							listaMonte.add("Monte" + "," +sub_strings[0] + "," + sub_strings[1]);
+						}
+						break;
 				}
 			}
 			inputStream.close();
