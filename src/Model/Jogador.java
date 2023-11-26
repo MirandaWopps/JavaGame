@@ -174,7 +174,11 @@ class Jogador {
 		trocasCarta++;
 
 		// Aumenta o número de exércitos do jogador
-		exerc += 4 + 2 * trocasCarta;
+		int numExercitos = 4 + 2 * trocasCarta; // adiciona 4 exércitos na primeira troca e 2 a cada troca subsequente
+		if (trocasCarta >= 5) {
+			numExercitos += 3 * (trocasCarta - 4); // adiciona ainda mais 3 exércitos a cada troca a partir da 5ª
+		}
+		exerc += numExercitos;
 
 		Tabuleiro.getTabuleiro().notificaMudanca(false);;
     }
@@ -191,5 +195,13 @@ class Jogador {
 
 	void exercPosicionado(int qtdExerc) {
 		exerc -= qtdExerc;
+	}
+
+	static void setTrocasCarta(int trocasCarta) {
+		Jogador.trocasCarta = trocasCarta;
+	}
+
+	static int getTrocasCarta() {
+		return trocasCarta;
 	}
 }

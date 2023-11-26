@@ -384,6 +384,7 @@ class Tabuleiro implements Observable {
 		}
 
 		PosicaoJogo.add("Inicia Salvamento do Jogo");
+		PosicaoJogo.add(Integer.valueOf(Jogador.getTrocasCarta()).toString());
 		// Lista as cores dos jogadores da partida
 		for (String key : ListaJogadores) {
 			// Recebe Obj do Jogador
@@ -466,6 +467,8 @@ class Tabuleiro implements Observable {
 			inputStream = new BufferedReader(new FileReader(caminho_nome));
 			String l;
 			int tipo_linha = 0;
+			inputStream.readLine(); // Pula a primeira linha
+			Jogador.setTrocasCarta(Integer.parseInt(inputStream.readLine()));
 			while ((l = inputStream.readLine()) != null) {
 				//System.out.printf("%s\n",l);
 
