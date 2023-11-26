@@ -55,7 +55,7 @@ class CartasView {
 			// America do Norte
 			loadAndAddImage("ALASCA", "Imagens/war_carta_an_alasca.png");
 			loadAndAddImage("CALGARY", "Imagens/war_carta_an_calgary.png");
-			loadAndAddImage("GROELÂNDIA", "Imagens/war_carta_an_groelandia.png");
+			loadAndAddImage("GROENLÂNDIA", "Imagens/war_carta_an_groelandia.png");
 			loadAndAddImage("VANCOUVER", "Imagens/war_carta_an_vancouver.png");
 			loadAndAddImage("QUEBEC", "Imagens/war_carta_an_quebec.png");
 			loadAndAddImage("CALIFORNIA", "Imagens/war_carta_an_california.png");
