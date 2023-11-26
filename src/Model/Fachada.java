@@ -309,6 +309,7 @@ public class Fachada { // funciona como se fosse uma vitrine: atras o model e ap
 		Territorio origem = tabuleiro.getTerritorio(nomeOrigem);
 		Territorio destino = tabuleiro.getTerritorio(nomeDest);
 		origem.perdeExerc(qtdExerc);
+		origem.perdeExercDesloc(qtdExerc);
 		destino.ganhaExerc(qtdExerc);
 	}
 
@@ -352,7 +353,7 @@ public class Fachada { // funciona como se fosse uma vitrine: atras o model e ap
 		List<String> territorios = new ArrayList<>();
 		// Itera sobre os territorios do jogador, conferindo se ele possui exercitos suficientes para deslocar
 		for (Territorio territorio : jogador.getTerritorios().values()) {
-			if (territorio.getQtdExerc() > 1) {
+			if (territorio.getQtdExercDesloc() > 0) {
 				territorios.add(territorio.getNome());
 			}
 		}
@@ -376,5 +377,16 @@ public class Fachada { // funciona como se fosse uma vitrine: atras o model e ap
 	public int qtdExerc(String nomeTerritorio) {
 		Map<String, Territorio> territorios = tabuleiro.getTerritorios();
 		return territorios.get(nomeTerritorio).getQtdExerc();
+	}
+
+	public void resetDesloc() {
+		Jogador jogador = tabuleiro.atualJogador();
+		for (Territorio territorio : jogador.getTerritorios().values()) {
+			territorio.resetDesloc();
+		}
+	}
+
+	public int qtdExercDesloc(String nomeTerritorio) {
+		return tabuleiro.getTerritorio(nomeTerritorio).getQtdExercDesloc();
 	}
 }

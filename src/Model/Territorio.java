@@ -6,6 +6,7 @@ import java.util.List;
 class Territorio {
 	private String nome; // nome do territorio
 	private int qtdExerc; // qtd de exercitos em determinado territorio
+	private int qtdExercDesloc; // qtd de exercitos para deslocar
 	private List<String> vizinhos = new ArrayList<>(); // territorios vizinhos
 
 	/* METODOS da class Territorio*/
@@ -22,8 +23,14 @@ class Territorio {
 		return vizinhos;
 	}
 
+	// seta a quantidade de exercitos no territorio
 	void setExerc(int n) { 
 		qtdExerc = n;
+	}
+
+	// reseta a quantidade de exercitos para deslocar
+	void resetDesloc() { 
+		qtdExercDesloc = qtdExerc - 1;
 	}
 
 	// acrescenta exercito em qtdExerc 
@@ -38,6 +45,11 @@ class Territorio {
         Tabuleiro.getTabuleiro().notificaMudanca(false);
 	}
 
+	// diminiui qtdExercDesloc em determinado territorio
+	void perdeExercDesloc(int n) { 
+		qtdExercDesloc -= n;
+	}
+
 	// recebe o nome do territorio
 	String getNome() { 
 		return nome;
@@ -46,5 +58,10 @@ class Territorio {
 	// recebe a qtdExerc de um territorio
 	int getQtdExerc() { 
 		return qtdExerc;
+	}
+
+	// recebe a qtdExercDesloc de um territorio
+	int getQtdExercDesloc() { 
+		return qtdExercDesloc;
 	}
 }

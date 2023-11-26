@@ -92,6 +92,7 @@ public class Controller { // ele controla qual a etapa do jogo
 			break;
 		case 2:
 			fase = 3;
+			Fachada.getFachada().resetDesloc();
 			break;
 		case 3:
 			if (Fachada.getFachada().verificaVencedor()) {
