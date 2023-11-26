@@ -403,7 +403,10 @@ class Tabuleiro implements Observable {
 			List<Carta> ListaCartas = new ArrayList<>(getJogador(key).getCartas());
 			for (Carta key3 : ListaCartas) {
 				String tipo = key3.getTipo().name(); 
-				String NomeTerritorio = key3.getTerritorio().getNome();
+				String NomeTerritorio = "coringa";
+				if(tipo != "coringa") {
+					NomeTerritorio = key3.getTerritorio().getNome();
+				}
 				// Guarda informações
 				PosicaoJogo.add(tipo +";"+ NomeTerritorio);
 			}
