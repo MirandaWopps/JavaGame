@@ -44,6 +44,11 @@ public class FimFrame extends JFrame {
         label.setLocation((LARG_DEFAULT - label.getWidth()) / 2, 50);
         label.setHorizontalAlignment(SwingConstants.CENTER); // centraliza o texto
 
+        // Seta a cor da label de acordo com a cor de fundo
+        if (corDeFundo == Color.BLACK || corDeFundo == Color.BLUE) {
+            label.setForeground(Color.WHITE);
+        }
+
         // Cria um botão para continuar
         JButton botaoContinuar = new JButton("Continuar");
         botaoContinuar.setBounds((LARG_DEFAULT - 100) / 2, 150, 100, 50);
